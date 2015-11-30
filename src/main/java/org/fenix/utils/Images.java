@@ -40,7 +40,7 @@ public class Images {
 
 			g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			g2.scale(scale, scale);
-			icon.paintIcon((Component)null, g2, 0, 0);
+			icon.paintIcon(null, g2, 0, 0);
 			g2.dispose();
 			return new ImageIcon(buffer);
 		}

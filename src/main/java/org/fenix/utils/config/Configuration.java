@@ -171,7 +171,6 @@ public class Configuration implements Serializable {
 			try {
 				stream.close();
 			} catch (Exception var11) {
-				;
 			}
 
 		}

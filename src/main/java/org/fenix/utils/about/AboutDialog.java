@@ -16,8 +16,8 @@ import java.net.URL;
 public class AboutDialog extends JDialog implements ActionListener {
 	private JLabel icon = new JLabel();
 	private JLabel message;
-	private HyperLabel website;
-	private HyperLabel donate;
+	private org.fenix.utils.about.HyperLabel website;
+	private org.fenix.utils.about.HyperLabel donate;
 	private JButton okButton;
 
 	public AboutDialog(Window owner, String title) {
@@ -64,12 +64,12 @@ public class AboutDialog extends JDialog implements ActionListener {
 		if(url == null) {
 			throw new NullPointerException("Donate URL is null");
 		} else {
-			this.donate = new HyperLabel(url, icon);
+			this.donate = new org.fenix.utils.about.HyperLabel(url, icon);
 		}
 	}
 
 	public void setWebsite(URL url) {
-		this.setWebsite(url, (String)null);
+		this.setWebsite(url, null);
 	}
 
 	public void setWebsite(URL url, String text) {
@@ -80,7 +80,7 @@ public class AboutDialog extends JDialog implements ActionListener {
 				text = url.toString();
 			}
 
-			this.website = new HyperLabel(url, text);
+			this.website = new org.fenix.utils.about.HyperLabel(url, text);
 		}
 	}
 

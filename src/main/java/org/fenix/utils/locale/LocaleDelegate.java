@@ -40,7 +40,7 @@ public class LocaleDelegate {
 	}
 
 	private static void fireLocalChanged(Locale oldLocale, Locale newLocale) {
-		LocaleListener[] arr$ = (LocaleListener[])listeners.getListeners(LocaleListener.class);
+		LocaleListener[] arr$ = listeners.getListeners(LocaleListener.class);
 		int len$ = arr$.length;
 
 		for(int i$ = 0; i$ < len$; ++i$) {

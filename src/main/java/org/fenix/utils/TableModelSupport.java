@@ -64,7 +64,7 @@ public class TableModelSupport {
 	}
 
 	private void fire(TableModelEvent event) {
-		TableModelListener[] tableListeners = (TableModelListener[])this.listeners.getListeners(TableModelListener.class);
+		TableModelListener[] tableListeners = this.listeners.getListeners(TableModelListener.class);
 		TableModelListener[] arr$ = tableListeners;
 		int len$ = tableListeners.length;
 
