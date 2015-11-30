@@ -23,6 +23,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Main frame executing Llanfair.
@@ -93,6 +95,11 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 * @param args array of command line parameters supplied at launch
 	 */
 	public static void main( String[] args ) {
+		// latest version of JNativeHook is a bit noisy logging-wise by default
+		Logger jnativehookLogger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+		jnativehookLogger.setLevel(Level.WARNING);
+		jnativehookLogger.setUseParentHandlers(false);
+
 		if ( args.length > 0 ) {
 			String locale = args[0];
 			LocaleDelegate.setDefault( new Locale( locale ) );
@@ -388,7 +395,11 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 */
 	@Override public void windowClosed( WindowEvent event ) {
 		Settings.save();
-		GlobalScreen.unregisterNativeHook();
+		try {
+			GlobalScreen.unregisterNativeHook();
+		} catch (NativeHookException e) {
+
+		}
 	}
 
 	@Override public void windowClosing(WindowEvent event) {}
@@ -436,13 +447,17 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		try {
 			GlobalScreen.registerNativeHook();
 		} catch (NativeHookException e) {
-			throw new IllegalStateException("cannot register native hook");
+			// NOTE: commenting this out as the latest version of JNativeHook has at least some ability to
+			//       pop up an OS-specific dialog asking about accessibility permissions (at least on OS X)
+			//       and afterwards the application recovered fine from the user's perspective. throwing an
+			//       exception here causes Llanfair to just close immediately after the dialog has opened.
+			//throw new IllegalStateException("cannot register native hook");
 		}
 		setAlwaysOnTop(Settings.GNR_ATOP.get());
 		addWindowListener(this);
 		addMouseWheelListener(this);
 		Settings.addPropertyChangeListener(this);
-		GlobalScreen.getInstance().addNativeKeyListener(this);
+		GlobalScreen.addNativeKeyListener(this);
 	}
 
 	/**

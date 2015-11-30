@@ -9,5 +9,6 @@ repositories {
 
 dependencies {
 	compile fileTree(dir: 'lib', include: ['*.jar'])
+	compile 'com.1stleg:jnativehook:2.0.2'
 }
 

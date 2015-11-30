@@ -156,7 +156,7 @@ class TabHotkeys extends SettingsTab {
 		public void mouseClicked(MouseEvent event) {
 			if (!isEditing) {
 				setBackground(Color.YELLOW);
-				GlobalScreen.getInstance().addNativeKeyListener(this);
+				GlobalScreen.addNativeKeyListener(this);
 				isEditing = true;
 			}
 		}
@@ -183,7 +183,7 @@ class TabHotkeys extends SettingsTab {
 			int    code = event.getKeyCode();
 			String text = null;
 
-			if (code == NativeKeyEvent.VK_ESCAPE) {
+			if (code == NativeKeyEvent.VC_ESCAPE) {
 				code = -1;
 				text = "" + Language.DISABLED;
 			} else {
@@ -193,7 +193,7 @@ class TabHotkeys extends SettingsTab {
 			setting.set(code);
 
 			setBackground(Color.GREEN);
-			GlobalScreen.getInstance().removeNativeKeyListener(this);
+			GlobalScreen.removeNativeKeyListener(this);
 			isEditing = false;
 		}
 
