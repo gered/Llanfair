@@ -10,5 +10,6 @@ repositories {
 dependencies {
 	compile fileTree(dir: 'lib', include: ['*.jar'])
 	compile 'com.1stleg:jnativehook:2.0.2'
+	compile 'com.thoughtworks.xstream:xstream:1.4.4'
 }
 
