@@ -1,10 +1,21 @@
-apply plugin: 'java'
-apply plugin: 'com.github.johnrengelman.shadow'
+buildscript {
+	repositories { jcenter() }
+	dependencies {
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'application'
+	id 'com.github.johnrengelman.shadow' version '1.2.2'
+}
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 version = '1.4.3'
+mainClassName = 'org.fenix.llanfair.Llanfair'
 
 repositories {
 	mavenCentral()
@@ -14,17 +25,4 @@ dependencies {
 	compile fileTree(dir: 'lib', include: ['*.jar'])
 	compile 'com.1stleg:jnativehook:2.0.2'
 	compile 'com.thoughtworks.xstream:xstream:1.4.4'
-}
-
-buildscript {
-	repositories { jcenter() }
-	dependencies {
-		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
-	}
-}
-
-shadowJar {
-	manifest {
-		attributes 'Main-Class': 'org.fenix.llanfair.Llanfair'
-	}
 }

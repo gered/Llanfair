@@ -12,15 +12,21 @@ seems he uses LiveSplit now (?).
 Regardless, here I will be extending the original application as best I can by adding some missing features here and 
 there and fixing bugs as needed.
 
-## Building
+## Building and Running
 
-You will need Gradle 1.x. You can build an uberjar (a JAR containing all library dependencies inside it) by running:
+You will need Gradle. The Gradle `application` plugin is being used, so you can run Llanfair simply by doing:
+ 
+```
+$ gradle run
+```
+
+To package up a JAR file for redistribution, run:
 
 ```
 $ gradle shadowJar
 ```
 
-Which will spit out a JAR under `build/libs` under the naming convention `llanfair-[VERSION]-all.jar`.
+Which will spit out an "uber JAR" under `build/libs` under the naming convention `llanfair-[VERSION]-all.jar`.
 
 ## TODO
 
