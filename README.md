@@ -28,6 +28,19 @@ $ gradle shadowJar
 
 Which will spit out an "uber JAR" under `build/libs` under the naming convention `llanfair-[VERSION]-all.jar`.
 
+## Mac OS X and Accessibility Settings for Global Hotkeys
+
+Previous releases of Llanfair used an older version of JNativeHook which didn't really provide any built-in help
+if OS X was not properly configured in advance when Llanfair tried to hook into global key events. This version
+uses a more recent version that pops up a dialog telling you what to do if Llanfair does not yet have the required
+accessibility permissions, so you should not get the problem where Llanfair mysteriously closes immediately after
+running.
+
+Note that currently Llanfair **only** supports hotkeys via the JNativeHook / global hotkey interface! If it was not
+able to hook into the OS's key events (either because you denied proper permissions or for some other reason), then
+you will not be able to set any hotkeys in the settings window and you will thusly not be able to trigger any splits or
+start/stop any runs! This is one of the first things I intend to address.
+
 ## TODO
 
 Lots of stuff still to be done. :)
