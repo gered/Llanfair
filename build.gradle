@@ -1,7 +1,10 @@
 apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+version = '1.4.3'
 
 repositories {
 	mavenCentral()
@@ -13,3 +16,15 @@ dependencies {
 	compile 'com.thoughtworks.xstream:xstream:1.4.4'
 }
 
+buildscript {
+	repositories { jcenter() }
+	dependencies {
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
+	}
+}
+
+shadowJar {
+	manifest {
+		attributes 'Main-Class': 'org.fenix.llanfair.Llanfair'
+	}
+}
