@@ -1,33 +1,9 @@
 package org.fenix.llanfair;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import org.fenix.llanfair.config.Settings;
 import org.fenix.llanfair.gui.RunPane;
-import org.fenix.utils.gui.BorderlessFrame;
 import org.fenix.utils.Resources;
+import org.fenix.utils.gui.BorderlessFrame;
 import org.fenix.utils.locale.LocaleDelegate;
 import org.fenix.utils.locale.LocaleEvent;
 import org.fenix.utils.locale.LocaleListener;
@@ -35,6 +11,18 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
+
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * Main frame executing Llanfair.
@@ -74,9 +62,11 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
     private Llanfair() {
         super( "Llanfair" );
         LocaleDelegate.setDefault( Settings.GNR_LANG.get() );
-        LocaleDelegate.addLocaleListener( this );  
+        LocaleDelegate.addLocaleListener( this );
+
+        //ResourceBundle b = ResourceBundle.getBundle("language");
         
-        RESOURCES = new Resources( "res" );   
+        RESOURCES = new Resources();
         registerFonts();
         setLookAndFeel();
 
@@ -106,7 +96,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
         if ( args.length > 0 ) {
             String locale = args[0];
             LocaleDelegate.setDefault( new Locale( locale ) );
-            RESOURCES = new Resources( "res" );
+            RESOURCES = new Resources();
             dumpLocalization();
             System.exit( 0 );
         }

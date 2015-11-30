@@ -1,13 +1,12 @@
 package org.fenix.llanfair;
 
+import org.fenix.llanfair.config.Settings;
+import org.fenix.utils.Images;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import javax.swing.Icon;
-import org.fenix.llanfair.Language;
-import org.fenix.llanfair.config.Settings;
-
-import org.fenix.utils.Images;
 
 /**
  * Represents a portion of a run. As such, a segment is associated to a 
