@@ -214,7 +214,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 * a general system dependent theme.
 	 */
 	private void setLookAndFeel() {
-		setIconImage( RESOURCES.getImage( "Llanfair" ) );
+		setIconImage( RESOURCES.getImage( "Llanfair.png" ) );
 		try {
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName()

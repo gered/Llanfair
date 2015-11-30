@@ -169,7 +169,7 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 			);
 			Locale selected = (Locale) value;
 
-			setIcon(Llanfair.getResources().getIcon("" + selected));
+			setIcon(Llanfair.getResources().getIcon("" + selected + ".png"));
 			setText(Language.LOCALE_NAMES.get("" + selected));
 			return this;
 		}

@@ -426,7 +426,7 @@ final class Actions {
 		}
 		try {
 			dialog.setDonateLink( new URL( BUNDLE.getString( "donate" ) ),
-					Llanfair.getResources().getIcon( "donate" ) );
+					Llanfair.getResources().getIcon( "donate.png" ) );
 		} catch ( MalformedURLException ex ) {
 		   // $FALL-THROUGH$
 		}

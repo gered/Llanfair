@@ -109,7 +109,7 @@ class TabLook extends SettingsTab implements ActionListener, ChangeListener  {
 		colorChooser.getSelectionModel().addChangeListener(this);
 		colorChooser.setEnabled(false);
 
-		revert = new JButton(Llanfair.getResources().getIcon("REVERT"));
+		revert = new JButton(Llanfair.getResources().getIcon("REVERT.png"));
 		revert.setPreferredSize(REVERT_SIZE);
 		revert.addActionListener(this);
 

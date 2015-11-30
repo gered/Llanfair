@@ -172,13 +172,13 @@ implements ActionListener, ListSelectionListener {
 			}
 		};
 		segmentsLabel  = new JLabel("" + Language.SEGMENTS);
-		addSegment     = new JButton(Llanfair.getResources().getIcon("PLUS"));
-		remSegment     = new JButton(Llanfair.getResources().getIcon("MINUS"));
+		addSegment     = new JButton(Llanfair.getResources().getIcon("PLUS.png"));
+		remSegment     = new JButton(Llanfair.getResources().getIcon("MINUS.png"));
 		save           = new JButton("" + Language.menuItem_save);
 		cancel         = new JButton("" + Language.CANCEL);
 		scrollPane     = new JScrollPane(segments);
-		moveUp         = new JButton(Llanfair.getResources().getIcon("ARROW_UP"));
-		moveDown       = new JButton(Llanfair.getResources().getIcon("ARROW_DOWN"));
+		moveUp         = new JButton(Llanfair.getResources().getIcon("ARROW_UP.png"));
+		moveDown       = new JButton(Llanfair.getResources().getIcon("ARROW_DOWN.png"));
 		segmented      = new JCheckBox("" + Language.ED_SEGMENTED, run.isSegmented());
 
 		placeComponents();
