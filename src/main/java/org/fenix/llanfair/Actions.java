@@ -127,7 +127,7 @@ final class Actions {
 		} else if ( source == MenuItem.OPEN_RECENT ) {
 			open( new File( event.getActionCommand() ) );
 		} else if ( source == MenuItem.IMPORT ) {
-			imprt();
+			importOtherFormat();
 		} else if ( source == MenuItem.SAVE ) {
 			run.saveLiveTimes( !run.isPersonalBest() );
 			run.reset();
@@ -397,7 +397,7 @@ final class Actions {
 	 * selected, the user is asked for one. As of now, only WSplit run files
 	 * are supported.
 	 */
-	private void imprt() {
+	private void importOtherFormat() {
 		if ( !confirmOverwrite() ) {
 			return;
 		}
