@@ -217,7 +217,7 @@ class Core extends JPanel implements ActionListener {
 				FontMetrics metric = graphics.getFontMetrics();
 				int         wName  = 0;
 				int         hName  = 0;
-				if (Settings.COR_NAME.get()) {
+				if (Settings.coreShowSegmentName.get()) {
 					for (int i = 0; i < run.getRowCount(); i++) {
 						String sName = run.getSegment(i).getName();
 						wName = Math.max(wName, metric.stringWidth(sName));
@@ -233,15 +233,15 @@ class Core extends JPanel implements ActionListener {
 				);
 				wBuff += metric.stringWidth("XX:");
 
-				if (Settings.COR_BEST.get()) {
+				if (Settings.coreShowBestTime.get()) {
 					hTime = hTime + hBuff;
 					wTime = wBuff;
 				}
-				if (Settings.COR_SEGM.get()) {
+				if (Settings.coreShowSegmentTime.get()) {
 					hTime = hTime + hBuff;
 					wTime = wBuff;
 				}
-				if (Settings.COR_SPLT.get()) {
+				if (Settings.coreShowSplitTime.get()) {
 					hTime = hTime + hBuff;
 					wTime = wBuff;
 				}
@@ -249,12 +249,12 @@ class Core extends JPanel implements ActionListener {
 				int hIcon = 0;
 				int wIcon = 0;
 				// TODO hasIcon ?
-				if (Settings.COR_ICON.get() || run.getMaxIconHeight() != 0) {
-					hIcon = Settings.COR_ICSZ.get();
+				if (Settings.coreShowIcons.get() || run.getMaxIconHeight() != 0) {
+					hIcon = Settings.coreIconSize.get();
 					wIcon = hIcon;
 				}
 				// Run Timer
-				metric = graphics.getFontMetrics(Settings.COR_TFNT.get());
+				metric = graphics.getFontMetrics(Settings.coreTimerFont.get());
 				int wSpTimer = metric.stringWidth(
 						"" + (tmRun == null ? tmFake : tmRun)
 				);
@@ -262,9 +262,9 @@ class Core extends JPanel implements ActionListener {
 				// Segment Timer
 				int wSeTimer = 0;
 				int hSeTimer = 0;
-				if (Settings.COR_STMR.get()) {
+				if (Settings.coreShowSegmentTimer.get()) {
 					metric = graphics.getFontMetrics(
-							Settings.COR_SFNT.get()
+							Settings.coreSegmentTimerFont.get()
 					);
 					wSeTimer = metric.stringWidth(
 							"" + (tmRun == null ? tmFake : tmRun)
@@ -302,12 +302,12 @@ class Core extends JPanel implements ActionListener {
 		if (run.getState().equals(State.PAUSED)) {
 			splitTimer.setText("" + pauseTime);
 			if (blinkTime == 0L || now - blinkTime >= 400L) {
-				Color bg = Settings.CLR_BACK.get();
+				Color bg = Settings.colorBackground.get();
 				if (splitTimer.getForeground().equals(bg)) {
 					if (pauseTime.compareTo(splitTime) > 0) {
-						splitTimer.setForeground(Settings.CLR_LOST.get());
+						splitTimer.setForeground(Settings.colorTimeLost.get());
 					} else {
-						splitTimer.setForeground(Settings.CLR_TIMR.get());
+						splitTimer.setForeground(Settings.colorTimer.get());
 					}
 				} else {
 					splitTimer.setForeground(bg);
@@ -320,11 +320,11 @@ class Core extends JPanel implements ActionListener {
 
 			if (!splitLoss && splitElapsed.compareTo(splitTime) > 0) {
 				splitLoss = true;
-				splitTimer.setForeground(Settings.CLR_LOST.get());
+				splitTimer.setForeground(Settings.colorTimeLost.get());
 			}
 			if (!segmentLoss && segmentElapsed.compareTo(segmentTime) > 0) {
 				segmentLoss = true;
-				segmentTimer.setForeground(Settings.CLR_LOST.get());
+				segmentTimer.setForeground(Settings.colorTimeLost.get());
 			}
 		}
 	}
@@ -349,44 +349,44 @@ class Core extends JPanel implements ActionListener {
 		} else if (Run.CURRENT_SEGMENT_PROPERTY.equals(property)) {
 			updateValues(ALL & ~TIMER);
 			updateColors(TIMER);
-		} else if (Settings.CLR_FORE.equals(property)) {
+		} else if (Settings.colorForeground.equals(property)) {
 			updateColors(NAME);
-		} else if (Settings.CLR_TIME.equals(property)) {
+		} else if (Settings.colorTime.equals(property)) {
 			updateColors(TIME);
-		} else if (Settings.CLR_TIMR.equals(property)) {
+		} else if (Settings.colorTimer.equals(property)) {
 			updateColors(TIMER);
-		} else if (Settings.GNR_COMP.equals(property)) {
+		} else if (Settings.compareMethod.equals(property)) {
 			updateValues(TIME);
 			updateColors(TIMER);
 			resize = true;
 			revalidate();
-		} else if (Settings.GNR_ACCY.equals(property)) {
+		} else if (Settings.accuracy.equals(property)) {
 			updateValues(TIME | TIMER);
 			resize = true;
 			revalidate();
-		} else if (Settings.COR_BEST.equals(property)
-				|| Settings.COR_SEGM.equals(property)
-				|| Settings.COR_SPLT.equals(property)) {
+		} else if (Settings.coreShowBestTime.equals(property)
+				|| Settings.coreShowSegmentTime.equals(property)
+				|| Settings.coreShowSplitTime.equals(property)) {
 			updateVisibility(TIME);
 			resize = true;
 			revalidate();
-		} else if (Settings.COR_NAME.equals(property)) {
+		} else if (Settings.coreShowSegmentName.equals(property)) {
 			updateVisibility(NAME);
 			resize = true;
 			revalidate();
-		} else if (Settings.COR_ICSZ.equals(property)) {
+		} else if (Settings.coreIconSize.equals(property)) {
 			resize = true;
 			revalidate();
-		} else if (Settings.COR_TFNT.equals(property)
-				|| Settings.COR_SFNT.equals(property)) {
+		} else if (Settings.coreTimerFont.equals(property)
+				|| Settings.coreSegmentTimerFont.equals(property)) {
 			updateValues(FONT);
 			resize = true;
 			revalidate();
-		} else if (Settings.COR_STMR.equals(property)) {
+		} else if (Settings.coreShowSegmentTimer.equals(property)) {
 			updateVisibility(TIMER);
 			resize = true;
 			revalidate();
-		} else if (Settings.COR_ICON.equals(property)) {
+		} else if (Settings.coreShowIcons.equals(property)) {
 			updateVisibility(ICON);
 			resize = true;
 			revalidate();
@@ -455,23 +455,23 @@ class Core extends JPanel implements ActionListener {
 
 	private void updateVisibility(int identifier) {
 		if ((identifier & NAME) == NAME) {
-			name.setVisible(Settings.COR_NAME.get());
+			name.setVisible(Settings.coreShowSegmentName.get());
 		}
 		if ((identifier & TIME) == TIME) {
 			State   state   = run.getState();
 			boolean visible = (state == State.ONGOING || state == State.PAUSED);
-			split.setVisible(Settings.COR_SPLT.get());
-			labelSplit.setVisible(visible && Settings.COR_SPLT.get());
-			segment.setVisible(Settings.COR_SEGM.get());
-			labelSegment.setVisible(visible && Settings.COR_SEGM.get());
-			best.setVisible(Settings.COR_BEST.get());
-			labelBest.setVisible(visible && Settings.COR_BEST.get());
+			split.setVisible(Settings.coreShowSplitTime.get());
+			labelSplit.setVisible(visible && Settings.coreShowSplitTime.get());
+			segment.setVisible(Settings.coreShowSegmentTime.get());
+			labelSegment.setVisible(visible && Settings.coreShowSegmentTime.get());
+			best.setVisible(Settings.coreShowBestTime.get());
+			labelBest.setVisible(visible && Settings.coreShowBestTime.get());
 		}
 		if ((identifier & TIMER) == TIMER) {
-			segmentTimer.setVisible(Settings.COR_STMR.get());
+			segmentTimer.setVisible(Settings.coreShowSegmentTimer.get());
 		}
 		if ((identifier & ICON) == ICON) {
-			icon.setVisible(Settings.COR_ICON.get());
+			icon.setVisible(Settings.coreShowIcons.get());
 		}
 	}
 
@@ -518,7 +518,7 @@ class Core extends JPanel implements ActionListener {
 				Icon img = currentSgt.getIcon();
 				if (img != null) {
 					icon.setIcon(
-							Images.rescale(img, Settings.COR_ICSZ.get()));
+							Images.rescale(img, Settings.coreIconSize.get()));
 				} else {
 					icon.setIcon(null);
 				}
@@ -551,8 +551,8 @@ class Core extends JPanel implements ActionListener {
 			}
 		}
 		if ((identifier & FONT) == FONT) {
-			splitTimer.setFont(Settings.COR_TFNT.get());
-			segmentTimer.setFont(Settings.COR_SFNT.get());
+			splitTimer.setFont(Settings.coreTimerFont.get());
+			segmentTimer.setFont(Settings.coreSegmentTimerFont.get());
 		}
 	}
 
@@ -564,13 +564,13 @@ class Core extends JPanel implements ActionListener {
 	 */
 	private void updateColors(int identifier) {
 		if ((identifier & TIME) == TIME) {
-			Color color = Settings.CLR_TIME.get();
+			Color color = Settings.colorTime.get();
 			split.setForeground(color);
 			segment.setForeground(color);
 			best.setForeground(color);
 		}
 		if ((identifier & NAME) == NAME) {
-			Color color = Settings.CLR_FORE.get();
+			Color color = Settings.colorForeground.get();
 			name.setForeground(color);
 			labelBest.setForeground(color);
 			labelSegment.setForeground(color);
@@ -578,7 +578,7 @@ class Core extends JPanel implements ActionListener {
 		}
 		if ((identifier & TIMER) == TIMER) {
 			synchronized (this) {
-				Color color = Settings.CLR_TIMR.get();
+				Color color = Settings.colorTimer.get();
 				splitTimer.setForeground(color);
 				segmentTimer.setForeground(color);
 			}

@@ -24,21 +24,21 @@ public class TabComponents extends SettingsTab
 	private static final List<Settings.Property<Boolean>> SCB_SETTINGS
 			= new ArrayList<Settings.Property<Boolean>>();
 	static {
-		SCB_SETTINGS.add(Settings.FOO_SHOW);
-		SCB_SETTINGS.add(Settings.FOO_SPLT);
-		SCB_SETTINGS.add(Settings.FOO_DLBL);
-		SCB_SETTINGS.add(Settings.FOO_BEST);
-		SCB_SETTINGS.add(Settings.FOO_LINE);
-		SCB_SETTINGS.add(Settings.FOO_VERB);
-		SCB_SETTINGS.add(Settings.COR_NAME);
-		SCB_SETTINGS.add(Settings.COR_SPLT);
-		SCB_SETTINGS.add(Settings.COR_SEGM);
-		SCB_SETTINGS.add(Settings.COR_BEST);
-		SCB_SETTINGS.add(Settings.HDR_GOAL);
-		SCB_SETTINGS.add(Settings.GPH_SHOW);
-		SCB_SETTINGS.add(Settings.COR_STMR);
-		SCB_SETTINGS.add(Settings.COR_ICON);
-		SCB_SETTINGS.add(Settings.HDR_TTLE);
+		SCB_SETTINGS.add(Settings.footerDisplay);
+		SCB_SETTINGS.add(Settings.footerUseSplitData);
+		SCB_SETTINGS.add(Settings.footerShowDeltaLabels);
+		SCB_SETTINGS.add(Settings.footerShowBestTime);
+		SCB_SETTINGS.add(Settings.footerMultiline);
+		SCB_SETTINGS.add(Settings.footerVerbose);
+		SCB_SETTINGS.add(Settings.coreShowSegmentName);
+		SCB_SETTINGS.add(Settings.coreShowSplitTime);
+		SCB_SETTINGS.add(Settings.coreShowSegmentTime);
+		SCB_SETTINGS.add(Settings.coreShowBestTime);
+		SCB_SETTINGS.add(Settings.headerShowTitle);
+		SCB_SETTINGS.add(Settings.graphDisplay);
+		SCB_SETTINGS.add(Settings.coreShowSegmentTimer);
+		SCB_SETTINGS.add(Settings.coreShowIcons);
+		SCB_SETTINGS.add(Settings.headerShowGoal);
 	}
 
 	private JComboBox iconSizes;
@@ -60,42 +60,42 @@ public class TabComponents extends SettingsTab
 			checkBoxes.put(setting.getKey(), new SCheckBox(setting));
 		}
 		// Checkboxes side effects
-		checkBoxes.get(Settings.FOO_SPLT.getKey()).deactivates(
-				checkBoxes.get(Settings.FOO_BEST.getKey())
+		checkBoxes.get(Settings.footerUseSplitData.getKey()).deactivates(
+				checkBoxes.get(Settings.footerShowBestTime.getKey())
 		);
 		// Checkboxes requirements
-		checkBoxes.get(Settings.FOO_BEST.getKey()).requires(
-				checkBoxes.get(Settings.FOO_SPLT.getKey()), false
+		checkBoxes.get(Settings.footerShowBestTime.getKey()).requires(
+				checkBoxes.get(Settings.footerUseSplitData.getKey()), false
 		);
-		checkBoxes.get(Settings.FOO_LINE.getKey()).requires(
-				checkBoxes.get(Settings.FOO_BEST.getKey()), true
+		checkBoxes.get(Settings.footerMultiline.getKey()).requires(
+				checkBoxes.get(Settings.footerShowBestTime.getKey()), true
 		);
 
 		iconSizes     = new JComboBox(Segment.ICON_SIZES);
-		iconSizes.setSelectedItem(Settings.COR_ICSZ.get());
+		iconSizes.setSelectedItem(Settings.coreIconSize.get());
 		iconSizes.addActionListener(this);
 
 		GraphicsEnvironment gEnv = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
-		String mainFont = Settings.COR_TFNT.get().getName();
+		String mainFont = Settings.coreTimerFont.get().getName();
 		timerFont = new JComboBox(gEnv.getAvailableFontFamilyNames());
 		timerFont.setSelectedItem(mainFont);
 		timerFont.setPreferredSize(new Dimension(130, 22));
 		timerFont.addActionListener(this);
 
-		String segFont = Settings.COR_SFNT.get().getName();
+		String segFont = Settings.coreSegmentTimerFont.get().getName();
 		timerSegFont = new JComboBox(gEnv.getAvailableFontFamilyNames());
 		timerSegFont.setSelectedItem(segFont);
 		timerSegFont.setPreferredSize(new Dimension(130, 22));
 		timerSegFont.addActionListener(this);
 
 		timerSize = new JSpinner(new SpinnerNumberModel(
-				Settings.COR_TFNT.get().getSize(), 8, 240, 1)
+				Settings.coreTimerFont.get().getSize(), 8, 240, 1)
 		);
 		timerSize.addChangeListener(this);
 
 		timerSegSize = new JSpinner(new SpinnerNumberModel(
-				Settings.COR_SFNT.get().getSize(), 8, 240, 1)
+				Settings.coreSegmentTimerFont.get().getSize(), 8, 240, 1)
 		);
 		timerSegSize.addChangeListener(this);
 
@@ -112,28 +112,28 @@ public class TabComponents extends SettingsTab
 	@Override public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if (source.equals(iconSizes)) {
-			Settings.COR_ICSZ.set((Integer) iconSizes.getSelectedItem());
+			Settings.coreIconSize.set((Integer) iconSizes.getSelectedItem());
 		} else if (source.equals(timerFont)) {
 			String fontName = timerFont.getSelectedItem().toString();
 			Font   font     = Font.decode(fontName).deriveFont(
-					(float) Settings.COR_TFNT.get().getSize()
+					(float) Settings.coreTimerFont.get().getSize()
 			);
-			Settings.COR_TFNT.set(font);
+			Settings.coreTimerFont.set(font);
 			if (timerSameFont.isSelected()) {
 				timerSegFont.setSelectedItem(fontName);
 			}
 		} else if (source.equals(timerSegFont)) {
 			String fontName = timerSegFont.getSelectedItem().toString();
 			Font   font     = Font.decode(fontName).deriveFont(
-					(float) Settings.COR_SFNT.get().getSize()
+					(float) Settings.coreSegmentTimerFont.get().getSize()
 			);
-			Settings.COR_SFNT.set(font);
+			Settings.coreSegmentTimerFont.set(font);
 		} else if (source.equals(timerSameFont)) {
 			timerSegFont.setEnabled(!timerSameFont.isSelected());
 			if (timerSameFont.isSelected()) {
 				int size = (Integer) timerSegSize.getValue();
-				Settings.COR_SFNT.set(
-						Settings.COR_TFNT.get().deriveFont((float) size)
+				Settings.coreSegmentTimerFont.set(
+						Settings.coreTimerFont.get().deriveFont((float) size)
 				);
 			}
 		}
@@ -143,13 +143,13 @@ public class TabComponents extends SettingsTab
 		Object source = event.getSource();
 		if (source.equals(timerSize)) {
 			int size = (Integer) timerSize.getValue();
-			Settings.COR_TFNT.set(
-					Settings.COR_TFNT.get().deriveFont((float) size)
+			Settings.coreTimerFont.set(
+					Settings.coreTimerFont.get().deriveFont((float) size)
 			);
 		} else if (source.equals(timerSegSize)) {
 			int size = (Integer) timerSegSize.getValue();
-			Settings.COR_SFNT.set(
-					Settings.COR_SFNT.get().deriveFont((float) size)
+			Settings.coreSegmentTimerFont.set(
+					Settings.coreSegmentTimerFont.get().deriveFont((float) size)
 			);
 		}
 	}
@@ -194,31 +194,31 @@ public class TabComponents extends SettingsTab
 					GBC.grid(0, 1).anchor(GBC.LE).insets(5, 5)
 			);
 			timerPanel.add(iconSizes, GBC.grid(1, 1).insets(5, 5));
-			timerPanel.add(checkBoxes.get(Settings.COR_ICON.getKey()), GBC.grid(0, 2, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.COR_NAME.getKey()), GBC.grid(0, 3, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.COR_SPLT.getKey()), GBC.grid(0, 4, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.COR_SEGM.getKey()), GBC.grid(0, 5, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.COR_BEST.getKey()), GBC.grid(0, 6, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.COR_STMR.getKey()), GBC.grid(0, 7, 2, 1).anchor(GBC.LS));
+			timerPanel.add(checkBoxes.get(Settings.coreShowIcons.getKey()), GBC.grid(0, 2, 2, 1).anchor(GBC.LS));
+			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentName.getKey()), GBC.grid(0, 3, 2, 1).anchor(GBC.LS));
+			timerPanel.add(checkBoxes.get(Settings.coreShowSplitTime.getKey()), GBC.grid(0, 4, 2, 1).anchor(GBC.LS));
+			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentTime.getKey()), GBC.grid(0, 5, 2, 1).anchor(GBC.LS));
+			timerPanel.add(checkBoxes.get(Settings.coreShowBestTime.getKey()), GBC.grid(0, 6, 2, 1).anchor(GBC.LS));
+			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentTimer.getKey()), GBC.grid(0, 7, 2, 1).anchor(GBC.LS));
 			timerPanel.setBorder(
 					BorderFactory.createTitledBorder("" + Language.TIMER)
 			);
 		}
 		JPanel footerPanel = new JPanel(new GridBagLayout()); {
-			footerPanel.add(checkBoxes.get(Settings.FOO_SHOW.getKey()), GBC.grid(0, 0).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.FOO_SPLT.getKey()), GBC.grid(0, 1).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.FOO_VERB.getKey()), GBC.grid(0, 2).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.FOO_DLBL.getKey()), GBC.grid(1, 0).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.FOO_BEST.getKey()), GBC.grid(1, 1).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.FOO_LINE.getKey()), GBC.grid(1, 2).anchor(GBC.LS));
+			footerPanel.add(checkBoxes.get(Settings.footerDisplay.getKey()), GBC.grid(0, 0).anchor(GBC.LS));
+			footerPanel.add(checkBoxes.get(Settings.footerUseSplitData.getKey()), GBC.grid(0, 1).anchor(GBC.LS));
+			footerPanel.add(checkBoxes.get(Settings.footerVerbose.getKey()), GBC.grid(0, 2).anchor(GBC.LS));
+			footerPanel.add(checkBoxes.get(Settings.footerShowDeltaLabels.getKey()), GBC.grid(1, 0).anchor(GBC.LS));
+			footerPanel.add(checkBoxes.get(Settings.footerShowBestTime.getKey()), GBC.grid(1, 1).anchor(GBC.LS));
+			footerPanel.add(checkBoxes.get(Settings.footerMultiline.getKey()), GBC.grid(1, 2).anchor(GBC.LS));
 			footerPanel.setBorder(
 					BorderFactory.createTitledBorder("" + Language.FOOTER)
 			);
 		}
 		JPanel miscPanel = new JPanel(new GridBagLayout()); {
-			miscPanel.add(checkBoxes.get(Settings.HDR_TTLE.getKey()), GBC.grid(0, 0).anchor(GBC.LS));
-			miscPanel.add(checkBoxes.get(Settings.HDR_GOAL.getKey()), GBC.grid(0, 1).anchor(GBC.LS));
-			miscPanel.add(checkBoxes.get(Settings.GPH_SHOW.getKey()), GBC.grid(0, 2).anchor(GBC.LS));
+			miscPanel.add(checkBoxes.get(Settings.headerShowGoal.getKey()), GBC.grid(0, 0).anchor(GBC.LS));
+			miscPanel.add(checkBoxes.get(Settings.headerShowTitle.getKey()), GBC.grid(0, 1).anchor(GBC.LS));
+			miscPanel.add(checkBoxes.get(Settings.graphDisplay.getKey()), GBC.grid(0, 2).anchor(GBC.LS));
 			miscPanel.setBorder(
 					BorderFactory.createTitledBorder("" + Language.MISC)
 			);

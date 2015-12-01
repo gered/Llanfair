@@ -83,46 +83,46 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 	TabHistory() {
 		rows = new JTextField();
 		rows.setHorizontalAlignment(JTextField.TRAILING);
-		rows.setText("" + Settings.HST_ROWS.get());
+		rows.setText("" + Settings.historyRowCount.get());
 
 		deltas = new JCheckBox("" + Language.setting_history_deltas);
-		deltas.setSelected(Settings.HST_DLTA.get());
+		deltas.setSelected(Settings.historyDeltas.get());
 		deltas.addActionListener(this);
 
 		lives = new JCheckBox("" + Language.setting_history_liveTimes);
-		lives.setSelected(Settings.HST_LIVE.get());
+		lives.setSelected(Settings.historyLiveTimes.get());
 		lives.addActionListener(this);
 
 		twoLines = new JCheckBox("" + Language.setting_history_multiline);
-		twoLines.setSelected(Settings.HST_LINE.get());
+		twoLines.setSelected(Settings.historyMultiline.get());
 		twoLines.addActionListener(this);
 
 		blankRows = new JCheckBox("" + Language.setting_history_blankRows);
-		blankRows.setSelected(Settings.HST_BLNK.get());
+		blankRows.setSelected(Settings.historyBlankRows.get());
 		blankRows.addActionListener(this);
 
 		icons = new JCheckBox("" + Language.setting_history_icons);
-		icons.setSelected(Settings.HST_ICON.get());
+		icons.setSelected(Settings.historyIcons.get());
 		icons.addActionListener(this);
 
 		tabular = new JCheckBox("" + Language.setting_history_tabular);
-		tabular.setSelected(Settings.HST_TABL.get());
+		tabular.setSelected(Settings.historyTabular.get());
 		tabular.addActionListener(this);
 
 		showLast = new JCheckBox("" + Language.setting_history_alwaysShowLast);
-		showLast.setSelected(Settings.HST_LAST.get());
+		showLast.setSelected(Settings.historyAlwaysShowLast.get());
 		showLast.addActionListener(this);
 
 		merge = new JComboBox(Merge.values());
-		merge.setSelectedItem(Settings.HST_MERG.get());
+		merge.setSelectedItem(Settings.historyMerge.get());
 		merge.addActionListener(this);
 
 		iconSize = new JComboBox(Segment.ICON_SIZES);
-		iconSize.setSelectedItem(Settings.HST_ICSZ.get());
+		iconSize.setSelectedItem(Settings.historyIconSize.get());
 		iconSize.addActionListener(this);
 
 		offset = new JSpinner(new SpinnerNumberModel(
-				(int) Settings.HST_OFFS.get(), -5, 5, 1)
+				(int) Settings.historyOffset.get(), -5, 5, 1)
 		);
 		offset.addChangeListener(this);
 
@@ -133,25 +133,25 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 
 		GraphicsEnvironment gEnv = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
-		String mainFont = Settings.HST_SFNT.get().getName();
+		String mainFont = Settings.historySegmentFont.get().getName();
 		nameFont = new JComboBox(gEnv.getAvailableFontFamilyNames());
 		nameFont.setSelectedItem(mainFont);
 		nameFont.setPreferredSize(new Dimension(130, 22));
 		nameFont.addActionListener(this);
 
-		String font = Settings.HST_TFNT.get().getName();
+		String font = Settings.historyTimeFont.get().getName();
 		timeFont = new JComboBox(gEnv.getAvailableFontFamilyNames());
 		timeFont.setSelectedItem(font);
 		timeFont.setPreferredSize(new Dimension(130, 22));
 		timeFont.addActionListener(this);
 
 		nameSize = new JSpinner(new SpinnerNumberModel(
-				Settings.HST_SFNT.get().getSize(), 8, 240, 1)
+				Settings.historySegmentFont.get().getSize(), 8, 240, 1)
 		);
 		nameSize.addChangeListener(this);
 
 		timeSize = new JSpinner(new SpinnerNumberModel(
-				Settings.HST_TFNT.get().getSize(), 8, 240, 1)
+				Settings.historyTimeFont.get().getSize(), 8, 240, 1)
 		);
 		timeSize.addChangeListener(this);
 
@@ -167,44 +167,44 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 		Object source = event.getSource();
 		if (source.equals(merge)) {
 			Merge value = (Merge) merge.getSelectedItem();
-			Settings.HST_MERG.set(value);
+			Settings.historyMerge.set(value);
 			if (value == Merge.DELTA) {
-				Settings.HST_DLTA.set(false);
+				Settings.historyDeltas.set(false);
 				deltas.setSelected(false);
 			} else if (value == Merge.LIVE) {
-				Settings.HST_LIVE.set(false);
+				Settings.historyLiveTimes.set(false);
 				lives.setSelected(false);
 			}
 		} else if (source.equals(deltas)) {
-			Settings.HST_DLTA.set(deltas.isSelected());
+			Settings.historyDeltas.set(deltas.isSelected());
 		} else if (source.equals(lives)) {
-			Settings.HST_LIVE.set(lives.isSelected());
+			Settings.historyLiveTimes.set(lives.isSelected());
 		} else if (source.equals(blankRows)) {
-			Settings.HST_BLNK.set(blankRows.isSelected());
+			Settings.historyBlankRows.set(blankRows.isSelected());
 		} else if (source.equals(icons)) {
-			Settings.HST_ICON.set(icons.isSelected());
+			Settings.historyIcons.set(icons.isSelected());
 		} else if (source.equals(showLast)) {
-			Settings.HST_LAST.set(showLast.isSelected());
+			Settings.historyAlwaysShowLast.set(showLast.isSelected());
 		} else if (source.equals(twoLines)) {
-			Settings.HST_LINE.set(twoLines.isSelected());
+			Settings.historyMultiline.set(twoLines.isSelected());
 		} else if (source.equals(tabular)) {
-			Settings.HST_TABL.set(tabular.isSelected());
+			Settings.historyTabular.set(tabular.isSelected());
 		} else if (source.equals(iconSize)) {
-			Settings.HST_ICSZ.set(
+			Settings.historyIconSize.set(
 					(Integer) iconSize.getSelectedItem()
 			);
 		} else if (source.equals(nameFont)) {
 			String fontName = nameFont.getSelectedItem().toString();
 			Font   font     = Font.decode(fontName).deriveFont(
-					(float) Settings.HST_SFNT.get().getSize()
+					(float) Settings.historySegmentFont.get().getSize()
 			);
-			Settings.HST_SFNT.set(font);
+			Settings.historySegmentFont.set(font);
 		} else if (source.equals(timeFont)) {
 			String fontName = timeFont.getSelectedItem().toString();
 			Font   font     = Font.decode(fontName).deriveFont(
-					(float) Settings.HST_TFNT.get().getSize()
+					(float) Settings.historyTimeFont.get().getSize()
 			);
-			Settings.HST_TFNT.set(font);
+			Settings.historyTimeFont.set(font);
 		}
 	}
 
@@ -212,16 +212,16 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 		Object source = event.getSource();
 		if (source.equals(offset)) {
 			int size = (Integer) offset.getValue();
-			Settings.HST_OFFS.set(size);
+			Settings.historyOffset.set(size);
 		} else if (source.equals(nameSize)) {
 			int size = (Integer) nameSize.getValue();
-			Settings.HST_SFNT.set(
-					Settings.HST_SFNT.get().deriveFont((float) size)
+			Settings.historySegmentFont.set(
+					Settings.historySegmentFont.get().deriveFont((float) size)
 			);
 		} else if (source.equals(timeSize)) {
 			int size = (Integer) timeSize.getValue();
-			Settings.HST_TFNT.set(
-					Settings.HST_TFNT.get().deriveFont((float) size)
+			Settings.historyTimeFont.set(
+					Settings.historyTimeFont.get().deriveFont((float) size)
 			);
 		}
 	}
@@ -239,7 +239,7 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 				input = 0;
 				rows.setText("0");
 			}
-			Settings.HST_ROWS.set(input);
+			Settings.historyRowCount.set(input);
 		}
 	}
 

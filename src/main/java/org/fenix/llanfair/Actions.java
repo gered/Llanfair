@@ -72,25 +72,25 @@ final class Actions {
 		Run run = master.getRun();
 		Run.State state = run.getState();
 
-		if ( keyCode == Settings.KEY_SPLT.get() ) {
+		if ( keyCode == Settings.hotkeySplit.get() ) {
 			split();
-		} else if ( keyCode == Settings.KEY_RSET.get() ) {
+		} else if ( keyCode == Settings.hotkeyReset.get() ) {
 			reset();
-		} else if ( keyCode == Settings.KEY_USPL.get() ) {
+		} else if ( keyCode == Settings.hotkeyUnsplit.get() ) {
 			unsplit();
-		} else if ( keyCode == Settings.KEY_SKIP.get() ) {
+		} else if ( keyCode == Settings.hotkeySkip.get() ) {
 			skip();
-		} else if ( keyCode == Settings.KEY_STOP.get() ) {
+		} else if ( keyCode == Settings.hotkeyStop.get() ) {
 			if ( state == Run.State.ONGOING ) {
 				run.stop();
 			}
-		} else if ( keyCode == Settings.KEY_PAUS.get() ) {
+		} else if ( keyCode == Settings.hotkeyPause.get() ) {
 			if ( state == Run.State.ONGOING ) {
 				run.pause();
 			} else if ( state == Run.State.PAUSED ) {
 				run.resume();
 			}
-		} else if ( keyCode == Settings.KEY_LOCK.get() ) {
+		} else if ( keyCode == Settings.hotkeyLock.get() ) {
 			master.setIgnoreNativeInputs( !master.ignoresNativeInputs() );
 		}
 	}
@@ -173,7 +173,7 @@ final class Actions {
 	private void reset() {
 		Run run = master.getRun();
 		if ( run.getState() != Run.State.NULL ) {
-			if ( !Settings.GNR_WARN.get() || confirmOverwrite() ) {
+			if ( !Settings.warnOnReset.get() || confirmOverwrite() ) {
 				run.reset();
 			}
 		}
@@ -344,7 +344,7 @@ final class Actions {
 	private void legacyRead( ObjectInputStream in ) throws Exception {
 		master.setRun( ( Run ) in.readObject() );
 		try {
-			Settings.GNR_SIZE.set( ( Dimension ) in.readObject(), true );
+			Settings.dimension.set( ( Dimension ) in.readObject(), true );
 		} catch ( Exception ex ) {
 			// $FALL-THROUGH$
 		}
@@ -360,8 +360,8 @@ final class Actions {
 				return;
 			}
 		}
-		Settings.GNR_COOR.set( master.getLocationOnScreen(), true );
-		Settings.GNR_SIZE.set( master.getSize(), true );
+		Settings.coordinates.set( master.getLocationOnScreen(), true );
+		Settings.dimension.set( master.getSize(), true );
 
 		String name = file.getName();
 		BufferedOutputStream out = null;

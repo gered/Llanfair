@@ -147,27 +147,27 @@ class Graph extends JPanel {
 	void processPropertyChangeEvent(PropertyChangeEvent event) {
 		String property = event.getPropertyName();
 		// Settings.COLOR_FOREGROUND
-		if (Settings.CLR_FORE.equals(property)) {
+		if (Settings.colorForeground.equals(property)) {
 			updateColors(TEXT);
 			canvas.repaint();
 		// Settings.COLOR_TIME
-		} else if (Settings.CLR_TIME.equals(property)) {
+		} else if (Settings.colorTime.equals(property)) {
 			updateColors(TIME);
 		// Settings.COLOR_BACKGROUND, COLOR_TIME_LOST, COLOR_TIME_GAINED
 		// or Run.CURRENT_SEGMENT_PROPERTY
-		} else if (Settings.CLR_BACK.equals(property)
-				|| Settings.CLR_LOST.equals(property)
-				|| Settings.CLR_GAIN.equals(property)
-				|| Settings.CLR_RCRD.equals(property)
+		} else if (Settings.colorBackground.equals(property)
+				|| Settings.colorTimeLost.equals(property)
+				|| Settings.colorTimeGained.equals(property)
+				|| Settings.colorNewRecord.equals(property)
 				|| Run.CURRENT_SEGMENT_PROPERTY.equals(property)) {
 			canvas.repaint();
 		// Settings.COMPARE_PERCENT or Settings.COMPARE_METHOD
-		} else if (Settings.GPH_SCAL.equals(property)
-				|| Settings.GNR_COMP.equals(property)) {
+		} else if (Settings.graphScale.equals(property)
+				|| Settings.compareMethod.equals(property)) {
 			updateValues(TIME);
 			canvas.repaint();
 		// Settings.ACCURACY
-		} else if (Settings.GNR_ACCY.equals(property)) {
+		} else if (Settings.accuracy.equals(property)) {
 			updateValues(TIME);
 		// Run.STATE_PROPERTY
 		} else if (Run.STATE_PROPERTY.equals(property)) {
@@ -267,11 +267,11 @@ class Graph extends JPanel {
 	private void updateColors(int identifier) {
 		// TIME
 		if ((identifier & TIME) == TIME) {
-			scale.setForeground(Settings.CLR_TIME.get());
+			scale.setForeground(Settings.colorTime.get());
 		}
 		// TEXT
 		if ((identifier & TEXT) == TEXT) {
-			scaleText.setForeground(Settings.CLR_FORE.get());
+			scaleText.setForeground(Settings.colorForeground.get());
 		}
 	}
 
@@ -298,13 +298,13 @@ class Graph extends JPanel {
 			int clipW = getWidth();
 			int halfH = clipH / 2;
 
-			g2.setColor(Settings.CLR_BACK.get());
+			g2.setColor(Settings.colorBackground.get());
 			g2.fillRect(0, 0, clipW, clipH);
   
-			Color colorFG = Settings.CLR_FORE.get();
-			Color colorTG = Settings.CLR_GAIN.get();
-			Color colorTL = Settings.CLR_LOST.get();
-			Color colorRC = Settings.CLR_RCRD.get();
+			Color colorFG = Settings.colorForeground.get();
+			Color colorTG = Settings.colorTimeGained.get();
+			Color colorTL = Settings.colorTimeLost.get();
+			Color colorRC = Settings.colorNewRecord.get();
 
 			// Draw the axis.
 			g2.setColor(colorFG);

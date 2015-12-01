@@ -123,10 +123,10 @@ class Footer extends JPanel {
 			int dltaW = metrics.stringWidth("" + Language.LB_FT_DELTA);
 			int dltbW = metrics.stringWidth("" + Language.LB_FT_DELTA_BEST);
 
-			boolean ftBest = Settings.FOO_BEST.get();
-			boolean ftLabels = Settings.FOO_DLBL.get();
-			boolean ftVerbose = Settings.FOO_VERB.get();
-			boolean ftTwoLines = Settings.FOO_LINE.get();
+			boolean ftBest = Settings.footerShowBestTime.get();
+			boolean ftLabels = Settings.footerShowDeltaLabels.get();
+			boolean ftVerbose = Settings.footerVerbose.get();
+			boolean ftTwoLines = Settings.footerMultiline.get();
 
 			int height = timeH;
 			int width  = prevW + timeW + smtmW + INSET * 2;
@@ -184,19 +184,19 @@ class Footer extends JPanel {
 			updateValues(ALL & ~TEXT);
 			updateColors(TIME | DELTA);
 			updateVisibility(ALL);
-		} else if (Settings.CLR_LOST.equals(property)
-				|| Settings.CLR_GAIN.equals(property)) {
+		} else if (Settings.colorTimeLost.equals(property)
+				|| Settings.colorTimeGained.equals(property)) {
 			updateColors(DELTA);
 
-		} else if (Settings.CLR_TIME.equals(property)
-				|| Settings.CLR_RCRD.equals(property)) {
+		} else if (Settings.colorTime.equals(property)
+				|| Settings.colorNewRecord.equals(property)) {
 			updateColors(TIME | DELTA);
 
-		} else if (Settings.CLR_FORE.equals(property)) {
+		} else if (Settings.colorForeground.equals(property)) {
 			updateColors(TEXT);
 
-		} else if (Settings.GNR_ACCY.equals(property)
-				|| Settings.GNR_COMP.equals(property)) {
+		} else if (Settings.accuracy.equals(property)
+				|| Settings.compareMethod.equals(property)) {
 			updateValues(ALL & ~TEXT);
 			forceResize();
 
@@ -205,17 +205,17 @@ class Footer extends JPanel {
 				updateValues(ALL & ~TEXT);
 			}
 			updateVisibility(ALL);
-		} else if (Settings.FOO_SPLT.equals(property)) {
+		} else if (Settings.footerUseSplitData.equals(property)) {
 			updateValues(ALL);
-		} else if (Settings.FOO_BEST.equals(property)
-				|| Settings.FOO_LINE.equals(property)) {
+		} else if (Settings.footerShowBestTime.equals(property)
+				|| Settings.footerMultiline.equals(property)) {
 
 			updateVisibility(BEST);
 			forceResize();
-		} else if (Settings.FOO_DLBL.equals(property)) {
+		} else if (Settings.footerShowDeltaLabels.equals(property)) {
 			updateVisibility(TEXT);
 			forceResize();
-		} else if (Settings.FOO_VERB.equals(property)) {
+		} else if (Settings.footerVerbose.equals(property)) {
 			updateValues(DELTA);
 			updateVisibility(VERBOSE);
 			forceResize();
@@ -301,23 +301,23 @@ class Footer extends JPanel {
 
 	private void updateVisibility(int identifier) {
 		if ((identifier & BEST) == BEST) {
-			boolean ftTwoLines = Settings.FOO_LINE.get();
-			boolean ftBest = Settings.FOO_BEST.get();
+			boolean ftTwoLines = Settings.footerMultiline.get();
+			boolean ftBest = Settings.footerShowBestTime.get();
 			panelBest.setVisible(ftTwoLines);
 			panelDeltaBest.setVisible(ftTwoLines);
 			inlineBest.setVisible(!ftTwoLines && ftBest);
 			inlineDeltaBest.setVisible(!ftTwoLines && ftBest);
 		}
 		if ((identifier & TEXT) == TEXT) {
-			boolean ftLabels = Settings.FOO_DLBL.get();
-			boolean ftVerbose = Settings.FOO_VERB.get();
+			boolean ftLabels = Settings.footerShowDeltaLabels.get();
+			boolean ftVerbose = Settings.footerVerbose.get();
 			labelLive.setVisible(ftLabels && ftVerbose);
 			labelDelta.setVisible(ftLabels && !ftVerbose);
 			labelDeltaBest.setVisible(ftLabels);
 		}
 		if ((identifier & VERBOSE) == VERBOSE) {
-			boolean ftVerbose = Settings.FOO_VERB.get();
-			boolean ftLabels = Settings.FOO_DLBL.get();
+			boolean ftVerbose = Settings.footerVerbose.get();
+			boolean ftLabels = Settings.footerShowDeltaLabels.get();
 			labelLive.setVisible(ftVerbose && ftLabels);
 			labelDelta.setVisible(!ftVerbose && ftLabels);
 			time.setVisible(ftVerbose);
@@ -334,8 +334,8 @@ class Footer extends JPanel {
 	 */
 	private void updateColors(int identifier) {
 		if ((identifier & TIME) == TIME) {
-			Color colorTM = Settings.CLR_TIME.get();
-			Color colorNR = Settings.CLR_RCRD.get();
+			Color colorTM = Settings.colorTime.get();
+			Color colorNR = Settings.colorNewRecord.get();
 			if (run.hasPreviousSegment() && run.isBestSegment(run.getPrevious())) {
 				liveL.setForeground(colorNR);
 				liveR.setForeground(colorNR);
@@ -349,28 +349,28 @@ class Footer extends JPanel {
 		}
 		if ((identifier & DELTA) == DELTA) {
 			if (run.hasPreviousSegment()) {
-				Color colorTM = Settings.CLR_TIME.get();
+				Color colorTM = Settings.colorTime.get();
 				deltaBest.setForeground(colorTM);
 				inlineDeltaBest.setForeground(colorTM);
 				if (delta.getText().equals("--")) {
 					delta.setForeground(colorTM);
 				} else if (run.isBestSegment(run.getPrevious())){
-					Color colorNR = Settings.CLR_RCRD.get();
+					Color colorNR = Settings.colorNewRecord.get();
 					delta.setForeground(colorNR);
 					deltaBest.setForeground(colorNR);
 					inlineDeltaBest.setForeground(colorNR);
 				} else {
 					int compare = tmDlta.compareTo(Time.ZERO);
 					if (compare > 0) {
-						delta.setForeground(Settings.CLR_LOST.get());
+						delta.setForeground(Settings.colorTimeLost.get());
 					} else {
-						delta.setForeground(Settings.CLR_GAIN.get());
+						delta.setForeground(Settings.colorTimeGained.get());
 					}
 				}
 			}
 		}
 		if ((identifier & TEXT) == TEXT) {
-			Color color = Settings.CLR_FORE.get();
+			Color color = Settings.colorForeground.get();
 			labelPrev.setForeground(color);
 			labelDelta.setForeground(color);
 			labelLive.setForeground(color);
@@ -386,7 +386,7 @@ class Footer extends JPanel {
 	 * @param   identifier  - one of the constant update identifier.
 	 */
 	private void updateValues(int identifier) {
-		boolean useSplit    = Settings.FOO_SPLT.get();
+		boolean useSplit    = Settings.footerUseSplitData.get();
 		boolean hasPrevious = run.hasPreviousSegment();
 		int     pIndex      = run.getPrevious();
 		Segment pSegment    = null;
@@ -467,7 +467,7 @@ class Footer extends JPanel {
 						}
 					}
 				}
-				if (Settings.FOO_VERB.get()) {
+				if (Settings.footerVerbose.get()) {
 					delta.setText("[" + delta.getText() + "]");
 				}
 				updateColors(DELTA);

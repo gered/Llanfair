@@ -45,14 +45,14 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 	TabGeneral() {
 		language = new JComboBox(Language.LANGUAGES);
 		language.setRenderer(new LocaleListRenderer());
-		language.setSelectedItem(Settings.GNR_LANG.get());
+		language.setSelectedItem(Settings.language.get());
 		language.addActionListener(this);
 
 		alwaysOnTop = new JCheckBox("" + Language.setting_alwaysOnTop);
-		alwaysOnTop.setSelected(Settings.GNR_ATOP.get());
+		alwaysOnTop.setSelected(Settings.alwaysOnTop.get());
 
 		compare = new ButtonGroup();
-		Compare setCmp = Settings.GNR_COMP.get();
+		Compare setCmp = Settings.compareMethod.get();
 		for (Compare method : Compare.values()) {
 			JRadioButton radio = new JRadioButton("" + method);
 			radio.setName(method.name());
@@ -62,7 +62,7 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		}
 
 		accuracy        = new ButtonGroup();
-		Accuracy setAcc = Settings.GNR_ACCY.get();
+		Accuracy setAcc = Settings.accuracy.get();
 		for (Accuracy value : Accuracy.values()) {
 			JRadioButton radio = new JRadioButton("" + value);
 			radio.setName(value.name());
@@ -72,7 +72,7 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		}
 
 		warnOnReset = new JCheckBox("" + Language.setting_warnOnReset);
-		warnOnReset.setSelected(Settings.GNR_WARN.get());
+		warnOnReset.setSelected(Settings.warnOnReset.get());
 		warnOnReset.addActionListener(this);
 
 		languageText    = new JLabel("" + Language.setting_language);
@@ -88,25 +88,25 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		Object source = event.getSource();
 		if (source.equals(language)) {
-			Settings.GNR_LANG.set((Locale) language.getSelectedItem());
+			Settings.language.set((Locale) language.getSelectedItem());
 		} else if (source instanceof JRadioButton) {
 			JRadioButton radio = (JRadioButton) source;
 			try {
-				Settings.GNR_COMP.set(
+				Settings.compareMethod.set(
 						Compare.valueOf(radio.getName())
 				);
 			} catch (Exception e) {
-				Settings.GNR_ACCY.set(Accuracy.valueOf(radio.getName()));
+				Settings.accuracy.set(Accuracy.valueOf(radio.getName()));
 			}
 		} else if (source.equals(warnOnReset)) {
-			Settings.GNR_WARN.set(warnOnReset.isSelected());
+			Settings.warnOnReset.set(warnOnReset.isSelected());
 		}
 	}
 
 	// -------------------------------------------------------------- INHERITED
 
 	void doDelayedSettingChange() {
-		Settings.GNR_ATOP.set(alwaysOnTop.isSelected());
+		Settings.alwaysOnTop.set(alwaysOnTop.isSelected());
 	}
 
 	/**

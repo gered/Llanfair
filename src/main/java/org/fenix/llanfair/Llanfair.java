@@ -63,7 +63,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 */
 	private Llanfair() {
 		super( "Llanfair" );
-		LocaleDelegate.setDefault( Settings.GNR_LANG.get() );
+		LocaleDelegate.setDefault( Settings.language.get() );
 		LocaleDelegate.addLocaleListener( this );
 
 		//ResourceBundle b = ResourceBundle.getBundle("language");
@@ -163,7 +163,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		pack();
 
 		// Replace the window to the run preferred location; center if none
-		Point location = Settings.GNR_COOR.get();
+		Point location = Settings.coordinates.get();
 		if ( location == null ) {
 			setLocationRelativeTo( null );
 		} else {
@@ -281,7 +281,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 */
 	@Override public void nativeKeyPressed( final NativeKeyEvent event ) {
 		int keyCode = event.getKeyCode();
-		boolean hotkeysEnabler = ( keyCode == Settings.KEY_LOCK.get() );
+		boolean hotkeysEnabler = ( keyCode == Settings.hotkeyLock.get() );
 
 		if ( !ignoresNativeInputs() || hotkeysEnabler ) {
 			SwingUtilities.invokeLater( new Runnable() {
@@ -307,37 +307,37 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 
 		if ( Run.STATE_PROPERTY.equals( property ) ) {
 			MenuItem.setActiveState( run.getState() );
-		} else if ( Settings.GNR_ATOP.equals( property ) ) {
-			setAlwaysOnTop( Settings.GNR_ATOP.get() );
-		} else if (Settings.HST_ROWS.equals(property)
-				|| Settings.GPH_SHOW.equals(property)
-				|| Settings.FOO_SHOW.equals(property)
-				|| Settings.FOO_SPLT.equals(property)
-				|| Settings.COR_ICSZ.equals(property)
-				|| Settings.GNR_ACCY.equals(property)
-				|| Settings.HDR_TTLE.equals(property)
-				|| Settings.HDR_GOAL.equals(property)
-				|| Settings.HST_DLTA.equals(property)
-				|| Settings.HST_SFNT.equals(property)
-				|| Settings.HST_TFNT.equals(property)
-				|| Settings.HST_LIVE.equals(property)
-				|| Settings.HST_MERG.equals(property)
-				|| Settings.HST_BLNK.equals(property)
-				|| Settings.HST_ICON.equals(property)
-				|| Settings.HST_ICSZ.equals(property)
-				|| Settings.HST_LINE.equals(property)
-				|| Settings.COR_NAME.equals(property)
-				|| Settings.COR_SPLT.equals(property)
-				|| Settings.COR_SEGM.equals(property)
-				|| Settings.COR_BEST.equals(property)
-				|| Settings.COR_ICON.equals(property)
-				|| Settings.COR_TFNT.equals(property)
-				|| Settings.COR_SFNT.equals(property)
-				|| Settings.COR_STMR.equals(property)
-				|| Settings.FOO_BEST.equals(property)
-				|| Settings.FOO_DLBL.equals(property)
-				|| Settings.FOO_VERB.equals(property)
-				|| Settings.FOO_LINE.equals(property)
+		} else if ( Settings.alwaysOnTop.equals( property ) ) {
+			setAlwaysOnTop( Settings.alwaysOnTop.get() );
+		} else if (Settings.historyRowCount.equals(property)
+				|| Settings.graphDisplay.equals(property)
+				|| Settings.footerDisplay.equals(property)
+				|| Settings.footerUseSplitData.equals(property)
+				|| Settings.coreIconSize.equals(property)
+				|| Settings.accuracy.equals(property)
+				|| Settings.headerShowGoal.equals(property)
+				|| Settings.headerShowTitle.equals(property)
+				|| Settings.historyDeltas.equals(property)
+				|| Settings.historySegmentFont.equals(property)
+				|| Settings.historyTimeFont.equals(property)
+				|| Settings.historyLiveTimes.equals(property)
+				|| Settings.historyMerge.equals(property)
+				|| Settings.historyBlankRows.equals(property)
+				|| Settings.historyIcons.equals(property)
+				|| Settings.historyIconSize.equals(property)
+				|| Settings.historyMultiline.equals(property)
+				|| Settings.coreShowSegmentName.equals(property)
+				|| Settings.coreShowSplitTime.equals(property)
+				|| Settings.coreShowSegmentTime.equals(property)
+				|| Settings.coreShowBestTime.equals(property)
+				|| Settings.coreShowIcons.equals(property)
+				|| Settings.coreTimerFont.equals(property)
+				|| Settings.coreSegmentTimerFont.equals(property)
+				|| Settings.coreShowSegmentTimer.equals(property)
+				|| Settings.footerShowBestTime.equals(property)
+				|| Settings.footerShowDeltaLabels.equals(property)
+				|| Settings.footerVerbose.equals(property)
+				|| Settings.footerMultiline.equals(property)
 				|| Run.NAME_PROPERTY.equals(property)) {
 			setPreferredSize(null);
 			pack();
@@ -369,13 +369,13 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 */
 	@Override public void mouseWheelMoved( MouseWheelEvent event ) {
 		int rotations = event.getWheelRotation();
-		float percent = Settings.GPH_SCAL.get();
+		float percent = Settings.graphScale.get();
 		if ( percent == 0.5F ) {
 			percent = 1.0F;
 			rotations--;
 		}
 		float newValue = Math.max( 0.5F, percent + rotations );
-		Settings.GPH_SCAL.set( newValue );
+		Settings.graphScale.set( newValue );
 	}
 
 	/**
@@ -453,7 +453,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 			//       exception here causes Llanfair to just close immediately after the dialog has opened.
 			//throw new IllegalStateException("cannot register native hook");
 		}
-		setAlwaysOnTop(Settings.GNR_ATOP.get());
+		setAlwaysOnTop(Settings.alwaysOnTop.get());
 		addWindowListener(this);
 		addMouseWheelListener(this);
 		Settings.addPropertyChangeListener(this);

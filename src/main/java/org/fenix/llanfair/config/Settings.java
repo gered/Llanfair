@@ -1,17 +1,15 @@
 package org.fenix.llanfair.config;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Point;
+import org.fenix.llanfair.Language;
+import org.fenix.llanfair.Run;
+import org.fenix.utils.config.Configuration;
+
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import org.fenix.llanfair.Language;
-import org.fenix.llanfair.Run;
-import org.fenix.utils.config.Configuration;
 
 /**
  * Stores the configuration of Llanfair. This class actually provides two levels
@@ -29,145 +27,86 @@ public class Settings {
 
 	/* GENERIC properties */
 
-	public static final Property<Boolean> GNR_ATOP =
-			new Property<Boolean>( "alwaysOnTop" );
-	public static final Property<Locale> GNR_LANG =
-			new Property<Locale>( "language" );
-	public static final Property<Locale> GNR_VLNG =
-			new Property<Locale>( "viewerLanguage" );
-	public static final Property<List<String>> GNR_RCNT =
-			new Property<List<String>>( "recentFiles" );
-	public static final Property<Point> GNR_COOR =
-			new Property<Point>( "coordinates" );
-	public static final Property<Dimension> GNR_SIZE =
-			new Property<Dimension>( "dimension" );
-	public static final Property<Compare> GNR_COMP =
-			new Property<Compare>( "compareMethod" );
-	public static final Property<Accuracy> GNR_ACCY =
-			new Property<Accuracy>( "accuracy" );
-	public static final Property<Boolean> GNR_WARN =
-			new Property<Boolean>( "warnOnReset" );
+	public static final Property<Boolean> alwaysOnTop = new Property<>( "alwaysOnTop" );
+	public static final Property<Locale> language = new Property<>( "language" );
+	public static final Property<Locale> viewerLanguage = new Property<>( "viewerLanguage" );
+	public static final Property<List<String>> recentFiles = new Property<>( "recentFiles" );
+	public static final Property<Point> coordinates = new Property<>( "coordinates" );
+	public static final Property<Dimension> dimension = new Property<>( "dimension" );
+	public static final Property<Compare> compareMethod = new Property<>( "compareMethod" );
+	public static final Property<Accuracy> accuracy = new Property<>( "accuracy" );
+	public static final Property<Boolean> warnOnReset = new Property<>( "warnOnReset" );
 
 	/* COLOR properties */
 
-	public static final Property<Color> CLR_BACK =
-			new Property<Color>( "color.background" );
-	public static final Property<Color> CLR_FORE =
-			new Property<Color>( "color.foreground" );
-	public static final Property<Color> CLR_TIME =
-			new Property<Color>( "color.time" );
-	public static final Property<Color> CLR_TIMR =
-			new Property<Color>( "color.timer" );
-	public static final Property<Color> CLR_GAIN =
-			new Property<Color>( "color.timeGained" );
-	public static final Property<Color> CLR_LOST =
-			new Property<Color>( "color.timeLost" );
-	public static final Property<Color> CLR_RCRD =
-			new Property<Color>( "color.newRecord" );
-	public static final Property<Color> CLR_TITL =
-			new Property<Color>( "color.title" );
-	public static final Property<Color> CLR_HIGH =
-			new Property<Color>( "color.highlight" );
-	public static final Property<Color> CLR_SPRT =
-			new Property<Color>( "color.separators" );
+	public static final Property<Color> colorBackground = new Property<>( "color.background" );
+	public static final Property<Color> colorForeground = new Property<>( "color.foreground" );
+	public static final Property<Color> colorTime = new Property<>( "color.time" );
+	public static final Property<Color> colorTimer = new Property<>( "color.timer" );
+	public static final Property<Color> colorTimeGained = new Property<>( "color.timeGained" );
+	public static final Property<Color> colorTimeLost = new Property<>( "color.timeLost" );
+	public static final Property<Color> colorNewRecord = new Property<>( "color.newRecord" );
+	public static final Property<Color> colorTitle = new Property<>( "color.title" );
+	public static final Property<Color> colorHighlight = new Property<>( "color.highlight" );
+	public static final Property<Color> colorSeparators = new Property<>( "color.separators" );
 
 	/* HOTKEY properties */
 
-	public static final Property<Integer> KEY_SPLT =
-			new Property<Integer>( "hotkey.split" );
-	public static final Property<Integer> KEY_USPL =
-			new Property<Integer>( "hotkey.unsplit" );
-	public static final Property<Integer> KEY_SKIP =
-			new Property<Integer>( "hotkey.skip" );
-	public static final Property<Integer> KEY_RSET =
-			new Property<Integer>( "hotkey.reset" );
-	public static final Property<Integer> KEY_STOP =
-			new Property<Integer>( "hotkey.stop" );
-	public static final Property<Integer> KEY_PAUS =
-			new Property<Integer>( "hotkey.pause" );
-	public static final Property<Integer> KEY_LOCK =
-			new Property<Integer>( "hotkey.lock" );
+	public static final Property<Integer> hotkeySplit = new Property<>( "hotkey.split" );
+	public static final Property<Integer> hotkeyUnsplit = new Property<>( "hotkey.unsplit" );
+	public static final Property<Integer> hotkeySkip = new Property<>( "hotkey.skip" );
+	public static final Property<Integer> hotkeyReset = new Property<>( "hotkey.reset" );
+	public static final Property<Integer> hotkeyStop = new Property<>( "hotkey.stop" );
+	public static final Property<Integer> hotkeyPause = new Property<>( "hotkey.pause" );
+	public static final Property<Integer> hotkeyLock = new Property<>( "hotkey.lock" );
 
 	/* HEADER properties */
 
-	public static final Property<Boolean> HDR_TTLE =
-			new Property<Boolean>( "header.goal" );
-	public static final Property<Boolean> HDR_GOAL =
-			new Property<Boolean>( "header.title" );
+	public static final Property<Boolean> headerShowGoal = new Property<>( "header.goal" );
+	public static final Property<Boolean> headerShowTitle = new Property<>( "header.title" );
 
 	/* HISTORY properties */
 
-	public static final Property<Integer> HST_ROWS =
-			new Property<Integer>( "history.rowCount" );
-	public static final Property<Boolean> HST_TABL =
-			new Property<Boolean>( "history.tabular" );
-	public static final Property<Boolean> HST_BLNK =
-			new Property<Boolean>( "history.blankRows" );
-	public static final Property<Boolean> HST_LINE =
-			new Property<Boolean>( "history.multiline" );
-	public static final Property<Merge> HST_MERG =
-			new Property<Merge>( "history.merge" );
-	public static final Property<Boolean> HST_LIVE =
-			new Property<Boolean>( "history.liveTimes" );
-	public static final Property<Boolean> HST_DLTA =
-			new Property<Boolean>( "history.deltas" );
-	public static final Property<Boolean> HST_ICON =
-			new Property<Boolean>( "history.icons" );
-	public static final Property<Integer> HST_ICSZ =
-			new Property<Integer>( "history.iconSize" );
-	public static final Property<Integer> HST_OFFS =
-			new Property<Integer>( "history.offset" );
-	public static final Property<Boolean> HST_LAST =
-			new Property<Boolean>( "history.alwaysShowLast" );
-	public static final Property<Font> HST_SFNT =
-			new Property<Font>( "history.segmentFont" );
-	public static final Property<Font> HST_TFNT =
-			new Property<Font>( "history.timeFont" );
+	public static final Property<Integer> historyRowCount = new Property<>( "history.rowCount" );
+	public static final Property<Boolean> historyTabular = new Property<>( "history.tabular" );
+	public static final Property<Boolean> historyBlankRows = new Property<>( "history.blankRows" );
+	public static final Property<Boolean> historyMultiline = new Property<>( "history.multiline" );
+	public static final Property<Merge> historyMerge = new Property<>( "history.merge" );
+	public static final Property<Boolean> historyLiveTimes = new Property<>( "history.liveTimes" );
+	public static final Property<Boolean> historyDeltas = new Property<>( "history.deltas" );
+	public static final Property<Boolean> historyIcons = new Property<>( "history.icons" );
+	public static final Property<Integer> historyIconSize = new Property<>( "history.iconSize" );
+	public static final Property<Integer> historyOffset = new Property<>( "history.offset" );
+	public static final Property<Boolean> historyAlwaysShowLast = new Property<>( "history.alwaysShowLast" );
+	public static final Property<Font> historySegmentFont = new Property<>( "history.segmentFont" );
+	public static final Property<Font> historyTimeFont = new Property<>( "history.timeFont" );
 
 	/* CORE properties */
 
-	public static final Property<Accuracy> COR_ACCY =
-			new Property<Accuracy>( "core.accuracy" );
-	public static final Property<Boolean> COR_ICON =
-			new Property<Boolean>( "core.icons" );
-	public static final Property<Integer> COR_ICSZ =
-			new Property<Integer>( "core.iconSize" );
-	public static final Property<Boolean> COR_NAME =
-			new Property<Boolean>( "core.segmentName" );
-	public static final Property<Boolean> COR_SPLT =
-			new Property<Boolean>( "core.splitTime" );
-	public static final Property<Boolean> COR_SEGM =
-			new Property<Boolean>( "core.segmentTime" );
-	public static final Property<Boolean> COR_BEST =
-			new Property<Boolean>( "core.bestTime" );
-	public static final Property<Boolean> COR_STMR =
-			new Property<Boolean>( "core.segmentTimer" );
-	public static final Property<Font> COR_TFNT =
-			new Property<Font>( "core.timerFont" );
-	public static final Property<Font> COR_SFNT =
-			new Property<Font>( "core.segmentTimerFont" );
+	public static final Property<Accuracy> coreAccuracy = new Property<>( "core.accuracy" );
+	public static final Property<Boolean> coreShowIcons = new Property<>( "core.icons" );
+	public static final Property<Integer> coreIconSize = new Property<>( "core.iconSize" );
+	public static final Property<Boolean> coreShowSegmentName = new Property<>( "core.segmentName" );
+	public static final Property<Boolean> coreShowSplitTime = new Property<>( "core.splitTime" );
+	public static final Property<Boolean> coreShowSegmentTime = new Property<>( "core.segmentTime" );
+	public static final Property<Boolean> coreShowBestTime = new Property<>( "core.bestTime" );
+	public static final Property<Boolean> coreShowSegmentTimer = new Property<>( "core.segmentTimer" );
+	public static final Property<Font> coreTimerFont = new Property<>( "core.timerFont" );
+	public static final Property<Font> coreSegmentTimerFont = new Property<>( "core.segmentTimerFont" );
 
 	/* GRAPH properties */
 
-	public static final Property<Boolean> GPH_SHOW =
-			new Property<Boolean>( "graph.display" );
-	public static final Property<Float> GPH_SCAL =
-			new Property<Float>( "graph.scale" );
+	public static final Property<Boolean> graphDisplay = new Property<>( "graph.display" );
+	public static final Property<Float> graphScale = new Property<>( "graph.scale" );
 
 	/* FOOTER properties */
 
-	public static final Property<Boolean> FOO_SHOW =
-			new Property<Boolean>( "footer.display" );
-	public static final Property<Boolean> FOO_SPLT =
-			new Property<Boolean>( "footer.useSplitData" );
-	public static final Property<Boolean> FOO_VERB =
-			new Property<Boolean>( "footer.verbose" );
-	public static final Property<Boolean> FOO_BEST =
-			new Property<Boolean>( "footer.bestTime" );
-	public static final Property<Boolean> FOO_LINE =
-			new Property<Boolean>( "footer.multiline" );
-	public static final Property<Boolean> FOO_DLBL =
-			new Property<Boolean>( "footer.deltaLabels" );
+	public static final Property<Boolean> footerDisplay = new Property<>( "footer.display" );
+	public static final Property<Boolean> footerUseSplitData = new Property<>( "footer.useSplitData" );
+	public static final Property<Boolean> footerVerbose = new Property<>( "footer.verbose" );
+	public static final Property<Boolean> footerShowBestTime = new Property<>( "footer.bestTime" );
+	public static final Property<Boolean> footerMultiline = new Property<>( "footer.multiline" );
+	public static final Property<Boolean> footerShowDeltaLabels = new Property<>( "footer.deltaLabels" );
 
 	private static Configuration global = null;
 	private static Run run = null;
@@ -252,72 +191,72 @@ public class Settings {
 	 * configuration is not empty, and will thus function as a reset.
 	 */
 	private static void setDefaultValues() {
-		global.put( GNR_ATOP.key, true );
-		global.put( GNR_LANG.key, Locale.ENGLISH );
-		global.put( GNR_VLNG.key, Locale.ENGLISH );
-		global.put( GNR_RCNT.key, new ArrayList<String>() );
-		global.put( GNR_COOR.key, null );
-		global.put( GNR_SIZE.key, null );
-		global.put( GNR_COMP.key, Compare.BEST_OVERALL_RUN );
-		global.put( GNR_ACCY.key, Accuracy.TENTH );
-		global.put( GNR_WARN.key, true );
+		global.put( alwaysOnTop.key, true );
+		global.put( language.key, Locale.ENGLISH );
+		global.put( viewerLanguage.key, Locale.ENGLISH );
+		global.put( recentFiles.key, new ArrayList<String>() );
+		global.put( coordinates.key, null );
+		global.put( dimension.key, null );
+		global.put( compareMethod.key, Compare.BEST_OVERALL_RUN );
+		global.put( accuracy.key, Accuracy.TENTH );
+		global.put( warnOnReset.key, true );
 
-		global.put( CLR_BACK.key, Color.decode( "0x000000" ) );
-		global.put( CLR_FORE.key, Color.decode( "0xc0c0c0" ) );
-		global.put( CLR_TIME.key, Color.decode( "0xffffff" ) );
-		global.put( CLR_TIMR.key, Color.decode( "0x22cc22" ) );
-		global.put( CLR_GAIN.key, Color.decode( "0x6295fc" ) );
-		global.put( CLR_LOST.key, Color.decode( "0xe82323" ) );
-		global.put( CLR_RCRD.key, Color.decode( "0xf0b012" ) );
-		global.put( CLR_TITL.key, Color.decode( "0xf0b012" ) );
-		global.put( CLR_HIGH.key, Color.decode( "0xffffff" ) );
-		global.put( CLR_SPRT.key, Color.decode( "0x666666" ) );
+		global.put( colorBackground.key, Color.decode( "0x000000" ) );
+		global.put( colorForeground.key, Color.decode( "0xc0c0c0" ) );
+		global.put( colorTime.key, Color.decode( "0xffffff" ) );
+		global.put( colorTimer.key, Color.decode( "0x22cc22" ) );
+		global.put( colorTimeGained.key, Color.decode( "0x6295fc" ) );
+		global.put( colorTimeLost.key, Color.decode( "0xe82323" ) );
+		global.put( colorNewRecord.key, Color.decode( "0xf0b012" ) );
+		global.put( colorTitle.key, Color.decode( "0xf0b012" ) );
+		global.put( colorHighlight.key, Color.decode( "0xffffff" ) );
+		global.put( colorSeparators.key, Color.decode( "0x666666" ) );
 
-		global.put( KEY_SPLT.key, -1 );
-		global.put( KEY_USPL.key, -1 );
-		global.put( KEY_SKIP.key, -1 );
-		global.put( KEY_RSET.key, -1 );
-		global.put( KEY_STOP.key, -1 );
-		global.put( KEY_PAUS.key, -1 );
-		global.put( KEY_LOCK.key, -1 );
+		global.put( hotkeySplit.key, -1 );
+		global.put( hotkeyUnsplit.key, -1 );
+		global.put( hotkeySkip.key, -1 );
+		global.put( hotkeyReset.key, -1 );
+		global.put( hotkeyStop.key, -1 );
+		global.put( hotkeyPause.key, -1 );
+		global.put( hotkeyLock.key, -1 );
 
-		global.put( HDR_TTLE.key, true );
-		global.put( HDR_GOAL.key, true );
+		global.put( headerShowGoal.key, true );
+		global.put( headerShowTitle.key, true );
 
-		global.put( HST_ROWS.key, 8 );
-		global.put( HST_TABL.key, true );
-		global.put( HST_BLNK.key, false );
-		global.put( HST_LINE.key, false );
-		global.put( HST_MERG.key, Merge.LIVE );
-		global.put( HST_LIVE.key, true );
-		global.put( HST_DLTA.key, true );
-		global.put( HST_ICON.key, true );
-		global.put( HST_ICSZ.key, 16 );
-		global.put( HST_OFFS.key, 0 );
-		global.put( HST_LAST.key, true );
-		global.put( HST_SFNT.key, Font.decode( "Arial-12" ) );
-		global.put( HST_TFNT.key, Font.decode( "Arial-11" ) );
+		global.put( historyRowCount.key, 8 );
+		global.put( historyTabular.key, true );
+		global.put( historyBlankRows.key, false );
+		global.put( historyMultiline.key, false );
+		global.put( historyMerge.key, Merge.LIVE );
+		global.put( historyLiveTimes.key, true );
+		global.put( historyDeltas.key, true );
+		global.put( historyIcons.key, true );
+		global.put( historyIconSize.key, 16 );
+		global.put( historyOffset.key, 0 );
+		global.put( historyAlwaysShowLast.key, true );
+		global.put( historySegmentFont.key, Font.decode( "Arial-12" ) );
+		global.put( historyTimeFont.key, Font.decode( "Arial-11" ) );
 
-		global.put( COR_ACCY.key, Accuracy.HUNDREDTH );
-		global.put( COR_ICON.key, true );
-		global.put( COR_ICSZ.key, 40 );
-		global.put( COR_NAME.key, true );
-		global.put( COR_SPLT.key, false );
-		global.put( COR_SEGM.key, true );
-		global.put( COR_BEST.key, true );
-		global.put( COR_STMR.key, true );
-		global.put( COR_TFNT.key, Font.decode( "Digitalism-32" ) );
-		global.put( COR_SFNT.key, Font.decode( "Digitalism-18" ) );
+		global.put( coreAccuracy.key, Accuracy.HUNDREDTH );
+		global.put( coreShowIcons.key, true );
+		global.put( coreIconSize.key, 40 );
+		global.put( coreShowSegmentName.key, true );
+		global.put( coreShowSplitTime.key, false );
+		global.put( coreShowSegmentTime.key, true );
+		global.put( coreShowBestTime.key, true );
+		global.put( coreShowSegmentTimer.key, true );
+		global.put( coreTimerFont.key, Font.decode( "Digitalism-32" ) );
+		global.put( coreSegmentTimerFont.key, Font.decode( "Digitalism-18" ) );
 
-		global.put( GPH_SHOW.key, true );
-		global.put( GPH_SCAL.key, 3.0F );
+		global.put( graphDisplay.key, true );
+		global.put( graphScale.key, 3.0F );
 
-		global.put( FOO_SHOW.key, true );
-		global.put( FOO_VERB.key, true );
-		global.put( FOO_SPLT.key, false );
-		global.put( FOO_BEST.key, true );
-		global.put( FOO_LINE.key, true );
-		global.put( FOO_DLBL.key, true );
+		global.put( footerDisplay.key, true );
+		global.put( footerVerbose.key, true );
+		global.put( footerUseSplitData.key, false );
+		global.put( footerShowBestTime.key, true );
+		global.put( footerMultiline.key, true );
+		global.put( footerShowDeltaLabels.key, true );
 	}
 
 	/**
@@ -392,7 +331,7 @@ public class Settings {
 		 * determines if the value must be stored in the local or global
 		 * configuration.
 		 *
-		 * @param valuethe value to assign to this property
+		 * @param value the value to assign to this property
 		 * @param locally if the value must be stored in the local configuration
 		 */
 		public void set( T value, boolean locally ) {

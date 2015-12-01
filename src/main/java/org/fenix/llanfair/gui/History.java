@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.TableModelEvent;
 
-import org.fenix.llanfair.Language;
 import org.fenix.llanfair.Run;
 import org.fenix.llanfair.Segment;
 import org.fenix.llanfair.config.Settings;
@@ -134,7 +133,7 @@ public class History extends JPanel {
 			if (graphics != null) {
 				// Segment Names
 				FontMetrics nameMetric = graphics.getFontMetrics(
-						Settings.HST_SFNT.get()
+						Settings.historySegmentFont.get()
 				);
 				int  wName = 0;
 				for (int i = 0; i < run.getRowCount(); i++) {
@@ -143,32 +142,32 @@ public class History extends JPanel {
 				}
 				// Split Time
 				FontMetrics timeMetric = graphics.getFontMetrics(
-						Settings.HST_TFNT.get()
+						Settings.historyTimeFont.get()
 				);
 				Time tmFake = new Time(600000L);
 				Time tmRun  = run.getTime(Segment.SET);
 				int  wRun   = timeMetric.stringWidth(
 						"" + (tmRun == null ? tmFake : tmRun)
 				);
-				Merge merge = Settings.HST_MERG.get();
+				Merge merge = Settings.historyMerge.get();
 				// Live Time
 				int wLive = 0;
-				if (Settings.HST_LIVE.get() && merge != Merge.LIVE) {
+				if (Settings.historyLiveTimes.get() && merge != Merge.LIVE) {
 					wLive = wRun;
 				}
 				// Delta Time
 				int wDelta = 0;
-				if (Settings.HST_DLTA.get() && merge != Merge.DELTA) {
+				if (Settings.historyDeltas.get() && merge != Merge.DELTA) {
 					wDelta = wRun + timeMetric.stringWidth("[+]");
 				}
 				// Segment Icons
 				int wIcon = 0;
-				if (Settings.HST_ICON.get() && run.getMaxIconHeight() > 0) {
-					wIcon = Settings.HST_ICSZ.get();
+				if (Settings.historyIcons.get() && run.getMaxIconHeight() > 0) {
+					wIcon = Settings.historyIconSize.get();
 				}
 				// MAX WIDTH
 				int maxWidth;
-				if (Settings.HST_LINE.get()) {
+				if (Settings.historyMultiline.get()) {
 					maxWidth = Math.max(wName + wIcon, wRun + wLive + wDelta);
 				} else {
 					maxWidth = wName + wRun + wLive + wDelta + wIcon;
@@ -179,12 +178,12 @@ public class History extends JPanel {
 				int hTime = timeMetric.getHeight();
 				// Segment Icons.
 				int hIcon = 0;
-				if (Settings.HST_ICON.get() && run.getMaxIconHeight() > 0) {
-					hIcon = Settings.HST_ICSZ.get();
+				if (Settings.historyIcons.get() && run.getMaxIconHeight() > 0) {
+					hIcon = Settings.historyIconSize.get();
 				}
 				// MAX HEIGHT
 				int maxHeight;
-				if (Settings.HST_LINE.get()) {
+				if (Settings.historyMultiline.get()) {
 					maxHeight = Math.max(hName + hTime, hIcon);
 				} else {
 					maxHeight = Math.max(hIcon, Math.max(hName, hTime));
@@ -240,51 +239,51 @@ public class History extends JPanel {
 			} else if (run.getState() == State.STOPPED) {
 				updateColors(MARKER);
 			}
-		} else if (Settings.HST_TABL.equals(property)) {
+		} else if (Settings.historyTabular.equals(property)) {
 			updateVisibility(LIVE | DELTA);
 			updateColumnWidth();
-		} else if (Settings.HST_SFNT.equals(property)) {
+		} else if (Settings.historySegmentFont.equals(property)) {
 			updateFonts(NAME);
 			forceResize();
-		} else if (Settings.HST_TFNT.equals(property)) {
+		} else if (Settings.historyTimeFont.equals(property)) {
 			updateFonts(TIME);
 			forceResize();
-		} else if (Settings.HST_LINE.equals(property)) {
+		} else if (Settings.historyMultiline.equals(property)) {
 			updateValues(LINE);
 			forceResize();
-		} else if (Settings.HST_ICSZ.equals(property)) {
+		} else if (Settings.historyIconSize.equals(property)) {
 			updateValues(ICON);
 			forceResize();
-		} else if (Settings.HST_ICON.equals(property)) {
+		} else if (Settings.historyIcons.equals(property)) {
 			updateVisibility(ICON);
 			forceResize();
-		} else if (Settings.HST_LAST.equals(property)
-				|| Settings.HST_OFFS.equals(property)) {
+		} else if (Settings.historyAlwaysShowLast.equals(property)
+				|| Settings.historyOffset.equals(property)) {
 			computeViewport();
-		} else if (Settings.HST_ROWS.equals(property)
-				|| Settings.HST_BLNK.equals(property)) {
+		} else if (Settings.historyRowCount.equals(property)
+				|| Settings.historyBlankRows.equals(property)) {
 			populateRows();
-		} else if (Settings.CLR_GAIN.equals(property)
-				|| Settings.CLR_LOST.equals(property)
-				|| Settings.CLR_RCRD.equals(property)) {
+		} else if (Settings.colorTimeGained.equals(property)
+				|| Settings.colorTimeLost.equals(property)
+				|| Settings.colorNewRecord.equals(property)) {
 			updateColors(LIVE);
-		} else if (Settings.CLR_HIGH.equals(property)) {
+		} else if (Settings.colorHighlight.equals(property)) {
 			updateColors(MARKER);
-		} else if (Settings.CLR_TIME.equals(property)) {
+		} else if (Settings.colorTime.equals(property)) {
 			updateColors(TIME | LIVE);
-		} else if (Settings.CLR_FORE.equals(property)) {
+		} else if (Settings.colorForeground.equals(property)) {
 			updateColors(NAME);
-		} else if (Settings.GNR_ACCY.equals(property)
-				|| Settings.GNR_COMP.equals(property)) {
+		} else if (Settings.accuracy.equals(property)
+				|| Settings.compareMethod.equals(property)) {
 			updateValues(LIVE | TIME);
 			forceResize();
-		} else if (Settings.HST_DLTA.equals(property)) {
+		} else if (Settings.historyDeltas.equals(property)) {
 			updateVisibility(DELTA);
 			forceResize();
-		} else if (Settings.HST_LIVE.equals(property)) {
+		} else if (Settings.historyLiveTimes.equals(property)) {
 			updateVisibility(LIVE);
 			forceResize();
-		} else if (Settings.HST_MERG.equals(property)) {
+		} else if (Settings.historyMerge.equals(property)) {
 			updateValues(TIME | LIVE);
 			updateColors(TIME);
 			forceResize();
@@ -332,7 +331,7 @@ public class History extends JPanel {
 		segmentRows.clear();
 		// At most, we need as much segments as the run has or as much as
 		// is demanded by the user.
-		int count = Settings.HST_ROWS.get();
+		int count = Settings.historyRowCount.get();
 			count = Math.max(count, run.getRowCount());
 		// Create and place the rows.
 		for (int i = 0; i < count; i++) {
@@ -368,16 +367,16 @@ public class History extends JPanel {
 	private void computeViewport() {
 		// If we display blank rows, the row count is always the value
 		// from the settings, else check how much segments are in the run.
-		rowCount = Settings.HST_ROWS.get();
-		if (!Settings.HST_BLNK.get()) {
+		rowCount = Settings.historyRowCount.get();
+		if (!Settings.historyBlankRows.get()) {
 			rowCount = Math.min(run.getRowCount(), rowCount);
 		}
 		// If we always display the last segment, we scroll on n-1 segments.
-		boolean showLast  = Settings.HST_LAST.get();
+		boolean showLast  = Settings.historyAlwaysShowLast.get();
 		int     realCount = showLast ? rowCount - 1 : rowCount;
 		int     endOffset = showLast ? 2 : 1;
 		// Find out which segment will be at the end of the history.
-		int desired = run.getCurrent() + Settings.HST_OFFS.get();
+		int desired = run.getCurrent() + Settings.historyOffset.get();
 		int lastSeg = (desired < realCount) ? realCount - 1 : desired;
 		if (lastSeg > run.getRowCount() - endOffset) {
 			lastSeg = run.getRowCount() - endOffset;
@@ -389,7 +388,7 @@ public class History extends JPanel {
 			);
 		}
 		// Display the last segment if the setting is enabled.
-		if (Settings.HST_LAST.get() && run.getRowCount() > 0) {
+		if (Settings.historyAlwaysShowLast.get() && run.getRowCount() > 0) {
 			segmentRows.get(run.getRowCount() - 1).setVisible(true);
 		}
 	}
@@ -400,7 +399,7 @@ public class History extends JPanel {
 		if (run.hasPreviousSegment()) {
 			SegmentRow previous = segmentRows.get(run.getPrevious());
 			FontMetrics metrics = getGraphics().getFontMetrics(
-					Settings.HST_TFNT.get()
+					Settings.historyTimeFont.get()
 			);
 			width = metrics.stringWidth(previous.delta.getText());
 			height = metrics.getHeight();
@@ -513,7 +512,7 @@ public class History extends JPanel {
 
 			icon.setHorizontalAlignment(JLabel.CENTER);
 			setOpaque(false);
-			placeComponents(Settings.HST_LINE.get());
+			placeComponents(Settings.historyMultiline.get());
 		}
 
 		// ------------------------------------------------------ INTERFACE
@@ -535,7 +534,7 @@ public class History extends JPanel {
 				time.setText("" + (setTime == null ? "?" : setTime));
 			}
 			if ((identifier & ICON) == ICON) {
-				int  iconSize = Settings.HST_ICSZ.get();
+				int  iconSize = Settings.historyIconSize.get();
 				Icon runIcon  = run.getSegment(index).getIcon();
 				if (runIcon != null) {
 					icon.setIcon(Images.rescale(runIcon, iconSize));
@@ -547,10 +546,10 @@ public class History extends JPanel {
 			}
 			if ((identifier & LINE) == LINE) {
 				removeAll();
-				placeComponents(Settings.HST_LINE.get());
+				placeComponents(Settings.historyMultiline.get());
 			}
 			if ((identifier & LIVE) == LIVE && (index > -1)) {
-				Merge  merge     = Settings.HST_MERG.get();
+				Merge  merge     = Settings.historyMerge.get();
 				JLabel realDelta = (merge == Merge.DELTA) ? time : delta;
 				JLabel realLive  = (merge == Merge.LIVE ) ? time : live;
 
@@ -593,40 +592,40 @@ public class History extends JPanel {
 		void updateVisibility(int index, int identifier) {
 			if ((identifier & LIVE) == LIVE) {
 				live.setVisible(
-						Settings.HST_LIVE.get() || Settings.HST_TABL.get()
+						Settings.historyLiveTimes.get() || Settings.historyTabular.get()
 				);
 			}
 			if ((identifier & DELTA) == DELTA) {
-				delta.setVisible(Settings.HST_DLTA.get()  || Settings.HST_TABL.get());
+				delta.setVisible(Settings.historyDeltas.get()  || Settings.historyTabular.get());
 			}
 			if ((identifier & ICON) == ICON) {
-				icon.setVisible(Settings.HST_ICON.get()
+				icon.setVisible(Settings.historyIcons.get()
 						&& run.getMaxIconHeight() > 0);
 			}
 		}
 
 		void updateColors(int index, int identifier) {
 			if ((identifier & NAME) == NAME) {
-				name.setForeground(Settings.CLR_FORE.get());
+				name.setForeground(Settings.colorForeground.get());
 			}
 			if ((identifier & TIME) == TIME) {
-				time.setForeground(Settings.CLR_TIME.get());
+				time.setForeground(Settings.colorTime.get());
 			}
 			if ((identifier & MARKER) == MARKER) {
 				if (run.getCurrent() == index) {
-					name.setForeground(Settings.CLR_HIGH.get());
+					name.setForeground(Settings.colorHighlight.get());
 				} else {
-					name.setForeground(Settings.CLR_FORE.get());
+					name.setForeground(Settings.colorForeground.get());
 				}
 			}
 			if ((identifier & LIVE) == LIVE && (index > -1)) {
-				Color lost  = Settings.CLR_LOST.get();
-				Color gain  = Settings.CLR_GAIN.get();
-				Color neut  = Settings.CLR_TIME.get();
-				Color recd  = Settings.CLR_RCRD.get();
+				Color lost  = Settings.colorTimeLost.get();
+				Color gain  = Settings.colorTimeGained.get();
+				Color neut  = Settings.colorTime.get();
+				Color recd  = Settings.colorNewRecord.get();
 				int   prev  = run.getPrevious();
 
-				Merge  merge     = Settings.HST_MERG.get();
+				Merge  merge     = Settings.historyMerge.get();
 				JLabel realDelta = (merge == Merge.DELTA) ? time : delta;
 				JLabel realLive  = (merge == Merge.LIVE ) ? time : live;
 
@@ -662,10 +661,10 @@ public class History extends JPanel {
 
 		void updateFonts(int index, int identifier) {
 			if ((identifier & NAME) == NAME) {
-				name.setFont(Settings.HST_SFNT.get());
+				name.setFont(Settings.historySegmentFont.get());
 			}
 			if ((identifier & TIME) == TIME) {
-				Font font = Settings.HST_TFNT.get();
+				Font font = Settings.historyTimeFont.get();
 				time.setFont(font);
 				live.setFont(font);
 				delta.setFont(font);

@@ -129,7 +129,7 @@ enum MenuItem implements ActionListener {
 	 */
 	static void recentlyOpened( String path ) {
 		assert ( path != null );
-		List<String> recentFiles = Settings.GNR_RCNT.get();
+		List<String> recentFiles = Settings.recentFiles.get();
 
 		if ( recentFiles.contains( path ) ) {
 			recentFiles.remove( path );
@@ -139,7 +139,7 @@ enum MenuItem implements ActionListener {
 		if ( recentFiles.size() > MAX_FILES ) {
 			recentFiles.remove( MAX_FILES );
 		}
-		Settings.GNR_RCNT.set( recentFiles );
+		Settings.recentFiles.set( recentFiles );
 		populateRecentlyOpened();
 	}
 
@@ -149,12 +149,12 @@ enum MenuItem implements ActionListener {
 	 * length, the overflowing files are removed.
 	 */
 	static void populateRecentlyOpened() {
-		List<String> recentFiles = Settings.GNR_RCNT.get();
+		List<String> recentFiles = Settings.recentFiles.get();
 		for ( int i = MAX_FILES; i < recentFiles.size(); i++ ) {
 			recentFiles.remove( i - 1 );
 		}
 		OPEN_RECENT.menuItem.removeAll();
-		for ( String fileName : Settings.GNR_RCNT.get() ) {
+		for ( String fileName : Settings.recentFiles.get() ) {
 			String text = fileName;
 			int index = text.lastIndexOf( File.separatorChar );
 			if ( index == -1 ) {

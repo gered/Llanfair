@@ -1,11 +1,8 @@
 package org.fenix.llanfair;
 
 import java.io.Serializable;
-import org.fenix.llanfair.Language;
+
 import org.fenix.llanfair.config.Accuracy;
-import static org.fenix.llanfair.config.Accuracy.HUNDREDTH;
-import static org.fenix.llanfair.config.Accuracy.SECONDS;
-import static org.fenix.llanfair.config.Accuracy.TENTH;
 import org.fenix.llanfair.config.Settings;
 
 /**
@@ -200,7 +197,7 @@ public class Time implements Cloneable, Comparable<Time>, Serializable {
 	 * @return a string representation of this time object
 	 */
 	public String toString(boolean signed) {
-		return toString(signed, Settings.GNR_ACCY.get());
+		return toString(signed, Settings.accuracy.get());
 	}
 
 	/**

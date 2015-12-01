@@ -333,7 +333,7 @@ public class Run implements TableModel, Serializable {
 			i++;
 		}
 		long ms = time.getMilliseconds();
-		float pc = Settings.GPH_SCAL.get();
+		float pc = Settings.graphScale.get();
 
 		return new Time((long) (ms * pc) / 100L);
 	}

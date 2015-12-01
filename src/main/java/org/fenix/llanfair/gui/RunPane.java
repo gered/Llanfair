@@ -221,31 +221,31 @@ public class RunPane extends JPanel {
 			}
 		} else if (Run.NAME_PROPERTY.equals(property)) {
 			updateValues(TITLE);
-		} else if (Settings.CLR_BACK.equals(property)) {
+		} else if (Settings.colorBackground.equals(property)) {
 			updateColors(BACKGROUND);
-		} else if (Settings.CLR_FORE.equals(property)) {
+		} else if (Settings.colorForeground.equals(property)) {
 			updateColors(TEXT);
-		} else if (Settings.CLR_SPRT.equals(property)) {
+		} else if (Settings.colorSeparators.equals(property)) {
 			updateColors(SEPARATOR);
-		} else if (Settings.HST_ROWS.equals(property)) {
+		} else if (Settings.historyRowCount.equals(property)) {
 			updateValues(SEPARATOR);
-		} else if (Settings.CLR_TIME.equals(property)) {
+		} else if (Settings.colorTime.equals(property)) {
 			updateColors(GOAL);
-		} else if (Settings.CLR_TITL.equals(property)) {
+		} else if (Settings.colorTitle.equals(property)) {
 			updateColors(TITLE);
-		} else if (Settings.GNR_COMP.equals(property)) {
+		} else if (Settings.compareMethod.equals(property)) {
 			updateValues(GOAL);
-		} else if (Settings.GPH_SHOW.equals(property)) {
+		} else if (Settings.graphDisplay.equals(property)) {
 			updateVisibility(GRAPH);
-		} else if (Settings.FOO_SHOW.equals(property)) {
+		} else if (Settings.footerDisplay.equals(property)) {
 			updateVisibility(FOOTER);
-		} else if (Settings.HDR_GOAL.equals(property)) {
+		} else if (Settings.headerShowTitle.equals(property)) {
 			updateVisibility(GOAL);
 			updateValues(SEPARATOR);
-		} else if (Settings.HDR_TTLE.equals(property)) {
+		} else if (Settings.headerShowGoal.equals(property)) {
 			updateVisibility(TITLE | GOAL);
 			updateValues(SEPARATOR);
-		} else if (Settings.GNR_ACCY.equals(property)
+		} else if (Settings.accuracy.equals(property)
 				|| Run.GOAL_PROPERTY.equals(property)) {
 			updateValues(GOAL);
 		}
@@ -322,8 +322,8 @@ public class RunPane extends JPanel {
 			title.setText("" + run.getName());
 		}
 		if ((identifier & SEPARATOR) == SEPARATOR) {
-			boolean hdTitle = Settings.HDR_TTLE.get();
-			boolean hdGoal = Settings.HDR_GOAL.get();
+			boolean hdTitle = Settings.headerShowGoal.get();
+			boolean hdGoal = Settings.headerShowTitle.get();
 			boolean hsRows = history.getRowCount() > 0;
 
 			separators.get(0).setVisible(hdTitle || hdGoal);
@@ -339,19 +339,19 @@ public class RunPane extends JPanel {
 	 */
 	private void updateColors(int identifier) {
 		if ((identifier & GOAL) == GOAL) {
-			goal.setForeground(Settings.CLR_TIME.get());
+			goal.setForeground(Settings.colorTime.get());
 		}
 		if ((identifier & TEXT) == TEXT) {
-			goalText.setForeground(Settings.CLR_FORE.get());
+			goalText.setForeground(Settings.colorForeground.get());
 		}
 		if ((identifier & TITLE) == TITLE) {
-			title.setForeground(Settings.CLR_TITL.get());
+			title.setForeground(Settings.colorTitle.get());
 		}
 		if ((identifier & BACKGROUND) == BACKGROUND) {
-			setBackground(Settings.CLR_BACK.get());
+			setBackground(Settings.colorBackground.get());
 		}
 		if ((identifier & SEPARATOR) == SEPARATOR) {
-			Color color = Settings.CLR_SPRT.get();
+			Color color = Settings.colorSeparators.get();
 			for (JLabel separator : separators) {
 				separator.setBorder(
 						BorderFactory.createMatteBorder(1, 0, 0, 0, color));
@@ -367,7 +367,7 @@ public class RunPane extends JPanel {
 	 */
 	private void updateVisibility(int identifier) {
 		if ((identifier & GRAPH) == GRAPH) {
-			if (Settings.GPH_SHOW.get()) {
+			if (Settings.graphDisplay.get()) {
 				remove(core);
 				add(core, GBC.grid(0, 5).insets(0, 5).fill(GBC.H));
 				add(graph, GBC.grid(0, 7).fill(GBC.B).insets(0, 0, 3, 0)
@@ -380,15 +380,15 @@ public class RunPane extends JPanel {
 			}
 		}
 		if ((identifier & FOOTER) == FOOTER) {
-			if (Settings.FOO_SHOW.get()) {
+			if (Settings.footerDisplay.get()) {
 				add(footer, GBC.grid(0, 8).insets(0, 3).fill(GBC.H));
 			} else {
 				remove(footer);
 			}
 		}
 		if ((identifier & GOAL) == GOAL) {
-			if (Settings.HDR_GOAL.get()) {
-				if (Settings.HDR_TTLE.get()) {
+			if (Settings.headerShowTitle.get()) {
+				if (Settings.headerShowGoal.get()) {
 					add(goalPane, GBC.grid(0, 1));
 				} else {
 					add(goalPane, GBC.grid(0, 1).insets(3, 0, 0, 0));
@@ -398,7 +398,7 @@ public class RunPane extends JPanel {
 			}
 		}
 		if ((identifier & TITLE) == TITLE) {
-			title.setVisible(Settings.HDR_TTLE.get());
+			title.setVisible(Settings.headerShowGoal.get());
 		}
 		revalidate();
 		repaint();

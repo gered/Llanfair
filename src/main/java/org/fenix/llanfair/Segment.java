@@ -306,7 +306,7 @@ public class Segment implements Cloneable, Serializable {
 	 * @return  the time as defined by the current compare method.
 	 */
 	private Time getTime() {
-		switch (Settings.GNR_COMP.get()) {
+		switch (Settings.compareMethod.get()) {
 			case BEST_OVERALL_RUN:       return runTime;
 			case SUM_OF_BEST_SEGMENTS:  return bestTime;
 		}
