@@ -13,7 +13,7 @@ public class Images {
 	public Images() {
 	}
 
-	public static Icon rescale(Icon icon, int size) {
+	public static ImageIcon rescale(ImageIcon icon, int size) {
 		if(icon == null) {
 			throw new NullPointerException("Icon is null");
 		} else if(size <= 0) {

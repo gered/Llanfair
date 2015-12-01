@@ -976,7 +976,7 @@ public class Run implements TableModel, Serializable {
 		Segment segment = getSegment(row);
 		switch (column) {
 			case COLUMN_ICON:
-				segment.setIcon((Icon) value);
+				segment.setIcon((ImageIcon) value);
 				tmSupport.fireTableCellUpdated(row, column);
 				break;
 

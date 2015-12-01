@@ -91,7 +91,7 @@ public class Segment implements Cloneable, Serializable {
 	 * Icon associated with this segment. Can be {@code null} if no icon is to
 	 * be displayed.
 	 */
-	private Icon icon;
+	private ImageIcon icon;
 
 	/**
 	 * Registered time for this segment during the best run.
@@ -155,7 +155,7 @@ public class Segment implements Cloneable, Serializable {
 	 *
 	 * @return  the icon of the segment or {@code null}.
 	 */
-	public Icon getIcon() {
+	public ImageIcon getIcon() {
 		return icon;
 	}
 
@@ -240,7 +240,7 @@ public class Segment implements Cloneable, Serializable {
 	 *
 	 * @param   icon    - the new icon for this segment.
 	 */
-	public void setIcon(Icon icon) {
+	public void setIcon(ImageIcon icon) {
 		if (icon == null) {
 			this.icon = null;
 		} else {

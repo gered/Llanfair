@@ -1,28 +1,20 @@
 package org.fenix.llanfair.gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
+import org.fenix.llanfair.Run;
+import org.fenix.llanfair.Run.State;
+import org.fenix.llanfair.Segment;
+import org.fenix.llanfair.Time;
+import org.fenix.llanfair.config.Merge;
+import org.fenix.llanfair.config.Settings;
+import org.fenix.utils.Images;
+import org.fenix.utils.gui.GBC;
+
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.event.TableModelEvent;
-
-import org.fenix.llanfair.Run;
-import org.fenix.llanfair.Segment;
-import org.fenix.llanfair.config.Settings;
-import org.fenix.llanfair.Time;
-import org.fenix.llanfair.Run.State;
-import org.fenix.llanfair.config.Merge;
-import org.fenix.utils.gui.GBC;
-import org.fenix.utils.Images;
 
 /**
  * A scrolling pane capable of displaying a specific number of segments with
@@ -535,7 +527,7 @@ public class History extends JPanel {
 			}
 			if ((identifier & ICON) == ICON) {
 				int  iconSize = Settings.historyIconSize.get();
-				Icon runIcon  = run.getSegment(index).getIcon();
+				ImageIcon runIcon  = run.getSegment(index).getIcon();
 				if (runIcon != null) {
 					icon.setIcon(Images.rescale(runIcon, iconSize));
 				} else {

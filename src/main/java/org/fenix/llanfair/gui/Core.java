@@ -515,7 +515,7 @@ class Core extends JPanel implements ActionListener {
 		}
 		if ((identifier & ICON) == ICON) {
 			if (hasCurrent) {
-				Icon img = currentSgt.getIcon();
+				ImageIcon img = currentSgt.getIcon();
 				if (img != null) {
 					icon.setIcon(
 							Images.rescale(img, Settings.coreIconSize.get()));
