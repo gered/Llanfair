@@ -6,6 +6,7 @@ import org.fenix.llanfair.config.Settings;
 import org.fenix.llanfair.dialog.EditRun;
 import org.fenix.llanfair.dialog.EditSettings;
 import org.fenix.llanfair.extern.WSplit;
+import org.fenix.utils.UserSettings;
 import org.fenix.utils.about.AboutDialog;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
@@ -26,6 +27,11 @@ import java.util.ResourceBundle;
  * @version 1.0
  */
 final class Actions {
+
+	public enum FILE_CHOOSER_TYPE {
+		OPEN,
+		SAVE
+	}
 
 	private static final long GHOST_DELAY = 300L;
 	private static ResourceBundle BUNDLE = null;
@@ -49,7 +55,7 @@ final class Actions {
 		master = owner;
 
 		file = null;
-		fileChooser = new JFileChooser( "." );
+		fileChooser = new JFileChooser( UserSettings.getSplitsPath() );
 
 		lastUnsplit = 0L;
 		lastSkip = 0L;
@@ -216,11 +222,16 @@ final class Actions {
 	 * Displays a dialog to let the user select a file. The user is able to
 	 * cancel this action, which results in a {@code null} being returned.
 	 *
+	 * @param dialogType the type of dialog to show (save or open)
+	 *
 	 * @return a file selected by the user or {@code null} if he canceled
 	 */
-	private File selectFile() {
-		int option = fileChooser.showDialog( master,
-				Language.action_accept.get() );
+	private File selectFile(FILE_CHOOSER_TYPE dialogType) {
+		int option = -1;
+		if (dialogType == FILE_CHOOSER_TYPE.OPEN)
+			option = fileChooser.showOpenDialog(master);
+		else if (dialogType == FILE_CHOOSER_TYPE.SAVE)
+			option = fileChooser.showSaveDialog(master);
 
 		if ( option == JFileChooser.APPROVE_OPTION ) {
 			return fileChooser.getSelectedFile();
@@ -278,7 +289,7 @@ final class Actions {
 			return;
 		}
 		if ( file == null ) {
-			if ( ( file = selectFile() ) == null ) {
+			if ( ( file = selectFile(FILE_CHOOSER_TYPE.OPEN) ) == null ) {
 				return;
 			}
 		}
@@ -356,7 +367,7 @@ final class Actions {
 	 */
 	private void save() {
 		if ( file == null ) {
-			if ( ( file = selectFile() ) == null ) {
+			if ( ( file = selectFile(FILE_CHOOSER_TYPE.SAVE) ) == null ) {
 				return;
 			}
 		}
@@ -390,7 +401,7 @@ final class Actions {
 			return;
 		}
 		if ( file == null ) {
-			if ( ( file = selectFile() ) == null ) {
+			if ( ( file = selectFile(FILE_CHOOSER_TYPE.OPEN) ) == null ) {
 				return;
 			}
 		}
