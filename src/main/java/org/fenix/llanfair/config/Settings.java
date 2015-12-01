@@ -2,6 +2,7 @@ package org.fenix.llanfair.config;
 
 import org.fenix.llanfair.Language;
 import org.fenix.llanfair.Run;
+import org.fenix.utils.UserSettings;
 import org.fenix.utils.config.Configuration;
 
 import java.awt.*;
@@ -179,7 +180,7 @@ public class Settings {
 	 * whose value is requested.
 	 */
 	private static void retrieve() {
-		global = Configuration.newInstance( new File( "./llanfair.xml" ) );
+		global = Configuration.newInstance( new File(UserSettings.getSettingsPath() + File.separator + "llanfair.xml" ) );
 		if ( global.isEmpty() ) {
 			setDefaultValues();
 		}

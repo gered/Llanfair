@@ -3,6 +3,7 @@ package org.fenix.llanfair;
 import org.fenix.llanfair.config.Settings;
 import org.fenix.llanfair.gui.RunPane;
 import org.fenix.utils.Resources;
+import org.fenix.utils.UserSettings;
 import org.fenix.utils.gui.BorderlessFrame;
 import org.fenix.utils.locale.LocaleDelegate;
 import org.fenix.utils.locale.LocaleEvent;
@@ -63,6 +64,9 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 */
 	private Llanfair() {
 		super( "Llanfair" );
+
+		UserSettings.initDirectory();
+
 		LocaleDelegate.setDefault( Settings.language.get() );
 		LocaleDelegate.addLocaleListener( this );
 
