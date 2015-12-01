@@ -256,7 +256,7 @@ final class Actions {
 		boolean betterRun = run.isPersonalBest();
 		boolean betterSgt = run.hasSegmentsBest();
 
-		boolean confirmed = false;
+		boolean confirmed = true;
 
 		if ( betterRun || betterSgt ) {
 			String message = betterRun
@@ -267,7 +267,9 @@ final class Actions {
 					Language.WARNING.get(), JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE );
 
-			if ( option == JOptionPane.YES_OPTION ) {
+			if ( option == JOptionPane.CANCEL_OPTION )
+				confirmed = false;
+			else if ( option == JOptionPane.YES_OPTION ) {
 				run.saveLiveTimes( !betterRun );
 				run.reset();
 				save();
