@@ -39,7 +39,7 @@ final class Actions {
 	private Llanfair master;
 
 	private File file;
-	private JFileChooser fileChooser;
+	private FileDialog fileChooser;
 
 	private volatile long lastUnsplit;
 	private volatile long lastSkip;
@@ -55,7 +55,8 @@ final class Actions {
 		master = owner;
 
 		file = null;
-		fileChooser = new JFileChooser( UserSettings.getSplitsPath() );
+		fileChooser = new FileDialog(master);
+		fileChooser.setDirectory(UserSettings.getSplitsPath());
 
 		lastUnsplit = 0L;
 		lastSkip = 0L;
@@ -227,17 +228,17 @@ final class Actions {
 	 * @return a file selected by the user or {@code null} if he canceled
 	 */
 	private File selectFile(FILE_CHOOSER_TYPE dialogType) {
-		int option = -1;
 		if (dialogType == FILE_CHOOSER_TYPE.OPEN)
-			option = fileChooser.showOpenDialog(master);
+			fileChooser.setMode(FileDialog.LOAD);
 		else if (dialogType == FILE_CHOOSER_TYPE.SAVE)
-			option = fileChooser.showSaveDialog(master);
+			fileChooser.setMode(FileDialog.SAVE);
 
-		if ( option == JFileChooser.APPROVE_OPTION ) {
-			return fileChooser.getSelectedFile();
-		} else {
+		fileChooser.setVisible(true);
+		String selectedFile = fileChooser.getFile();
+		if (selectedFile != null)
+			return new File(fileChooser.getDirectory() + File.separator + selectedFile);
+		else
 			return null;
-		}
 	}
 
 	/**
