@@ -256,6 +256,8 @@ final class Actions {
 		boolean betterRun = run.isPersonalBest();
 		boolean betterSgt = run.hasSegmentsBest();
 
+		boolean confirmed = false;
+
 		if ( betterRun || betterSgt ) {
 			String message = betterRun
 					? Language.WARN_BETTER_RUN.get()
@@ -265,17 +267,15 @@ final class Actions {
 					Language.WARNING.get(), JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE );
 
-			if ( option == JOptionPane.CANCEL_OPTION ) {
-				master.setIgnoreNativeInputs( false );
-				return false;
-			} else if ( option == JOptionPane.YES_OPTION ) {
+			if ( option == JOptionPane.YES_OPTION ) {
 				run.saveLiveTimes( !betterRun );
 				run.reset();
 				save();
+				confirmed = true;
 			}
 		}
 		master.setIgnoreNativeInputs( before );
-		return true;
+		return confirmed;
 	}
 
 	/**
