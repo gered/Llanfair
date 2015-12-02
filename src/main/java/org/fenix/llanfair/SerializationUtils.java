@@ -1,6 +1,5 @@
 package org.fenix.llanfair;
 
-import com.sun.xml.internal.ws.encoding.soap.SerializationException;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -61,7 +60,7 @@ public class SerializationUtils {
 			try {
 				writer.setValue(objectToBase64(icon));
 			} catch (IOException e) {
-				throw new SerializationException(e);
+				throw new RuntimeException(e);
 			}
 			writer.endNode();
 		}
@@ -73,7 +72,7 @@ public class SerializationUtils {
 			try {
 				icon = base64ToObject(reader.getValue());
 			} catch (Exception e) {
-				throw new SerializationException(e);
+				throw new RuntimeException(e);
 			}
 			reader.moveUp();
 			return icon;
