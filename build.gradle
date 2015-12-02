@@ -9,6 +9,7 @@ plugins {
 	id 'java'
 	id 'application'
 	id 'com.github.johnrengelman.shadow' version '1.2.2'
+	id 'edu.sc.seis.macAppBundle' version '2.1.3'
 }
 
 sourceCompatibility = 1.7
@@ -25,4 +26,11 @@ dependencies {
 	compile fileTree(dir: 'lib', include: ['*.jar'])
 	compile 'com.1stleg:jnativehook:2.0.2'
 	compile 'com.thoughtworks.xstream:xstream:1.4.4'
+}
+
+macAppBundle {
+	appName = 'Llanfair'
+	mainClassName = 'org.fenix.llanfair.Llanfair'
+	bundleJRE = false
+	javaProperties.put('apple.laf.useScreenMenuBar', 'true')
 }
