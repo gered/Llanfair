@@ -179,7 +179,6 @@ public class Run implements TableModel, Serializable {
 			throw new NullPointerException("null run name");
 		}
 		this.name           = name;
-		this.delayedStart = 1000;
 		segments            = new ArrayList<Segment>();
 		goal                = "";
 		segmented           = false;
