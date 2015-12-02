@@ -12,6 +12,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,6 +151,13 @@ public class Run implements TableModel, Serializable {
 	 */
 	private transient TableModelSupport tmSupport;
 
+	/**
+	 * Number of milliseconds to delay the clock for when the run is started. A
+	 * non-zero value here means the clock starts at a negative time and counts
+	 * up to zero at which point the run starts being timed normally.
+	 */
+	private long delayedStart;
+
 	private String goal;
 
 	private boolean segmented;
@@ -171,6 +179,7 @@ public class Run implements TableModel, Serializable {
 			throw new NullPointerException("null run name");
 		}
 		this.name           = name;
+		this.delayedStart = 1000;
 		segments            = new ArrayList<Segment>();
 		goal                = "";
 		segmented           = false;
@@ -199,6 +208,10 @@ public class Run implements TableModel, Serializable {
 
 	public String getGoal() {
 		return goal;
+	}
+
+	public long getDelayedStart() {
+		return delayedStart;
 	}
 
 	public boolean isSegmented() {
@@ -585,6 +598,12 @@ public class Run implements TableModel, Serializable {
 		pcSupport.firePropertyChange(GOAL_PROPERTY, old, goal);
 	}
 
+	public void setDelayedStart(long delayedStart) {
+		if (delayedStart < 0)
+			throw new InvalidParameterException("negative delayed start");
+		this.delayedStart = delayedStart;
+	}
+
 	/**
 	 * Inserts the given segment at the end. If it's the first segment being
 	 * added, the run becomes {@link State#READY}, meaning it can be started.
@@ -663,7 +682,7 @@ public class Run implements TableModel, Serializable {
 		if (state == null || state == State.ONGOING) {
 			throw new IllegalStateException("illegal state to start");
 		}
-		startTime = System.nanoTime() / 1000000L;
+		startTime = (System.nanoTime() / 1000000L) + delayedStart;
 		current   = 0;
 		state     = State.ONGOING;
 		segments.get(current).setStartTime(startTime);

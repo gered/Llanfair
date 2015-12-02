@@ -59,6 +59,12 @@ class Core extends JPanel implements ActionListener {
 	 */
 	private static final int MIN_WIDTH = 50;
 
+	/**
+	 * Dummy object used so we can get a string format for zero time instead of new'ing up
+	 * a Time object each time.
+	 */
+	private static final Time zeroTime = new Time(0);
+
 	// ------------------------------------------------------------- ATTRIBUTES
 
 	/**
@@ -299,6 +305,11 @@ class Core extends JPanel implements ActionListener {
 		Time splitElapsed   = new Time(now - run.getStartTime());
 		Time segmentElapsed = new Time(now - current.getStartTime());
 
+		if (splitElapsed.getMilliseconds() < 0)
+			splitTimer.setForeground(Color.GRAY);
+		else
+			splitTimer.setForeground(Settings.colorTimer.get());
+
 		if (run.getState().equals(State.PAUSED)) {
 			splitTimer.setText("" + pauseTime);
 			if (blinkTime == 0L || now - blinkTime >= 400L) {
@@ -315,8 +326,13 @@ class Core extends JPanel implements ActionListener {
 				blinkTime = now;
 			}
 		} else {
-			splitTimer.setText("" + splitElapsed);
-			segmentTimer.setText("" + segmentElapsed);
+			if (splitElapsed.getMilliseconds() < 0) {
+				splitTimer.setText("-" + splitElapsed);
+				segmentTimer.setText("" + zeroTime);
+			} else {
+				splitTimer.setText("" + splitElapsed);
+				segmentTimer.setText("" + segmentElapsed);
+			}
 
 			if (!splitLoss && splitElapsed.compareTo(splitTime) > 0) {
 				splitLoss = true;

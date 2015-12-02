@@ -1,42 +1,16 @@
 package org.fenix.llanfair.dialog;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.Rectangle;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
+import org.fenix.llanfair.*;
+import org.fenix.llanfair.config.Accuracy;
+import org.fenix.utils.gui.GBC;
 
-import javax.swing.AbstractCellEditor;
-import javax.swing.DefaultCellEditor;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-
-import org.fenix.llanfair.Language;
-import org.fenix.llanfair.Llanfair;
-import org.fenix.llanfair.Run;
-import org.fenix.llanfair.Segment;
-import org.fenix.llanfair.Time;
-import org.fenix.utils.gui.GBC;
+import javax.swing.table.*;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * Boîte de dialogue permettant l’édition d’une course. {@code EditDialog}
@@ -131,6 +105,8 @@ implements ActionListener, ListSelectionListener {
 
 	private JTextField runGoal;
 
+	private JTextField runDelayedStart;
+
 	// ----------------------------------------------------------- CONSTRUCTEURS
 
 	/**
@@ -148,9 +124,12 @@ implements ActionListener, ListSelectionListener {
 
 		setTitle(Language.EDITING.get());
 
+		String delayedStartString = new Time(run.getDelayedStart()).toString(Accuracy.HUNDREDTH);
+
 		runTitle       = new JTextField(run.getName(), 61);
 		runTitleLabel  = new JLabel(Language.RUN_TITLE.get());
 		runGoal        = new JTextField(run.getGoal(), 48);
+		runDelayedStart = new JTextField(delayedStartString, 5);
 		segments       = new JTable(run) {
 			@Override protected JTableHeader createDefaultTableHeader() {
 				return new JTableHeader(columnModel) {
@@ -192,14 +171,16 @@ implements ActionListener, ListSelectionListener {
 	 */
 	private void placeComponents() {
 		setLayout(new GridBagLayout());
-		add(runTitleLabel, GBC.grid(0, 0).insets(4, 4, 0, 4));
+		add(runTitleLabel, GBC.grid(0, 0).insets(4, 4, 0, 4).anchor(GBC.LE));
 		add(runTitle, GBC.grid(1, 0, 3, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
-		add(new JLabel("" + Language.LB_GOAL), GBC.grid(0, 1).insets(4, 4, 0, 4));
+		add(new JLabel("" + Language.LB_GOAL), GBC.grid(0, 1).insets(4, 4, 0, 4).anchor(GBC.LE));
 		add(runGoal, GBC.grid(1, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
-		add(segmented, GBC.grid(2, 1, 2, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
-		add(segmentsLabel, GBC.grid(0, 2, 4, 1).insets(5, 4, 4, 0)
-				.anchor(GBC.BL));
-		add(scrollPane, GBC.grid(0, 3, 3, 4).insets(0, 4, 0, 0));
+		add(new JLabel("Delayed Start"), GBC.grid(0, 2).insets(4, 4, 0, 4).anchor(GBC.LE));
+		add(runDelayedStart, GBC.grid(1, 2).insets(4, 0, 0, 4).anchor(GBC.LS));
+		add(segmented, GBC.grid(2, 2, 2, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
+		add(segmentsLabel, GBC.grid(0, 3).insets(5, 4, 4, 0)
+				.anchor(GBC.LE));
+		add(scrollPane, GBC.grid(1, 3, 3, 4).insets(4, 4, 0, 0).anchor(GBC.LS));
 		add(addSegment, GBC.grid(3, 3).insets(0, 4).anchor(GBC.FLS));
 		add(remSegment, GBC.grid(3, 4).insets(4, 4).anchor(GBC.FLS));
 		add(moveUp, GBC.grid(3, 5).insets(0, 4).anchor(GBC.FLS));
@@ -263,7 +244,33 @@ implements ActionListener, ListSelectionListener {
 		moveUp.setToolTipText("" + Language.TT_MOVE_SEGMENT_UP);
 		segmented.setToolTipText("" + Language.TT_ED_SEGMENTED);
 
+		// parse the entered delayed start time whenever focus leaves the field
+		// (this lets us prompt up errors if the user enters something invalid immediately)
+		runDelayedStart.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				long result = parseDelayedStartTime(runDelayedStart.getText());
+				if (result == -1)
+					runDelayedStart.setBackground(Color.RED);
+				else
+					runDelayedStart.setBackground(Color.WHITE);
+			}
+		});
+
 		updateButtons();
+	}
+
+	private long parseDelayedStartTime(String text) {
+		long result;
+		try {
+			Time time = new Time(text);
+			result = time.getMilliseconds();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
+			result = -1;
+		}
+
+		return result;
 	}
 
 	/**
@@ -290,6 +297,10 @@ implements ActionListener, ListSelectionListener {
 			run.setName(runTitle.getText());
 			run.setGoal(runGoal.getText());
 			run.setSegmented(segmented.isSelected());
+
+			long delayedStart = parseDelayedStartTime(runDelayedStart.getText());
+			run.setDelayedStart(delayedStart == -1 ? 0 : delayedStart);
+
 			dispose();
 
 		} else if (source.equals(cancel)) {
