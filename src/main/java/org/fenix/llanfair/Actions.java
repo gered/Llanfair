@@ -345,6 +345,7 @@ final class Actions {
 	 */
 	private void xmlRead( InputStream in ) {
 		XStream xml = new XStream( new DomDriver() );
+		SerializationUtils.customize(xml);
 		master.setRun( ( Run ) xml.fromXML( in ) );
 	}
 
@@ -381,6 +382,7 @@ final class Actions {
 		BufferedOutputStream out = null;
 		try {
 			XStream xml = new XStream( new DomDriver() );
+			SerializationUtils.customize(xml);
 			out = new BufferedOutputStream( new FileOutputStream( file ) );
 			xml.toXML( master.getRun(), out );
 		} catch ( Exception ex ) {
