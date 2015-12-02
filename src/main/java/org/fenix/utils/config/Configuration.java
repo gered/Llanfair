@@ -7,6 +7,8 @@ package org.fenix.utils.config;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import org.fenix.llanfair.SerializationUtils;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
@@ -159,6 +161,7 @@ public class Configuration implements Serializable {
 
 	public void serialize() {
 		XStream xstream = new XStream(new DomDriver());
+		SerializationUtils.customize(xstream);
 		String xmlOutput = xstream.toXML(this);
 		FileWriter stream = null;
 
@@ -179,6 +182,7 @@ public class Configuration implements Serializable {
 
 	private static Configuration deserialize(File path) {
 		XStream xstream = new XStream(new DomDriver());
+		SerializationUtils.customize(xstream);
 		Configuration input = (Configuration)xstream.fromXML(path);
 		input.setPath(path);
 		return input;

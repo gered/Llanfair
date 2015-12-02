@@ -7,9 +7,13 @@ import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import org.fenix.llanfair.config.Accuracy;
+import org.fenix.llanfair.config.Compare;
+import org.fenix.llanfair.config.Merge;
 import org.fenix.utils.config.Configuration;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.Base64;
 
@@ -24,6 +28,11 @@ public class SerializationUtils {
 		xml.alias("Config", Configuration.class);
 		xml.alias("Segment", Segment.class);
 
+		xml.alias("CompareMethod", Compare.class);
+		xml.alias("TimeAccuracy", Accuracy.class);
+		xml.alias("Merge", Merge.class);
+
+		xml.registerConverter(new FontConverter());
 		xml.registerConverter(new ImageIconConverter());
 	}
 
@@ -73,6 +82,44 @@ public class SerializationUtils {
 		@Override
 		public boolean canConvert(Class type) {
 			return type.equals(ImageIcon.class);
+		}
+	}
+
+	public static class FontConverter implements Converter {
+		@Override
+		public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
+			Font font = (Font)source;
+			writer.startNode("Font");
+			writer.startNode("family");
+			writer.setValue(font.getFamily());
+			writer.endNode();
+			writer.startNode("size");
+			writer.setValue("" + font.getSize());
+			writer.endNode();
+			writer.endNode();
+		}
+
+		@Override
+		public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+			String family = null;
+			int size = 0;
+			reader.moveDown();
+			while (reader.hasMoreChildren()) {
+				reader.moveDown();
+				if (reader.getNodeName().equals("family"))
+					family = reader.getValue();
+				else if (reader.getNodeName().equals("size"))
+					size = Integer.parseInt(reader.getValue());
+				reader.moveUp();
+			}
+			reader.moveUp();
+
+			return new Font(family, Font.PLAIN, size);
+		}
+
+		@Override
+		public boolean canConvert(Class type) {
+			return type.equals(Font.class);
 		}
 	}
 }
