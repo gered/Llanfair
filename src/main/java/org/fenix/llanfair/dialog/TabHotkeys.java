@@ -1,6 +1,7 @@
 package org.fenix.llanfair.dialog;
 
 import org.fenix.llanfair.Language;
+import org.fenix.llanfair.Llanfair;
 import org.fenix.llanfair.config.Settings;
 import org.fenix.utils.gui.GBC;
 import org.jnativehook.GlobalScreen;
@@ -9,8 +10,7 @@ import org.jnativehook.keyboard.NativeKeyListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +21,11 @@ import java.util.List;
 class TabHotkeys extends SettingsTab {
 
 	// ------------------------------------------------------------- ATTRIBUTES
+
+	private JCheckBox globalHotKeys;
+
+	private JLabel globalHotKeysHookWarning;
+	private JButton globalHotKeysHookRetryButton;
 
 	/**
 	 * List of all key fields customizable by the user.
@@ -38,6 +43,31 @@ class TabHotkeys extends SettingsTab {
 	 * Creates the "Hotkeys" settings tab. Only called by {@link EditSettings}.
 	 */
 	TabHotkeys() {
+		final Component that = this;
+
+		globalHotKeys = new JCheckBox("" + Language.setting_useGlobalHotkeys);
+		globalHotKeys.setSelected(Settings.useGlobalHotkeys.get());
+		globalHotKeys.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) { Settings.useGlobalHotkeys.set(globalHotKeys.isSelected()); }
+		});
+
+		globalHotKeysHookWarning = new JLabel("" + Language.GLOBAL_HOTKEYS_WARNING);
+		globalHotKeysHookWarning.setForeground(Color.RED);
+		globalHotKeysHookRetryButton = new JButton("" + Language.GLOBAL_HOTKEYS_HOOK_RETRY);
+		globalHotKeysHookRetryButton.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean isRegistered = Llanfair.registerNativeKeyHook();
+				if (isRegistered) {
+					globalHotKeysHookWarning.setVisible(false);
+					globalHotKeysHookRetryButton.setVisible(false);
+				} else {
+					JOptionPane.showMessageDialog(that, Language.GLOBAL_HOTKEYS_HOOK_ERROR, Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
 		keyFields = new ArrayList<KeyField>();
 		keyLabels = new ArrayList<JLabel>();
 
@@ -72,12 +102,20 @@ class TabHotkeys extends SettingsTab {
 	private void place() {
 		setLayout(new GridBagLayout());
 
-		for (int row = 0; row < keyFields.size(); row++) {
+		int row;
+		for (row = 0; row < keyFields.size(); row++) {
 			add(
 					keyLabels.get(row),
 					GBC.grid(0, row).insets(10, 0, 10, 10).anchor(GBC.LE)
 			);
 			add(keyFields.get(row), GBC.grid(1, row));
+		}
+
+		add(globalHotKeys, GBC.grid(2, 3).insets(0, 50, 0, 0).anchor(GBC.LS));
+
+		if (!GlobalScreen.isNativeHookRegistered()) {
+			add(globalHotKeysHookWarning, GBC.grid(0, row + 1, 3, 1).insets(10, 0, 10, 0));
+			add(globalHotKeysHookRetryButton, GBC.grid(0, row + 2, 3, 1).insets(0, 0, 10, 0));
 		}
 	}
 
@@ -91,7 +129,9 @@ class TabHotkeys extends SettingsTab {
 	 * @author  Xavier "Xunkar" Sencert
 	 */
 	static class KeyField extends JTextField
-			implements MouseListener, NativeKeyListener {
+			implements MouseListener, FocusListener, NativeKeyListener {
+
+		private Color originalBgColor;
 
 		// ----------------------------------------------------- CONSTANTS
 
@@ -134,7 +174,10 @@ class TabHotkeys extends SettingsTab {
 			String text = NativeKeyEvent.getKeyText(setting.get());
 			setText(setting.get() == -1 ? "" + Language.DISABLED : text);
 
+			originalBgColor = getBackground();
+
 			addMouseListener(this);
+			addFocusListener(this);
 		}
 
 		// ------------------------------------------------------- GETTERS
@@ -146,6 +189,33 @@ class TabHotkeys extends SettingsTab {
 			return setting;
 		}
 
+		// ----------------------------------------------------- CORE KEY EVENT HANDLING
+
+		private void enableKeyListening(boolean enable) {
+			if (enable) {
+				if (!isEditing) {
+					setBackground(Color.YELLOW);
+					GlobalScreen.addNativeKeyListener(this);
+					isEditing = true;
+				}
+
+			} else {
+				if (isEditing) {
+					setBackground(originalBgColor);
+					GlobalScreen.removeNativeKeyListener(this);
+					isEditing = false;
+				}
+			}
+		}
+
+		private void setKey(int code, String keyText) {
+			setting.set(code);
+			if (code == -1)
+				setText("" + Language.DISABLED);
+			else
+				setText(keyText);
+		}
+
 		// ----------------------------------------------------- CALLBACKS
 
 		/**
@@ -154,11 +224,7 @@ class TabHotkeys extends SettingsTab {
 		 * new color to signify that this field is now listening.
 		 */
 		public void mouseClicked(MouseEvent event) {
-			if (!isEditing) {
-				setBackground(Color.YELLOW);
-				GlobalScreen.addNativeKeyListener(this);
-				isEditing = true;
-			}
+			enableKeyListening(true);
 		}
 
 		// $UNUSED$
@@ -183,18 +249,13 @@ class TabHotkeys extends SettingsTab {
 			int    code = event.getKeyCode();
 			String text = null;
 
-			if (code == NativeKeyEvent.VC_ESCAPE) {
+			if (code == NativeKeyEvent.VC_ESCAPE)
 				code = -1;
-				text = "" + Language.DISABLED;
-			} else {
+			else
 				text = NativeKeyEvent.getKeyText(code);
-			}
-			setText(text);
-			setting.set(code);
 
-			setBackground(Color.GREEN);
-			GlobalScreen.removeNativeKeyListener(this);
-			isEditing = false;
+			setKey(code, text);
+			enableKeyListening(false);
 		}
 
 		// $UNUSED$
@@ -203,5 +264,10 @@ class TabHotkeys extends SettingsTab {
 		// $UNUSED$
 		public void nativeKeyTyped(NativeKeyEvent event) {}
 
+		public void focusLost(FocusEvent event) {
+			enableKeyListening(false);
+		}
+
+		public void focusGained(FocusEvent event) {}
 	}
 }

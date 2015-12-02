@@ -42,6 +42,7 @@ public enum Language {
 	setting_color_separators,
 
 	// Settings > Hotkey
+	setting_useGlobalHotkeys,
 	setting_hotkey_split,
 	setting_hotkey_unsplit,
 	setting_hotkey_skip,
@@ -241,7 +242,13 @@ public enum Language {
 	 * 1.4
 	 */
 	INCREMENT,
-	START_VALUE;
+	START_VALUE,
+
+
+	/* */
+	GLOBAL_HOTKEYS_WARNING,
+	GLOBAL_HOTKEYS_HOOK_RETRY,
+	GLOBAL_HOTKEYS_HOOK_ERROR;
 
 	public static final Locale[] LANGUAGES = new Locale[] {
 		Locale.ENGLISH,

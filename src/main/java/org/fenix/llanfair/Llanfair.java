@@ -284,15 +284,17 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 * main thread.
 	 */
 	@Override public void nativeKeyPressed( final NativeKeyEvent event ) {
-		int keyCode = event.getKeyCode();
-		boolean hotkeysEnabler = ( keyCode == Settings.hotkeyLock.get() );
+		if (Settings.useGlobalHotkeys.get() || this.hasFocus()) {
+			int keyCode = event.getKeyCode();
+			boolean hotkeysEnabler = ( keyCode == Settings.hotkeyLock.get() );
 
-		if ( !ignoresNativeInputs() || hotkeysEnabler ) {
-			SwingUtilities.invokeLater( new Runnable() {
-				@Override public void run() {
-					actions.process( event );
-				}
-			} );
+			if ( !ignoresNativeInputs() || hotkeysEnabler ) {
+				SwingUtilities.invokeLater( new Runnable() {
+					@Override public void run() {
+						actions.process( event );
+					}
+				} );
+			}
 		}
 	}
 
@@ -448,15 +450,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 * @throws  IllegalStateException if JNativeHook cannot be registered.
 	 */
 	private void setBehavior() {
-		try {
-			GlobalScreen.registerNativeHook();
-		} catch (NativeHookException e) {
-			// NOTE: commenting this out as the latest version of JNativeHook has at least some ability to
-			//       pop up an OS-specific dialog asking about accessibility permissions (at least on OS X)
-			//       and afterwards the application recovered fine from the user's perspective. throwing an
-			//       exception here causes Llanfair to just close immediately after the dialog has opened.
-			//throw new IllegalStateException("cannot register native hook");
-		}
+		registerNativeKeyHook();
 		setAlwaysOnTop(Settings.alwaysOnTop.get());
 		addWindowListener(this);
 		addMouseWheelListener(this);
@@ -471,6 +465,23 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		popupMenu = MenuItem.getPopupMenu();
 		MenuItem.addActionListener( this );
 		MenuItem.populateRecentlyOpened();
+	}
+
+	/**
+	 * Attempts to register a hook to capture system-wide (global) key events.
+	 * @return true if the hook was registered, false if not
+	 */
+	public static boolean registerNativeKeyHook() {
+		try {
+			GlobalScreen.registerNativeHook();
+			return true;
+		} catch (NativeHookException e) {
+			// NOTE: in the event of a failure, JNativeHook now has some ability (on some OS's at least)
+			//       to pop up an OS-specific dialog or other action that allows the user to rectify the
+			//       problem. e.g. on OS X, if an exception is thrown a dialog telling the user that the
+			//       application has requested some accessibility-related access shows up.
+			return false;
+		}
 	}
 
 }

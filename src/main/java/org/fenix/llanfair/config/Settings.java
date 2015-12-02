@@ -53,6 +53,7 @@ public class Settings {
 
 	/* HOTKEY properties */
 
+	public static final Property<Boolean> useGlobalHotkeys = new Property<>("useGlobalHotkeys");
 	public static final Property<Integer> hotkeySplit = new Property<>( "hotkey.split" );
 	public static final Property<Integer> hotkeyUnsplit = new Property<>( "hotkey.unsplit" );
 	public static final Property<Integer> hotkeySkip = new Property<>( "hotkey.skip" );
@@ -213,6 +214,7 @@ public class Settings {
 		global.put( colorHighlight.key, Color.decode( "0xffffff" ) );
 		global.put( colorSeparators.key, Color.decode( "0x666666" ) );
 
+		global.put( useGlobalHotkeys.key, false );
 		global.put( hotkeySplit.key, -1 );
 		global.put( hotkeyUnsplit.key, -1 );
 		global.put( hotkeySkip.key, -1 );
