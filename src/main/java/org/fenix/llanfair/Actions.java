@@ -219,6 +219,18 @@ final class Actions {
 		}
 	}
 
+	private String getFileExtension(String filename) {
+		try {
+			int p = filename.lastIndexOf(".");
+			if (p == -1)
+				return null;
+
+			return filename.substring(p + 1);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 	/**
 	 * Displays a dialog to let the user select a file. The user is able to
 	 * cancel this action, which results in a {@code null} being returned.
@@ -235,9 +247,14 @@ final class Actions {
 
 		fileChooser.setVisible(true);
 		String selectedFile = fileChooser.getFile();
-		if (selectedFile != null)
+		if (selectedFile != null) {
+			if (fileChooser.getMode() == FileDialog.SAVE) {
+				// add default ".lfs" extension if the user did not add one themselves
+				if (getFileExtension(selectedFile) == null)
+					selectedFile = selectedFile + ".lfs";
+			}
 			return new File(fileChooser.getDirectory() + File.separator + selectedFile);
-		else
+		} else
 			return null;
 	}
 
