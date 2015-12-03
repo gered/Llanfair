@@ -11,6 +11,7 @@ import org.fenix.utils.about.AboutDialog;
 import org.jnativehook.keyboard.NativeKeyEvent;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
@@ -39,7 +40,7 @@ final class Actions {
 	private Llanfair master;
 
 	private File file;
-	private FileDialog fileChooser;
+	private JFileChooser fileChooser;
 
 	private volatile long lastUnsplit;
 	private volatile long lastSkip;
@@ -55,8 +56,9 @@ final class Actions {
 		master = owner;
 
 		file = null;
-		fileChooser = new FileDialog(master);
-		fileChooser.setDirectory(UserSettings.getSplitsPath());
+		fileChooser = new JFileChooser(UserSettings.getSplitsPath());
+		fileChooser.setFileFilter(new FileNameExtensionFilter(
+			"Llanfair Run Splits", "lfs"));
 
 		lastUnsplit = 0L;
 		lastSkip = 0L;
@@ -240,20 +242,21 @@ final class Actions {
 	 * @return a file selected by the user or {@code null} if he canceled
 	 */
 	private File selectFile(FILE_CHOOSER_TYPE dialogType) {
-		if (dialogType == FILE_CHOOSER_TYPE.OPEN)
-			fileChooser.setMode(FileDialog.LOAD);
-		else if (dialogType == FILE_CHOOSER_TYPE.SAVE)
-			fileChooser.setMode(FileDialog.SAVE);
+		int action = -1;
 
-		fileChooser.setVisible(true);
-		String selectedFile = fileChooser.getFile();
-		if (selectedFile != null) {
-			if (fileChooser.getMode() == FileDialog.SAVE) {
+		if (dialogType == FILE_CHOOSER_TYPE.OPEN)
+			action = fileChooser.showOpenDialog(master);
+		else if (dialogType == FILE_CHOOSER_TYPE.SAVE)
+			action = fileChooser.showSaveDialog(master);
+
+		if (action == JFileChooser.APPROVE_OPTION) {
+			String selectedFile = fileChooser.getSelectedFile().getPath();
+			if (dialogType == FILE_CHOOSER_TYPE.SAVE) {
 				// add default ".lfs" extension if the user did not add one themselves
 				if (getFileExtension(selectedFile) == null)
 					selectedFile = selectedFile + ".lfs";
 			}
-			return new File(fileChooser.getDirectory() + File.separator + selectedFile);
+			return new File(selectedFile);
 		} else
 			return null;
 	}
