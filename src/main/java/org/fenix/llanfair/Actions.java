@@ -57,8 +57,7 @@ final class Actions {
 
 		file = null;
 		fileChooser = new JFileChooser(UserSettings.getSplitsPath());
-		fileChooser.setFileFilter(new FileNameExtensionFilter(
-			"Llanfair Run Splits", "lfs"));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("" + Language.RUN_FILE_FILTER, "lfs"));
 
 		lastUnsplit = 0L;
 		lastSkip = 0L;

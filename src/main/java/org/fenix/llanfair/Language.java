@@ -148,6 +148,7 @@ public enum Language {
 	// Edit Dialog
 	ED_SEGMENTED,
 	TT_ED_SEGMENTED,
+	ED_DELAYED_START,
 
 	// Panels Title
 	PN_DIMENSION,
@@ -231,6 +232,7 @@ public enum Language {
 	MAX_ORDINATE,
 	NAME,
 	RUN_TITLE,
+	RUN_FILE_FILTER,
 	SEGMENT,
 	SEGMENTS,
 	SPLIT,

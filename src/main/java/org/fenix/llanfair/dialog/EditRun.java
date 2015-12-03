@@ -175,7 +175,7 @@ implements ActionListener, ListSelectionListener {
 		add(runTitle, GBC.grid(1, 0, 3, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
 		add(new JLabel("" + Language.LB_GOAL), GBC.grid(0, 1).insets(4, 4, 0, 4).anchor(GBC.LE));
 		add(runGoal, GBC.grid(1, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
-		add(new JLabel("Delayed Start"), GBC.grid(0, 2).insets(4, 4, 0, 4).anchor(GBC.LE));
+		add(new JLabel("" + Language.ED_DELAYED_START), GBC.grid(0, 2).insets(4, 4, 0, 4).anchor(GBC.LE));
 		add(runDelayedStart, GBC.grid(1, 2).insets(4, 0, 0, 4).anchor(GBC.LS));
 		add(segmented, GBC.grid(2, 2, 2, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
 		add(segmentsLabel, GBC.grid(0, 3).insets(5, 4, 4, 0)
