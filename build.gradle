@@ -33,4 +33,5 @@ macAppBundle {
 	mainClassName = 'org.fenix.llanfair.Llanfair'
 	bundleJRE = false
 	javaProperties.put('apple.laf.useScreenMenuBar', 'true')
+	icon = 'Llanfair.icns'
 }
