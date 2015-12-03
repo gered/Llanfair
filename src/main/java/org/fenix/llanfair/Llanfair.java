@@ -67,10 +67,9 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 
 		UserSettings.initDirectory();
 
-		LocaleDelegate.setDefault( Settings.language.get() );
+		//LocaleDelegate.setDefault( Settings.language.get() );
+		LocaleDelegate.setDefault( Locale.ENGLISH );
 		LocaleDelegate.addLocaleListener( this );
-
-		//ResourceBundle b = ResourceBundle.getBundle("language");
 
 		RESOURCES = new Resources();
 		registerFonts();
@@ -104,6 +103,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		jnativehookLogger.setLevel(Level.WARNING);
 		jnativehookLogger.setUseParentHandlers(false);
 
+		/*
 		if ( args.length > 0 ) {
 			String locale = args[0];
 			LocaleDelegate.setDefault( new Locale( locale ) );
@@ -111,6 +111,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 			dumpLocalization();
 			System.exit( 0 );
 		}
+		*/
 		SwingUtilities.invokeLater( new Runnable() {
 			@Override public void run() {
 				new Llanfair();

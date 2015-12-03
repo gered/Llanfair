@@ -130,8 +130,8 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		add(alwaysOnTop, GBC.grid(1, 0).anchor(GBC.LS));
 		add(warnOnReset, GBC.grid(1, 1).anchor(GBC.LS));
 
-		add(languageText, GBC.grid(0, 2).anchor(GBC.LE).insets(10, 10));
-		add(language, GBC.grid(1, 2).fill(GBC.H));
+		//add(languageText, GBC.grid(0, 2).anchor(GBC.LE).insets(10, 10));
+		//add(language, GBC.grid(1, 2).fill(GBC.H));
 
 		JPanel comparePanel = new JPanel(new GridLayout(0, 1)); {
 			Enumeration<AbstractButton> buttons = compare.getElements();
