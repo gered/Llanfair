@@ -166,6 +166,10 @@ public class Run implements TableModel, Serializable {
 
 	private Configuration configuration;
 
+	private int numberOfAttempts;
+
+	private int numberOfCompletedAttempts;
+
 	// ----------------------------------------------------------- CONSTRUCTORS
 
 	/**
@@ -552,6 +556,14 @@ public class Run implements TableModel, Serializable {
 		return null;
 	}
 
+	public int getNumberOfAttempts() {
+		return numberOfAttempts;
+	}
+
+	public int getNumberOfCompletedAttempts() {
+		return numberOfCompletedAttempts;
+	}
+
 	// ---------------------------------------------------------------- SETTERS
 
 	public<T> T getSetting( String key ) {
@@ -686,6 +698,8 @@ public class Run implements TableModel, Serializable {
 		state     = State.ONGOING;
 		segments.get(current).setStartTime(startTime);
 
+		numberOfAttempts += 1;
+
 		pcSupport.firePropertyChange(STATE_PROPERTY, State.READY, state);
 		pcSupport.firePropertyChange(CURRENT_SEGMENT_PROPERTY, -1, 0);
 	}
@@ -709,6 +723,8 @@ public class Run implements TableModel, Serializable {
 		segments.get(current - 1).setTime(time, Segment.LIVE);
 
 		if (current == getRowCount()) {
+			// run is finished
+			numberOfCompletedAttempts += 1;
 			stop();
 		} else {
 			segments.get(current).setStartTime(stopTime);
