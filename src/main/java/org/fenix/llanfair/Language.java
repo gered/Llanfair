@@ -50,6 +50,9 @@ public enum Language {
 	setting_hotkey_stop,
 	setting_hotkey_pause,
 	setting_hotkey_lock,
+	GLOBAL_HOTKEYS_WARNING,
+	GLOBAL_HOTKEYS_HOOK_RETRY,
+	GLOBAL_HOTKEYS_HOOK_ERROR,
 
 	// Settings > Header
 	setting_header_goal,
@@ -244,13 +247,7 @@ public enum Language {
 	 * 1.4
 	 */
 	INCREMENT,
-	START_VALUE,
-
-
-	/* */
-	GLOBAL_HOTKEYS_WARNING,
-	GLOBAL_HOTKEYS_HOOK_RETRY,
-	GLOBAL_HOTKEYS_HOOK_ERROR;
+	START_VALUE;
 
 	public static final Locale[] LANGUAGES = new Locale[] {
 		Locale.ENGLISH,
