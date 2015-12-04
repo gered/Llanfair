@@ -459,12 +459,14 @@ final class Actions {
 		} catch ( MalformedURLException ex ) {
 			// $FALL-THROUGH$
 		}
+		/*
 		try {
 			dialog.setDonateLink( new URL( BUNDLE.getString( "donate" ) ),
 					Llanfair.getResources().getIcon( "donate.png" ) );
 		} catch ( MalformedURLException ex ) {
 		   // $FALL-THROUGH$
 		}
+		*/
 		dialog.display();
 	}
 }
