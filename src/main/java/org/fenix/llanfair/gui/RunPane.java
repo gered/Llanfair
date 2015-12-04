@@ -240,7 +240,7 @@ public class RunPane extends JPanel {
 		} else if (Settings.footerDisplay.equals(property)) {
 			updateVisibility(FOOTER);
 		} else if (Settings.headerShowTitle.equals(property)) {
-			updateVisibility(GOAL);
+			updateVisibility(TITLE | GOAL);
 			updateValues(SEPARATOR);
 		} else if (Settings.headerShowGoal.equals(property)) {
 			updateVisibility(TITLE | GOAL);
@@ -286,12 +286,12 @@ public class RunPane extends JPanel {
 	 * Places the sub-components within this component.
 	 */
 	private void placeComponents() {
+		add(title,GBC.grid(0, 0).insets(3, 0, 1, 0));
 		goalPane = new JPanel(new GridBagLayout()); {
-			goalPane.add(goalText, GBC.grid(0, 0));
-			goalPane.add(goal, GBC.grid(1, 0).insets(0, 3, 0, 0));
+			goalPane.add(goalText, GBC.grid(0, 1));
+			goalPane.add(goal, GBC.grid(1, 1).insets(0, 3, 0, 0));
 			goalPane.setOpaque(false);
 		}
-		add(title,GBC.grid(0, 0).insets(3, 0, 1, 0));
 		add(createSeparator(), GBC.grid(0, 2).insets(3, 0).fill(GBC.H));
 		add(history, GBC.grid(0, 3).fill(GBC.H).insets(0, 5));
 		add(createSeparator(), GBC.grid(0, 4).insets(3, 0).fill(GBC.H));
@@ -387,8 +387,8 @@ public class RunPane extends JPanel {
 			}
 		}
 		if ((identifier & GOAL) == GOAL) {
-			if (Settings.headerShowTitle.get()) {
-				if (Settings.headerShowGoal.get()) {
+			if (Settings.headerShowGoal.get()) {
+				if (Settings.headerShowTitle.get()) {
 					add(goalPane, GBC.grid(0, 1));
 				} else {
 					add(goalPane, GBC.grid(0, 1).insets(3, 0, 0, 0));
@@ -398,7 +398,7 @@ public class RunPane extends JPanel {
 			}
 		}
 		if ((identifier & TITLE) == TITLE) {
-			title.setVisible(Settings.headerShowGoal.get());
+			title.setVisible(Settings.headerShowTitle.get());
 		}
 		revalidate();
 		repaint();
