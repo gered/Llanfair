@@ -1,7 +1,6 @@
 package org.fenix.llanfair.dialog;
 
 import org.fenix.llanfair.Language;
-import org.fenix.llanfair.Llanfair;
 import org.fenix.llanfair.config.Settings;
 import org.fenix.utils.gui.GBC;
 import org.jnativehook.GlobalScreen;
@@ -25,7 +24,6 @@ class TabHotkeys extends SettingsTab {
 	private JCheckBox globalHotKeys;
 
 	private JLabel globalHotKeysHookWarning;
-	private JButton globalHotKeysHookRetryButton;
 
 	/**
 	 * List of all key fields customizable by the user.
@@ -54,19 +52,6 @@ class TabHotkeys extends SettingsTab {
 
 		globalHotKeysHookWarning = new JLabel("" + Language.GLOBAL_HOTKEYS_WARNING);
 		globalHotKeysHookWarning.setForeground(Color.RED);
-		globalHotKeysHookRetryButton = new JButton("" + Language.GLOBAL_HOTKEYS_HOOK_RETRY);
-		globalHotKeysHookRetryButton.addActionListener(new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean isRegistered = Llanfair.registerNativeKeyHook();
-				if (isRegistered) {
-					globalHotKeysHookWarning.setVisible(false);
-					globalHotKeysHookRetryButton.setVisible(false);
-				} else {
-					JOptionPane.showMessageDialog(that, Language.GLOBAL_HOTKEYS_HOOK_ERROR, Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 
 		keyFields = new ArrayList<KeyField>();
 		keyLabels = new ArrayList<JLabel>();
@@ -113,10 +98,8 @@ class TabHotkeys extends SettingsTab {
 
 		add(globalHotKeys, GBC.grid(2, 3).insets(0, 50, 0, 0).anchor(GBC.LS));
 
-		if (!GlobalScreen.isNativeHookRegistered()) {
+		if (GlobalScreen.isNativeHookRegistered())
 			add(globalHotKeysHookWarning, GBC.grid(0, row + 1, 3, 1).insets(10, 0, 10, 0));
-			add(globalHotKeysHookRetryButton, GBC.grid(0, row + 2, 3, 1).insets(0, 0, 10, 0));
-		}
 	}
 
 	// --------------------------------------------------------- INTERNAL TYPES

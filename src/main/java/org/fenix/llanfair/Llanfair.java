@@ -472,7 +472,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 * Attempts to register a hook to capture system-wide (global) key events.
 	 * @return true if the hook was registered, false if not
 	 */
-	public static boolean registerNativeKeyHook() {
+	public boolean registerNativeKeyHook() {
 		try {
 			GlobalScreen.registerNativeHook();
 			return true;
@@ -481,6 +481,8 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 			//       to pop up an OS-specific dialog or other action that allows the user to rectify the
 			//       problem. e.g. on OS X, if an exception is thrown a dialog telling the user that the
 			//       application has requested some accessibility-related access shows up.
+
+			JOptionPane.showMessageDialog(this, Language.GLOBAL_HOTKEYS_WARNING, Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
