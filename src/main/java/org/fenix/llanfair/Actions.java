@@ -222,11 +222,15 @@ final class Actions {
 
 	private String getFileExtension(String filename) {
 		try {
-			int p = filename.lastIndexOf(".");
+			// doing it this way because if one of the directories leading up to the filename contains
+			// a '.' but the actual filename doesn't, we'd otherwise think that the filename had an extension.
+			File file = new File(filename);
+
+			int p = file.getName().lastIndexOf(".");
 			if (p == -1)
 				return null;
 
-			return filename.substring(p + 1);
+			return file.getName().substring(p + 1);
 		} catch (Exception e) {
 			return null;
 		}
