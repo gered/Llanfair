@@ -617,6 +617,12 @@ public class History extends JPanel {
 				Color recd  = Settings.colorNewRecord.get();
 				int   prev  = run.getPrevious();
 
+				// TODO: replace with color settings the user can set themselves
+				Color lostWhileAhead = gain.brighter();
+				Color gainWhileAhead = gain; //.darker();
+				Color lostWhileBehind = lost.brighter();
+				Color gainWhileBehind = lost; //.darker();
+
 				Merge  merge     = Settings.historyMerge.get();
 				JLabel realDelta = (merge == Merge.DELTA) ? time : delta;
 				JLabel realLive  = (merge == Merge.LIVE ) ? time : live;
@@ -634,11 +640,20 @@ public class History extends JPanel {
 								realLive.setForeground(neut);
 								realDelta.setForeground(neut);
 							} else {
+								boolean isGainingTime = run.isBetterSegment(run.getPrevious());
 								if (compare > 0) {
-									realDelta.setForeground(lost);
+									if (isGainingTime)
+										realDelta.setForeground(gainWhileBehind);
+									else
+										realDelta.setForeground(lostWhileBehind);
+
 									realLive.setForeground(lost);
 								} else {
-									realDelta.setForeground(gain);
+									if (isGainingTime)
+										realDelta.setForeground(gainWhileAhead);
+									else
+										realDelta.setForeground(lostWhileAhead);
+
 									realLive.setForeground(gain);
 								}
 							}
