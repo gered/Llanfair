@@ -58,6 +58,7 @@ public enum Language {
 	setting_header_goal,
 	setting_header_title,
 	setting_header_showAttempts,
+	setting_header_titleFont,
 
 	// Settings > History
 	setting_history_rowCount,
@@ -85,6 +86,8 @@ public enum Language {
 	setting_core_segmentTimer,
 	setting_core_timerFont,
 	setting_core_segmentTimerFont,
+	setting_core_font,
+	setting_core_otherTimeFont,
 
 	// Settings > Graph
 	setting_graph_display,
