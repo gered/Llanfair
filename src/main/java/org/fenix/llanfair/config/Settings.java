@@ -67,6 +67,7 @@ public class Settings {
 	public static final Property<Boolean> headerShowGoal = new Property<>( "header.goal" );
 	public static final Property<Boolean> headerShowTitle = new Property<>( "header.title" );
 	public static final Property<Boolean> headerShowAttempts = new Property<>( "header.showAttempts" );
+	public static final Property<Font> headerTitleFont = new Property<>(" header.titleFont" );
 
 	/* HISTORY properties */
 
@@ -96,6 +97,8 @@ public class Settings {
 	public static final Property<Boolean> coreShowSegmentTimer = new Property<>( "core.segmentTimer" );
 	public static final Property<Font> coreTimerFont = new Property<>( "core.timerFont" );
 	public static final Property<Font> coreSegmentTimerFont = new Property<>( "core.segmentTimerFont" );
+	public static final Property<Font> coreFont = new Property<>( "core.font" );
+	public static final Property<Font> coreOtherTimeFont = new Property<>( "core.otherTimeFont" );
 
 	/* GRAPH properties */
 
@@ -227,6 +230,7 @@ public class Settings {
 		global.put( headerShowGoal.key, true );
 		global.put( headerShowTitle.key, true );
 		global.put( headerShowAttempts.key, true );
+		global.put( headerTitleFont.key, Font.decode( "Arial-14" ) );
 
 		global.put( historyRowCount.key, 8 );
 		global.put( historyTabular.key, true );
@@ -252,6 +256,8 @@ public class Settings {
 		global.put( coreShowSegmentTimer.key, true );
 		global.put( coreTimerFont.key, Font.decode( "Digitalism-32" ) );
 		global.put( coreSegmentTimerFont.key, Font.decode( "Digitalism-18" ) );
+		global.put( coreFont.key, Font.decode( "Arial-12" ) );
+		global.put( coreOtherTimeFont.key, Font.decode( "Arial-11" ) );
 
 		global.put( graphDisplay.key, true );
 		global.put( graphScale.key, 3.0F );

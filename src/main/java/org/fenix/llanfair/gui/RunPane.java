@@ -171,9 +171,8 @@ public class RunPane extends JPanel {
 
 		updateValues(TEXT);
 		updateColors(ALL);
+		updateFonts(ALL);
 		updateVisibility(ALL);
-
-		title.setFont(RUN_TITLE_FONT);
 	}
 
 	// -------------------------------------------------------------- INTERFACE
@@ -265,6 +264,10 @@ public class RunPane extends JPanel {
 		} else if (Run.ATTEMPT_COUNTER_PROPERTY.equals(property) ||
 			Run.COMPLETED_ATTEMPT_COUNTER_PROPERTY.equals(property)) {
 			updateValues(ATTEMPTS);
+		} else if (Settings.headerTitleFont.equals(property)) {
+			updateFonts(TITLE);
+		} else if (Settings.coreFont.equals(property)) {
+			updateFonts(ALL & ~TITLE);
 		}
 	}
 
@@ -388,6 +391,27 @@ public class RunPane extends JPanel {
 		}
 
 		attemptCounter.setForeground(Color.WHITE);
+	}
+
+	/**
+	 * Updates the fonts of the group of components specified by the
+	 * identifier.
+	 *
+	 * @param identifier - one of the constant update identifier.
+	 */
+	private void updateFonts(int identifier) {
+		if ((identifier & TITLE) == TITLE) {
+			title.setFont(Settings.headerTitleFont.get());
+		}
+		if ((identifier & GOAL) == GOAL) {
+			goal.setFont(Settings.coreFont.get());
+		}
+		if ((identifier & TEXT) == TEXT) {
+			goalText.setFont(Settings.coreFont.get());
+		}
+		if ((identifier & ATTEMPTS) == ATTEMPTS) {
+			attemptCounter.setFont(Settings.coreFont.get());
+		}
 	}
 
 	/**

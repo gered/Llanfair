@@ -182,6 +182,7 @@ class Core extends JPanel implements ActionListener {
 
 		placeComponents();
 		updateColors(ALL);
+		updateFonts(ALL);
 	}
 
 	// -------------------------------------------------------------- INTERFACE
@@ -395,7 +396,7 @@ class Core extends JPanel implements ActionListener {
 			revalidate();
 		} else if (Settings.coreTimerFont.equals(property)
 				|| Settings.coreSegmentTimerFont.equals(property)) {
-			updateValues(FONT);
+			updateFonts(TIMER);
 			resize = true;
 			revalidate();
 		} else if (Settings.coreShowSegmentTimer.equals(property)) {
@@ -404,6 +405,14 @@ class Core extends JPanel implements ActionListener {
 			revalidate();
 		} else if (Settings.coreShowIcons.equals(property)) {
 			updateVisibility(ICON);
+			resize = true;
+			revalidate();
+		} else if (Settings.coreFont.equals(property)) {
+			updateFonts(NAME);
+			resize = true;
+			revalidate();
+		} else if (Settings.coreOtherTimeFont.equals(property)) {
+			updateFonts(TIME);
 			resize = true;
 			revalidate();
 		}
@@ -566,10 +575,6 @@ class Core extends JPanel implements ActionListener {
 				}
 			}
 		}
-		if ((identifier & FONT) == FONT) {
-			splitTimer.setFont(Settings.coreTimerFont.get());
-			segmentTimer.setFont(Settings.coreSegmentTimerFont.get());
-		}
 	}
 
 	/**
@@ -598,6 +603,29 @@ class Core extends JPanel implements ActionListener {
 				splitTimer.setForeground(color);
 				segmentTimer.setForeground(color);
 			}
+		}
+	}
+
+	/**
+	 * Updates the fonts of the group of components specified by the
+	 * identifier.
+	 * @param identifier - one of the constant update identifier.
+	 */
+	private void updateFonts(int identifier) {
+		if ((identifier & TIME) == TIME) {
+			split.setFont(Settings.coreOtherTimeFont.get());
+			segment.setFont(Settings.coreOtherTimeFont.get());
+			best.setFont(Settings.coreOtherTimeFont.get());
+		}
+		if ((identifier & NAME) == NAME) {
+			name.setFont(Settings.coreFont.get());
+			labelBest.setFont(Settings.coreFont.get());
+			labelSegment.setFont(Settings.coreFont.get());
+			labelSplit.setFont(Settings.coreFont.get());
+		}
+		if ((identifier & TIMER) == TIMER) {
+			splitTimer.setFont(Settings.coreTimerFont.get());
+			segmentTimer.setFont(Settings.coreSegmentTimerFont.get());
 		}
 	}
 }

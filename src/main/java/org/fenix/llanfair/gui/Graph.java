@@ -1,27 +1,18 @@
 package org.fenix.llanfair.gui;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagLayout;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.beans.PropertyChangeEvent;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.event.TableModelEvent;
-
 import org.fenix.llanfair.Language;
 import org.fenix.llanfair.Run;
-import org.fenix.llanfair.Segment;
-import org.fenix.llanfair.config.Settings;
-import org.fenix.llanfair.Time;
 import org.fenix.llanfair.Run.State;
+import org.fenix.llanfair.Segment;
+import org.fenix.llanfair.Time;
+import org.fenix.llanfair.config.Settings;
 import org.fenix.utils.gui.GBC;
 import org.fenix.utils.locale.LocaleEvent;
+
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
 
 /**
  * Graph panel displaying information concerning a run. It includes an actual
@@ -119,6 +110,7 @@ class Graph extends JPanel {
 
 		updateValues(TEXT);
 		updateColors(ALL);
+		updateFonts(ALL);
 		placeComponents();
 
 		Dimension size = new Dimension(PACK_WIDTH, PACK_HEIGHT);
@@ -176,6 +168,8 @@ class Graph extends JPanel {
 			} else if (run.getState() == State.NULL) {
 				updateValues(TIME);
 			}
+		} else if (Settings.coreFont.equals(property)) {
+			updateFonts(ALL);
 		}
 	}
 
@@ -272,6 +266,20 @@ class Graph extends JPanel {
 		// TEXT
 		if ((identifier & TEXT) == TEXT) {
 			scaleText.setForeground(Settings.colorForeground.get());
+		}
+	}
+
+	/**
+	 * Updates the fonts of the group of components specified by the
+	 * identifier.
+	 * @param identifier - one of the constant update identifier.
+	 */
+	private void updateFonts(int identifier) {
+		if ((identifier & TIME) == TIME) {
+			scale.setFont(Settings.coreFont.get());
+		}
+		if ((identifier & TEXT) == TEXT) {
+			scaleText.setFont(Settings.coreFont.get());
 		}
 	}
 

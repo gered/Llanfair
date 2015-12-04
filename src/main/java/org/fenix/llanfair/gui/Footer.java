@@ -1,23 +1,17 @@
 package org.fenix.llanfair.gui;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
-import java.beans.PropertyChangeEvent;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import org.fenix.llanfair.Language;
 import org.fenix.llanfair.Run;
-import org.fenix.llanfair.Segment;
-import org.fenix.llanfair.config.Settings;
-import org.fenix.llanfair.Time;
 import org.fenix.llanfair.Run.State;
+import org.fenix.llanfair.Segment;
+import org.fenix.llanfair.Time;
+import org.fenix.llanfair.config.Settings;
 import org.fenix.utils.gui.GBC;
 import org.fenix.utils.locale.LocaleEvent;
+
+import javax.swing.*;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
 
 /**
  * A simple pane displaying the bare minimum of information concerning the
@@ -95,6 +89,7 @@ class Footer extends JPanel {
 		placeComponents();
 		updateValues(TEXT);
 		updateColors(ALL);
+		updateFonts(ALL);
 		updateVisibility(ALL);
 		forceResize();
 	}
@@ -218,6 +213,12 @@ class Footer extends JPanel {
 		} else if (Settings.footerVerbose.equals(property)) {
 			updateValues(DELTA);
 			updateVisibility(VERBOSE);
+			forceResize();
+		} else if (Settings.coreFont.equals(property)) {
+			updateFonts(TEXT);
+			forceResize();
+		} else if (Settings.coreOtherTimeFont.equals(property)) {
+			updateFonts(TIME | DELTA);
 			forceResize();
 		}
 	}
@@ -376,6 +377,33 @@ class Footer extends JPanel {
 			labelLive.setForeground(color);
 			labelBest.setForeground(color);
 			labelDeltaBest.setForeground(color);
+		}
+	}
+
+	/**
+	 * Updates the fonts of the group of components specified by the
+	 * identifier.
+	 * @param identifier - one of the constant update identifier.
+	 */
+	private void updateFonts(int identifier) {
+		if ((identifier & TIME) == TIME) {
+			liveL.setFont(Settings.coreOtherTimeFont.get());
+			liveR.setFont(Settings.coreOtherTimeFont.get());
+			time.setFont(Settings.coreOtherTimeFont.get());
+			best.setFont(Settings.coreOtherTimeFont.get());
+			inlineBest.setFont(Settings.coreOtherTimeFont.get());
+		}
+		if ((identifier & DELTA) == DELTA) {
+			delta.setFont(Settings.coreOtherTimeFont.get());
+			deltaBest.setFont(Settings.coreOtherTimeFont.get());
+			inlineDeltaBest.setFont(Settings.coreOtherTimeFont.get());
+		}
+		if ((identifier & TEXT) == TEXT) {
+			labelPrev.setFont(Settings.coreFont.get());
+			labelDelta.setFont(Settings.coreFont.get());
+			labelLive.setFont(Settings.coreFont.get());
+			labelBest.setFont(Settings.coreFont.get());
+			labelDeltaBest.setFont(Settings.coreFont.get());
 		}
 	}
 
