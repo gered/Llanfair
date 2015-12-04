@@ -57,6 +57,7 @@ public enum Language {
 	// Settings > Header
 	setting_header_goal,
 	setting_header_title,
+	setting_header_showAttempts,
 
 	// Settings > History
 	setting_history_rowCount,

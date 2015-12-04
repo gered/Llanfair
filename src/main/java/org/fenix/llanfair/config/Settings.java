@@ -66,6 +66,7 @@ public class Settings {
 
 	public static final Property<Boolean> headerShowGoal = new Property<>( "header.goal" );
 	public static final Property<Boolean> headerShowTitle = new Property<>( "header.title" );
+	public static final Property<Boolean> headerShowAttempts = new Property<>( "header.showAttempts" );
 
 	/* HISTORY properties */
 
@@ -225,6 +226,7 @@ public class Settings {
 
 		global.put( headerShowGoal.key, true );
 		global.put( headerShowTitle.key, true );
+		global.put( headerShowAttempts.key, true );
 
 		global.put( historyRowCount.key, 8 );
 		global.put( historyTabular.key, true );

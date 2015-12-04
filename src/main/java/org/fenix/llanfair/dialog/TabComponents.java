@@ -39,6 +39,7 @@ public class TabComponents extends SettingsTab
 		SCB_SETTINGS.add(Settings.coreShowSegmentTimer);
 		SCB_SETTINGS.add(Settings.coreShowIcons);
 		SCB_SETTINGS.add(Settings.headerShowGoal);
+		SCB_SETTINGS.add(Settings.headerShowAttempts);
 	}
 
 	private JComboBox iconSizes;
@@ -219,6 +220,7 @@ public class TabComponents extends SettingsTab
 			miscPanel.add(checkBoxes.get(Settings.headerShowGoal.getKey()), GBC.grid(0, 0).anchor(GBC.LS));
 			miscPanel.add(checkBoxes.get(Settings.headerShowTitle.getKey()), GBC.grid(0, 1).anchor(GBC.LS));
 			miscPanel.add(checkBoxes.get(Settings.graphDisplay.getKey()), GBC.grid(0, 2).anchor(GBC.LS));
+			miscPanel.add(checkBoxes.get(Settings.headerShowAttempts.getKey()), GBC.grid(0, 3).anchor(GBC.LS));
 			miscPanel.setBorder(
 					BorderFactory.createTitledBorder("" + Language.MISC)
 			);

@@ -99,6 +99,10 @@ public class Run implements TableModel, Serializable {
 
 	public static final String COUNTER_EDIT_PROPERTY = "run.counters.edit";
 
+	public static final String ATTEMPT_COUNTER_PROPERTY = "run.attemptCounter";
+
+	public static final String COMPLETED_ATTEMPT_COUNTER_PROPERTY = "run.completedAttemptCounter";
+
 	// ------------------------------------------------------------- ATTRIBUTES
 
 	/**
@@ -700,6 +704,7 @@ public class Run implements TableModel, Serializable {
 
 		numberOfAttempts += 1;
 
+		pcSupport.firePropertyChange(ATTEMPT_COUNTER_PROPERTY, numberOfAttempts - 1, numberOfAttempts);
 		pcSupport.firePropertyChange(STATE_PROPERTY, State.READY, state);
 		pcSupport.firePropertyChange(CURRENT_SEGMENT_PROPERTY, -1, 0);
 	}
@@ -725,6 +730,7 @@ public class Run implements TableModel, Serializable {
 		if (current == getRowCount()) {
 			// run is finished
 			numberOfCompletedAttempts += 1;
+			pcSupport.firePropertyChange(COMPLETED_ATTEMPT_COUNTER_PROPERTY, numberOfCompletedAttempts - 1, numberOfCompletedAttempts);
 			stop();
 		} else {
 			segments.get(current).setStartTime(stopTime);

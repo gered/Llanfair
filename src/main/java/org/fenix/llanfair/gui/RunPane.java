@@ -77,6 +77,11 @@ public class RunPane extends JPanel {
 	 */
 	private static final int FOOTER = 0x40;
 
+	/**
+	 * Update identifier for the attempt counter component.
+	 */
+	private static final int ATTEMPTS = 0x80;
+
 
 	// ------------------------------------------------------------- ATTRIBUTES
 
@@ -105,6 +110,11 @@ public class RunPane extends JPanel {
 	 * Panel containing both goal value and text.
 	 */
 	private JPanel goalPane;
+
+	/**
+	 * Label displaying the number of attempts the user has made of this run.
+	 */
+	private JLabel attemptCounter;
 
 	/**
 	 * A list containing empty labels serving as separators.
@@ -149,6 +159,7 @@ public class RunPane extends JPanel {
 		title           = new JLabel();
 		goal            = new JLabel();
 		goalText        = new JLabel();
+		attemptCounter  = new JLabel();
 		core            = new Core(run);
 		graph           = new Graph(run);
 		history         = new History(run);
@@ -245,9 +256,15 @@ public class RunPane extends JPanel {
 		} else if (Settings.headerShowGoal.equals(property)) {
 			updateVisibility(TITLE | GOAL);
 			updateValues(SEPARATOR);
+		} else if (Settings.headerShowAttempts.equals(property)) {
+			updateVisibility(ATTEMPTS);
+			updateValues(SEPARATOR);
 		} else if (Settings.accuracy.equals(property)
 				|| Run.GOAL_PROPERTY.equals(property)) {
 			updateValues(GOAL);
+		} else if (Run.ATTEMPT_COUNTER_PROPERTY.equals(property) ||
+			Run.COMPLETED_ATTEMPT_COUNTER_PROPERTY.equals(property)) {
+			updateValues(ATTEMPTS);
 		}
 	}
 
@@ -292,10 +309,11 @@ public class RunPane extends JPanel {
 			goalPane.add(goal, GBC.grid(1, 1).insets(0, 3, 0, 0));
 			goalPane.setOpaque(false);
 		}
-		add(createSeparator(), GBC.grid(0, 2).insets(3, 0).fill(GBC.H));
-		add(history, GBC.grid(0, 3).fill(GBC.H).insets(0, 5));
-		add(createSeparator(), GBC.grid(0, 4).insets(3, 0).fill(GBC.H));
-		add(createSeparator(), GBC.grid(0, 6).insets(3, 0, 0, 0).fill(GBC.H));
+		add(attemptCounter, GBC.grid(0, 2).insets(1, 0, 1, 3).anchor(GBC.LE));
+		add(createSeparator(), GBC.grid(0, 3).insets(3, 0).fill(GBC.H));
+		add(history, GBC.grid(0, 4).fill(GBC.H).insets(0, 5));
+		add(createSeparator(), GBC.grid(0, 5).insets(3, 0).fill(GBC.H));
+		add(createSeparator(), GBC.grid(0, 7).insets(3, 0, 0, 0).fill(GBC.H));
 
 		updateVisibility(ALL);
 	}
@@ -321,12 +339,23 @@ public class RunPane extends JPanel {
 		if ((identifier & TITLE) == TITLE) {
 			title.setText("" + run.getName());
 		}
+		if ((identifier & ATTEMPTS) == ATTEMPTS) {
+			int attempts = run.getNumberOfAttempts();
+			int completedAttempts = run.getNumberOfCompletedAttempts();
+			if (attempts == 0)
+				attemptCounter.setText("0");
+			else if (completedAttempts == 0)
+				attemptCounter.setText(String.format("%d", attempts));
+			else
+				attemptCounter.setText(String.format("%d / %d", completedAttempts, attempts));
+		}
 		if ((identifier & SEPARATOR) == SEPARATOR) {
 			boolean hdTitle = Settings.headerShowGoal.get();
 			boolean hdGoal = Settings.headerShowTitle.get();
+			boolean hdAttempts = Settings.headerShowAttempts.get();
 			boolean hsRows = history.getRowCount() > 0;
 
-			separators.get(0).setVisible(hdTitle || hdGoal);
+			separators.get(0).setVisible(hdTitle || hdGoal || hdAttempts);
 			separators.get(1).setVisible(hsRows);
 		}
 	}
@@ -357,6 +386,8 @@ public class RunPane extends JPanel {
 						BorderFactory.createMatteBorder(1, 0, 0, 0, color));
 			}
 		}
+
+		attemptCounter.setForeground(Color.WHITE);
 	}
 
 	/**
@@ -369,19 +400,19 @@ public class RunPane extends JPanel {
 		if ((identifier & GRAPH) == GRAPH) {
 			if (Settings.graphDisplay.get()) {
 				remove(core);
-				add(core, GBC.grid(0, 5).insets(0, 5).fill(GBC.H));
-				add(graph, GBC.grid(0, 7).fill(GBC.B).insets(0, 0, 3, 0)
+				add(core, GBC.grid(0, 6).insets(0, 5).fill(GBC.H));
+				add(graph, GBC.grid(0, 8).fill(GBC.B).insets(0, 0, 3, 0)
 														.weight(1.0, 1.0));
 			} else {
 				remove(graph);
 				remove(core);
-				add(core, GBC.grid(0, 5).insets(0, 5).fill(GBC.H)
+				add(core, GBC.grid(0, 6).insets(0, 5).fill(GBC.H)
 														.weight(1.0, 1.0));
 			}
 		}
 		if ((identifier & FOOTER) == FOOTER) {
 			if (Settings.footerDisplay.get()) {
-				add(footer, GBC.grid(0, 8).insets(0, 3).fill(GBC.H));
+				add(footer, GBC.grid(0, 9).insets(0, 3).fill(GBC.H));
 			} else {
 				remove(footer);
 			}
@@ -399,6 +430,9 @@ public class RunPane extends JPanel {
 		}
 		if ((identifier & TITLE) == TITLE) {
 			title.setVisible(Settings.headerShowTitle.get());
+		}
+		if ((identifier & ATTEMPTS) == ATTEMPTS) {
+			attemptCounter.setVisible(Settings.headerShowAttempts.get());
 		}
 		revalidate();
 		repaint();
