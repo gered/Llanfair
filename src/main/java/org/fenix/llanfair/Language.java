@@ -38,6 +38,7 @@ public enum Language {
 	setting_color_timeLost,
 	setting_color_newRecord,
 	setting_color_title,
+	setting_color_subTitle,
 	setting_color_highlight,
 	setting_color_separators,
 
@@ -57,6 +58,7 @@ public enum Language {
 	setting_header_title,
 	setting_header_showAttempts,
 	setting_header_titleFont,
+	setting_header_subTitleFont,
 
 	// Settings > History
 	setting_history_rowCount,

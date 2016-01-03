@@ -48,6 +48,7 @@ public class Settings {
 	public static final Property<Color> colorTimeLost = new Property<>( "color.timeLost" );
 	public static final Property<Color> colorNewRecord = new Property<>( "color.newRecord" );
 	public static final Property<Color> colorTitle = new Property<>( "color.title" );
+	public static final Property<Color> colorSubTitle = new Property<>( "color.subTitle" );
 	public static final Property<Color> colorHighlight = new Property<>( "color.highlight" );
 	public static final Property<Color> colorSeparators = new Property<>( "color.separators" );
 
@@ -67,7 +68,8 @@ public class Settings {
 	public static final Property<Boolean> headerShowSubtitle = new Property<>( "header.subTitle" );
 	public static final Property<Boolean> headerShowTitle = new Property<>( "header.title" );
 	public static final Property<Boolean> headerShowAttempts = new Property<>( "header.showAttempts" );
-	public static final Property<Font> headerTitleFont = new Property<>(" header.titleFont" );
+	public static final Property<Font> headerTitleFont = new Property<>( "header.titleFont" );
+	public static final Property<Font> headerSubTitleFont = new Property<>( "header.subTitleFont" );
 
 	/* HISTORY properties */
 
@@ -215,6 +217,7 @@ public class Settings {
 		global.put( colorTimeLost.key, Color.decode( "0xe82323" ) );
 		global.put( colorNewRecord.key, Color.decode( "0xf0b012" ) );
 		global.put( colorTitle.key, Color.decode( "0xf0b012" ) );
+		global.put( colorSubTitle.key, Color.decode( "0xffffff" ) );
 		global.put( colorHighlight.key, Color.decode( "0xffffff" ) );
 		global.put( colorSeparators.key, Color.decode( "0x666666" ) );
 
@@ -231,6 +234,7 @@ public class Settings {
 		global.put( headerShowTitle.key, true );
 		global.put( headerShowAttempts.key, true );
 		global.put( headerTitleFont.key, Font.decode( "Arial-14" ) );
+		global.put( headerSubTitleFont.key, Font.decode( "Arial-12" ) );
 
 		global.put( historyRowCount.key, 8 );
 		global.put( historyTabular.key, true );

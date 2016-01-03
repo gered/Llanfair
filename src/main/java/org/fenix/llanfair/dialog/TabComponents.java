@@ -58,6 +58,10 @@ public class TabComponents extends SettingsTab
 
 	private JSpinner headerTitleSize;
 
+	private JComboBox headerSubTitleFont;
+
+	private JSpinner headerSubTitleSize;
+
 	private JComboBox coreFont;
 
 	private JSpinner coreFontSize;
@@ -127,6 +131,18 @@ public class TabComponents extends SettingsTab
 		);
 		headerTitleSize.addChangeListener(this);
 
+		// header sub-title font family and size selector
+		String headerSubTitleFontName = Settings.headerSubTitleFont.get().getName();
+		headerSubTitleFont = new JComboBox(gEnv.getAvailableFontFamilyNames());
+		headerSubTitleFont.setSelectedItem(headerSubTitleFontName);
+		headerSubTitleFont.setPreferredSize(new Dimension(130, 22));
+		headerSubTitleFont.addActionListener(this);
+
+		headerSubTitleSize = new JSpinner(new SpinnerNumberModel(
+			Settings.headerSubTitleFont.get().getSize(), 8, 240, 1)
+		);
+		headerSubTitleSize.addChangeListener(this);
+
 		// other/general font family and size selector
 		String coreFontName = Settings.coreFont.get().getName();
 		coreFont = new JComboBox(gEnv.getAvailableFontFamilyNames());
@@ -167,6 +183,7 @@ public class TabComponents extends SettingsTab
 		Object source = event.getSource();
 		if (source.equals(iconSizes)) {
 			Settings.coreIconSize.set((Integer) iconSizes.getSelectedItem());
+
 		} else if (source.equals(timerFont)) {
 			String fontName = timerFont.getSelectedItem().toString();
 			Font   font     = Font.decode(fontName).deriveFont(
@@ -176,18 +193,27 @@ public class TabComponents extends SettingsTab
 			if (timerSameFont.isSelected()) {
 				timerSegFont.setSelectedItem(fontName);
 			}
+
 		} else if (source.equals(timerSegFont)) {
 			String fontName = timerSegFont.getSelectedItem().toString();
 			Font font = Font.decode(fontName).deriveFont(
 				(float) Settings.coreSegmentTimerFont.get().getSize()
 			);
 			Settings.coreSegmentTimerFont.set(font);
+
 		} else if (source.equals(headerTitleFont)) {
 			String fontName = headerTitleFont.getSelectedItem().toString();
 			Font font = Font.decode(fontName).deriveFont(
 				(float) Settings.headerTitleFont.get().getSize()
 			);
 			Settings.headerTitleFont.set(font);
+
+		} else if (source.equals(headerSubTitleFont)) {
+			String fontName = headerSubTitleFont.getSelectedItem().toString();
+			Font font = Font.decode(fontName).deriveFont(
+				(float) Settings.headerSubTitleFont.get().getSize()
+			);
+			Settings.headerSubTitleFont.set(font);
 
 		} else if (source.equals(coreFont)) {
 			String fontName = coreFont.getSelectedItem().toString();
@@ -230,6 +256,12 @@ public class TabComponents extends SettingsTab
 			int size = (Integer) headerTitleSize.getValue();
 			Settings.headerTitleFont.set(
 				Settings.headerTitleFont.get().deriveFont((float) size)
+			);
+
+		} else if (source.equals(headerSubTitleSize)) {
+			int size = (Integer) headerSubTitleSize.getValue();
+			Settings.headerSubTitleFont.set(
+				Settings.headerSubTitleFont.get().deriveFont((float) size)
 			);
 
 		} else if (source.equals(coreFontSize)) {
@@ -291,18 +323,25 @@ public class TabComponents extends SettingsTab
 			fontPanel.add(headerTitleSize, GBC.grid(2, 3).insets(0, 5));
 
 			fontPanel.add(
-				new JLabel("" + Language.setting_core_font),
+				new JLabel("" + Language.setting_header_subTitleFont),
 				GBC.grid(0, 4).anchor(GBC.LS).insets(0, 5)
 			);
-			fontPanel.add(coreFont, GBC.grid(1, 4));
-			fontPanel.add(coreFontSize, GBC.grid(2, 4).insets(0, 5));
+			fontPanel.add(headerSubTitleFont, GBC.grid(1, 4));
+			fontPanel.add(headerSubTitleSize, GBC.grid(2, 4).insets(0, 5));
+
+			fontPanel.add(
+				new JLabel("" + Language.setting_core_font),
+				GBC.grid(0, 5).anchor(GBC.LS).insets(0, 5)
+			);
+			fontPanel.add(coreFont, GBC.grid(1, 5));
+			fontPanel.add(coreFontSize, GBC.grid(2, 5).insets(0, 5));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_core_otherTimeFont),
-				GBC.grid(0, 5).anchor(GBC.LS).insets(0, 5)
+				GBC.grid(0, 6).anchor(GBC.LS).insets(0, 5)
 			);
-			fontPanel.add(otherTimeFont, GBC.grid(1, 5));
-			fontPanel.add(otherTimeSize, GBC.grid(2, 5).insets(0, 5));
+			fontPanel.add(otherTimeFont, GBC.grid(1, 6));
+			fontPanel.add(otherTimeSize, GBC.grid(2, 6).insets(0, 5));
 		}
 		JPanel timerPanel = new JPanel(new GridBagLayout()); {
 			timerPanel.add(

@@ -226,7 +226,8 @@ public class RunPane extends JPanel {
 			updateColors(SEPARATOR);
 		} else if (Settings.historyRowCount.equals(property)) {
 			updateValues(SEPARATOR);
-		} else if (Settings.colorTitle.equals(property)) {
+		} else if (Settings.colorTitle.equals(property)
+		           || Settings.colorSubTitle.equals(property)) {
 			updateColors(TITLE);
 		} else if (Settings.graphDisplay.equals(property)) {
 			updateVisibility(GRAPH);
@@ -247,7 +248,8 @@ public class RunPane extends JPanel {
 		} else if (Run.ATTEMPT_COUNTER_PROPERTY.equals(property) ||
 			Run.COMPLETED_ATTEMPT_COUNTER_PROPERTY.equals(property)) {
 			updateValues(ATTEMPTS);
-		} else if (Settings.headerTitleFont.equals(property)) {
+		} else if (Settings.headerTitleFont.equals(property)
+		           || Settings.headerSubTitleFont.equals(property)) {
 			updateFonts(TITLE);
 		} else if (Settings.coreFont.equals(property)) {
 			updateFonts(ALL & ~TITLE);
@@ -341,7 +343,7 @@ public class RunPane extends JPanel {
 	private void updateColors(int identifier) {
 		if ((identifier & TITLE) == TITLE) {
 			title.setForeground(Settings.colorTitle.get());
-			subTitle.setForeground(Settings.colorForeground.get());
+			subTitle.setForeground(Settings.colorSubTitle.get());
 		}
 		if ((identifier & BACKGROUND) == BACKGROUND) {
 			setBackground(Settings.colorBackground.get());
@@ -366,7 +368,7 @@ public class RunPane extends JPanel {
 	private void updateFonts(int identifier) {
 		if ((identifier & TITLE) == TITLE) {
 			title.setFont(Settings.headerTitleFont.get());
-			subTitle.setFont(Settings.headerTitleFont.get());
+			subTitle.setFont(Settings.headerSubTitleFont.get());
 		}
 		if ((identifier & ATTEMPTS) == ATTEMPTS) {
 			attemptCounter.setFont(Settings.coreFont.get());
