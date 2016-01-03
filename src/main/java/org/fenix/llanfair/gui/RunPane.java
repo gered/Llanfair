@@ -45,7 +45,7 @@ public class RunPane extends JPanel {
 	/**
 	 * Update identifier for time variables.
 	 */
-	private static final int GOAL = 0x01;
+	private static final int SUBTITLE = 0x01;
 
 	/**
 	 * Update identifier for separator variables.
@@ -96,20 +96,9 @@ public class RunPane extends JPanel {
 	private JLabel title;
 
 	/**
-	 * Label displaying the current goal of run. By default it’s the time of
-	 * the run we’re comparing against, but it can be a customized string.
+	 * Label displaying the sub title of the current run.
 	 */
-	private JLabel goal;
-
-	/**
-	 * Label describing the goal value being displayed.
-	 */
-	private JLabel goalText;
-
-	/**
-	 * Panel containing both goal value and text.
-	 */
-	private JPanel goalPane;
+	private JLabel subTitle;
 
 	/**
 	 * Label displaying the number of attempts the user has made of this run.
@@ -157,8 +146,7 @@ public class RunPane extends JPanel {
 			throw new NullPointerException("null run");
 		}
 		title           = new JLabel();
-		goal            = new JLabel();
-		goalText        = new JLabel();
+		subTitle        = new JLabel();
 		attemptCounter  = new JLabel();
 		core            = new Core(run);
 		graph           = new Graph(run);
@@ -225,9 +213,8 @@ public class RunPane extends JPanel {
 
 		String property = event.getPropertyName();
 		if (Run.STATE_PROPERTY.equals(property)) {
-			if (run.getState() == State.READY
-					|| run.getState() == State.NULL) {
-				updateValues(GOAL | SEPARATOR);
+			if (run.getState() == State.READY || run.getState() == State.NULL) {
+				updateValues(ATTEMPTS | SEPARATOR);
 			}
 		} else if (Run.NAME_PROPERTY.equals(property)) {
 			updateValues(TITLE);
@@ -239,28 +226,24 @@ public class RunPane extends JPanel {
 			updateColors(SEPARATOR);
 		} else if (Settings.historyRowCount.equals(property)) {
 			updateValues(SEPARATOR);
-		} else if (Settings.colorTime.equals(property)) {
-			updateColors(GOAL);
 		} else if (Settings.colorTitle.equals(property)) {
 			updateColors(TITLE);
-		} else if (Settings.compareMethod.equals(property)) {
-			updateValues(GOAL);
 		} else if (Settings.graphDisplay.equals(property)) {
 			updateVisibility(GRAPH);
 		} else if (Settings.footerDisplay.equals(property)) {
 			updateVisibility(FOOTER);
 		} else if (Settings.headerShowTitle.equals(property)) {
-			updateVisibility(TITLE | GOAL);
+			updateVisibility(TITLE);
 			updateValues(SEPARATOR);
-		} else if (Settings.headerShowGoal.equals(property)) {
-			updateVisibility(TITLE | GOAL);
+		} else if (Settings.headerShowSubtitle.equals(property)) {
+			updateVisibility(SUBTITLE);
 			updateValues(SEPARATOR);
 		} else if (Settings.headerShowAttempts.equals(property)) {
 			updateVisibility(ATTEMPTS);
 			updateValues(SEPARATOR);
 		} else if (Settings.accuracy.equals(property)
-				|| Run.GOAL_PROPERTY.equals(property)) {
-			updateValues(GOAL);
+				|| Run.SUBTITLE_PROPERTY.equals(property)) {
+			updateValues(TITLE);
 		} else if (Run.ATTEMPT_COUNTER_PROPERTY.equals(property) ||
 			Run.COMPLETED_ATTEMPT_COUNTER_PROPERTY.equals(property)) {
 			updateValues(ATTEMPTS);
@@ -284,7 +267,7 @@ public class RunPane extends JPanel {
 		if (event.getType() == TableModelEvent.INSERT
 				|| event.getType() == TableModelEvent.DELETE
 				|| event.getType() == TableModelEvent.UPDATE) {
-			updateValues(GOAL);
+			updateValues(TITLE);
 		}
 	}
 
@@ -306,12 +289,8 @@ public class RunPane extends JPanel {
 	 * Places the sub-components within this component.
 	 */
 	private void placeComponents() {
-		add(title,GBC.grid(0, 0).insets(3, 0, 1, 0));
-		goalPane = new JPanel(new GridBagLayout()); {
-			goalPane.add(goalText, GBC.grid(0, 1));
-			goalPane.add(goal, GBC.grid(1, 1).insets(0, 3, 0, 0));
-			goalPane.setOpaque(false);
-		}
+		add(title, GBC.grid(0, 0).insets(3, 0, 1, 0));
+		add(subTitle, GBC.grid(0, 1).insets(3, 0, 0, 0));
 		add(attemptCounter, GBC.grid(0, 2).insets(1, 0, 1, 3).anchor(GBC.LE));
 		add(createSeparator(), GBC.grid(0, 3).insets(3, 0).fill(GBC.H));
 		add(history, GBC.grid(0, 4).fill(GBC.H).insets(0, 5));
@@ -328,19 +307,9 @@ public class RunPane extends JPanel {
 	 * @param   identifier  - one of the constant update identifier.
 	 */
 	private void updateValues(int identifier) {
-		if ((identifier & GOAL) == GOAL) {
-			if (run.getGoal() == null || run.getGoal().equals("")) {
-				Time time = run.getTime(Segment.SET);
-				goal.setText("" + (time == null ? "???" : time));
-			} else {
-				goal.setText(run.getGoal());
-			}
-		}
-		if ((identifier & TEXT) == TEXT) {
-			goalText.setText("" + Language.GOAL);
-		}
 		if ((identifier & TITLE) == TITLE) {
 			title.setText("" + run.getName());
+			subTitle.setText(run.getSubTitle());
 		}
 		if ((identifier & ATTEMPTS) == ATTEMPTS) {
 			int attempts = run.getNumberOfAttempts();
@@ -353,12 +322,12 @@ public class RunPane extends JPanel {
 				attemptCounter.setText(String.format("%d / %d", completedAttempts, attempts));
 		}
 		if ((identifier & SEPARATOR) == SEPARATOR) {
-			boolean hdTitle = Settings.headerShowGoal.get();
-			boolean hdGoal = Settings.headerShowTitle.get();
+			boolean hdTitle = Settings.headerShowSubtitle.get();
+			boolean hdSubtitle = Settings.headerShowTitle.get();
 			boolean hdAttempts = Settings.headerShowAttempts.get();
 			boolean hsRows = history.getRowCount() > 0;
 
-			separators.get(0).setVisible(hdTitle || hdGoal || hdAttempts);
+			separators.get(0).setVisible(hdTitle || hdSubtitle || hdAttempts);
 			separators.get(1).setVisible(hsRows);
 		}
 	}
@@ -370,14 +339,9 @@ public class RunPane extends JPanel {
 	 * @param   identifier  - one of the constant update identifier.
 	 */
 	private void updateColors(int identifier) {
-		if ((identifier & GOAL) == GOAL) {
-			goal.setForeground(Settings.colorTime.get());
-		}
-		if ((identifier & TEXT) == TEXT) {
-			goalText.setForeground(Settings.colorForeground.get());
-		}
 		if ((identifier & TITLE) == TITLE) {
 			title.setForeground(Settings.colorTitle.get());
+			subTitle.setForeground(Settings.colorForeground.get());
 		}
 		if ((identifier & BACKGROUND) == BACKGROUND) {
 			setBackground(Settings.colorBackground.get());
@@ -402,12 +366,7 @@ public class RunPane extends JPanel {
 	private void updateFonts(int identifier) {
 		if ((identifier & TITLE) == TITLE) {
 			title.setFont(Settings.headerTitleFont.get());
-		}
-		if ((identifier & GOAL) == GOAL) {
-			goal.setFont(Settings.coreFont.get());
-		}
-		if ((identifier & TEXT) == TEXT) {
-			goalText.setFont(Settings.coreFont.get());
+			subTitle.setFont(Settings.headerTitleFont.get());
 		}
 		if ((identifier & ATTEMPTS) == ATTEMPTS) {
 			attemptCounter.setFont(Settings.coreFont.get());
@@ -441,15 +400,15 @@ public class RunPane extends JPanel {
 				remove(footer);
 			}
 		}
-		if ((identifier & GOAL) == GOAL) {
-			if (Settings.headerShowGoal.get()) {
+		if ((identifier & SUBTITLE) == SUBTITLE) {
+			if (Settings.headerShowSubtitle.get()) {
 				if (Settings.headerShowTitle.get()) {
-					add(goalPane, GBC.grid(0, 1));
+					add(subTitle, GBC.grid(0, 1));
 				} else {
-					add(goalPane, GBC.grid(0, 1).insets(3, 0, 0, 0));
+					add(subTitle, GBC.grid(0, 1).insets(3, 0, 0, 0));
 				}
 			} else {
-				remove(goalPane);
+				remove(subTitle);
 			}
 		}
 		if ((identifier & TITLE) == TITLE) {

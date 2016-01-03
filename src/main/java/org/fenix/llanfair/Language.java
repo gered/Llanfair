@@ -53,7 +53,7 @@ public enum Language {
 	GLOBAL_HOTKEYS_STARTUP_ERROR,
 
 	// Settings > Header
-	setting_header_goal,
+	setting_header_subTitle,
 	setting_header_title,
 	setting_header_showAttempts,
 	setting_header_titleFont,
@@ -146,7 +146,7 @@ public enum Language {
 	FOOTER,
 	MISC,
 	USE_MAIN_FONT,
-	LB_GOAL,
+	LB_SUBTITLE,
 	ICON,
 	COLORS,
 
@@ -231,7 +231,6 @@ public enum Language {
 	DISABLED,
 	EDITING,
 	ERROR,
-	GOAL,
 	IMAGE,
 	INPUTS,
 	MAX_ORDINATE,

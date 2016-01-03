@@ -56,6 +56,8 @@ implements ActionListener, ListSelectionListener {
 	 */
 	private JLabel runTitleLabel;
 
+	private JTextField runSubTitle;
+
 	/**
 	 * Table d’édition des segments de la course.
 	 */
@@ -103,8 +105,6 @@ implements ActionListener, ListSelectionListener {
 	 */
 	private JButton moveDown;
 
-	private JTextField runGoal;
-
 	private JTextField runDelayedStart;
 
 	// ----------------------------------------------------------- CONSTRUCTEURS
@@ -128,7 +128,7 @@ implements ActionListener, ListSelectionListener {
 
 		runTitle       = new JTextField(run.getName(), 61);
 		runTitleLabel  = new JLabel(Language.RUN_TITLE.get());
-		runGoal        = new JTextField(run.getGoal(), 48);
+		runSubTitle     = new JTextField(run.getSubTitle(), 61);
 		runDelayedStart = new JTextField(delayedStartString, 5);
 		segments       = new JTable(run) {
 			@Override protected JTableHeader createDefaultTableHeader() {
@@ -173,8 +173,8 @@ implements ActionListener, ListSelectionListener {
 		setLayout(new GridBagLayout());
 		add(runTitleLabel, GBC.grid(0, 0).insets(4, 4, 0, 4).anchor(GBC.LE));
 		add(runTitle, GBC.grid(1, 0, 3, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
-		add(new JLabel("" + Language.LB_GOAL), GBC.grid(0, 1).insets(4, 4, 0, 4).anchor(GBC.LE));
-		add(runGoal, GBC.grid(1, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
+		add(new JLabel("" + Language.LB_SUBTITLE), GBC.grid(0, 1).insets(4, 4, 0, 4).anchor(GBC.LE));
+		add(runSubTitle, GBC.grid(1, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
 		add(new JLabel("" + Language.ED_DELAYED_START), GBC.grid(0, 2).insets(4, 4, 0, 4).anchor(GBC.LE));
 		add(runDelayedStart, GBC.grid(1, 2).insets(4, 0, 0, 4).anchor(GBC.LS));
 		add(segmented, GBC.grid(2, 2, 2, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
@@ -295,7 +295,7 @@ implements ActionListener, ListSelectionListener {
 
 		} else if (source.equals(save)) {
 			run.setName(runTitle.getText());
-			run.setGoal(runGoal.getText());
+			run.setSubTitle(runSubTitle.getText());
 			run.setSegmented(segmented.isSelected());
 
 			long delayedStart = parseDelayedStartTime(runDelayedStart.getText());

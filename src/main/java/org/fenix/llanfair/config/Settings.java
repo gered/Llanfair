@@ -64,7 +64,7 @@ public class Settings {
 
 	/* HEADER properties */
 
-	public static final Property<Boolean> headerShowGoal = new Property<>( "header.goal" );
+	public static final Property<Boolean> headerShowSubtitle = new Property<>( "header.subTitle" );
 	public static final Property<Boolean> headerShowTitle = new Property<>( "header.title" );
 	public static final Property<Boolean> headerShowAttempts = new Property<>( "header.showAttempts" );
 	public static final Property<Font> headerTitleFont = new Property<>(" header.titleFont" );
@@ -227,7 +227,7 @@ public class Settings {
 		global.put( hotkeyPause.key, -1 );
 		global.put( hotkeyLock.key, -1 );
 
-		global.put( headerShowGoal.key, true );
+		global.put( headerShowSubtitle.key, true );
 		global.put( headerShowTitle.key, true );
 		global.put( headerShowAttempts.key, true );
 		global.put( headerTitleFont.key, Font.decode( "Arial-14" ) );

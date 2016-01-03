@@ -326,7 +326,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 				|| Settings.footerUseSplitData.equals(property)
 				|| Settings.coreIconSize.equals(property)
 				|| Settings.accuracy.equals(property)
-				|| Settings.headerShowGoal.equals(property)
+				|| Settings.headerShowSubtitle.equals(property)
 				|| Settings.headerShowTitle.equals(property)
 				|| Settings.historyDeltas.equals(property)
 				|| Settings.historySegmentFont.equals(property)

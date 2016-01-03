@@ -79,6 +79,8 @@ public class Run implements TableModel, Serializable {
 	 */
 	public static final String NAME_PROPERTY = "run.name";
 
+	public static final String SUBTITLE_PROPERTY = "run.subTitle";
+
 	/**
 	 * Identifier for the bean property state of the run.
 	 */
@@ -88,8 +90,6 @@ public class Run implements TableModel, Serializable {
 	 * Identifier for the bean property current segment of the run.
 	 */
 	public static final String CURRENT_SEGMENT_PROPERTY = "run.currentSegment";
-
-	public static final String GOAL_PROPERTY = "run.goal";
 
 	public static final String COUNTER_VALUE_PROPERTY = "run.counters.value";
 
@@ -113,6 +113,11 @@ public class Run implements TableModel, Serializable {
 	 * The name of the run.
 	 */
 	private String name;
+
+	/***
+	 * The subtitle of the run.
+	 */
+	private String subTitle;
 
 	/**
 	 * Current state of the run. Transient as a deserialized run will always
@@ -166,8 +171,6 @@ public class Run implements TableModel, Serializable {
 	 */
 	private long delayedStart;
 
-	private String goal;
-
 	private boolean segmented;
 
 	private List<Counters> counters;
@@ -191,8 +194,8 @@ public class Run implements TableModel, Serializable {
 			throw new NullPointerException("null run name");
 		}
 		this.name           = name;
+		this.subTitle       = "";
 		segments            = new ArrayList<Segment>();
-		goal                = "";
 		segmented           = false;
 		counters            = new ArrayList<Counters>();
 		initializeTransients();
@@ -217,8 +220,8 @@ public class Run implements TableModel, Serializable {
 		return name;
 	}
 
-	public String getGoal() {
-		return goal;
+	public String getSubTitle() {
+		return subTitle;
 	}
 
 	public long getDelayedStart() {
@@ -604,17 +607,14 @@ public class Run implements TableModel, Serializable {
 		pcSupport.firePropertyChange(NAME_PROPERTY, old, name);
 	}
 
-	public void setSegmented(boolean segmented) {
-		this.segmented = segmented;
+	public void setSubTitle(String subTitle) {
+		String old = this.subTitle;
+		this.subTitle = subTitle;
+		pcSupport.firePropertyChange(SUBTITLE_PROPERTY, old, subTitle);
 	}
 
-	public void setGoal(String goal) {
-		if (goal == null) {
-			throw new NullPointerException("null goal string");
-		}
-		String old = this.goal;
-		this.goal  = goal;
-		pcSupport.firePropertyChange(GOAL_PROPERTY, old, goal);
+	public void setSegmented(boolean segmented) {
+		this.segmented = segmented;
 	}
 
 	public void setDelayedStart(long delayedStart) {
@@ -1121,8 +1121,8 @@ public class Run implements TableModel, Serializable {
 		current        = -1;
 		startTime      = 0L;
 
-		if (goal == null) {
-			goal = "";
+		if (subTitle == null) {
+			subTitle = "";
 		}
 		if (counters == null) {
 			counters = new ArrayList<Counters>();
