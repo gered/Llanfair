@@ -103,6 +103,10 @@ public class Run implements TableModel, Serializable {
 
 	public static final String COMPLETED_ATTEMPT_COUNTER_PROPERTY = "run.completedAttemptCounter";
 
+
+
+	public static final String DELAYED_START_PROPERTY = "run.delayedStart";
+
 	// ------------------------------------------------------------- ATTRIBUTES
 
 	/**
@@ -616,7 +620,9 @@ public class Run implements TableModel, Serializable {
 	public void setDelayedStart(long delayedStart) {
 		if (delayedStart < 0)
 			throw new InvalidParameterException("negative delayed start");
+		long old = this.delayedStart;
 		this.delayedStart = delayedStart;
+		pcSupport.firePropertyChange(DELAYED_START_PROPERTY, old, delayedStart);
 	}
 
 	/**

@@ -197,6 +197,7 @@ class Core extends JPanel implements ActionListener {
 		this.run = run;
 		updateValues(ALL);
 		updateVisibility(ALL);
+		updateColors(ALL);
 		resize = true;
 		revalidate();
 	}
@@ -365,6 +366,9 @@ class Core extends JPanel implements ActionListener {
 			}
 		} else if (Run.CURRENT_SEGMENT_PROPERTY.equals(property)) {
 			updateValues(ALL & ~TIMER);
+			updateColors(TIMER);
+		} else if (Run.DELAYED_START_PROPERTY.equals(property)) {
+			updateValues(TIMER);
 			updateColors(TIMER);
 		} else if (Settings.colorForeground.equals(property)) {
 			updateColors(NAME);
@@ -559,8 +563,7 @@ class Core extends JPanel implements ActionListener {
 					segmentLoss = false;
 					segmentTimer.setText("");
 					Time time = run.getTime(Segment.LIVE);
-					splitTimer.setText(
-							"" + (time == null ? Language.RUN_STOPPED : time));
+					splitTimer.setText("" + (time == null ? Language.RUN_STOPPED : time));
 				} else if (state == State.NULL) {
 					splitTimer.setText("" + Language.RUN_NULL);
 					segmentTimer.setText("");
@@ -568,7 +571,8 @@ class Core extends JPanel implements ActionListener {
 					timer.stop();
 					splitLoss   = false;
 					segmentLoss = false;
-					splitTimer.setText("" + Language.RUN_READY);
+					String timeString = getLiveTimeString();
+					splitTimer.setText("" + (timeString == null ? Language.RUN_READY : timeString));
 					segmentTimer.setText("");
 				} else if (state == State.ONGOING) {
 					timer.restart();
@@ -600,7 +604,10 @@ class Core extends JPanel implements ActionListener {
 		if ((identifier & TIMER) == TIMER) {
 			synchronized (this) {
 				Color color = Settings.colorTimer.get();
-				splitTimer.setForeground(color);
+				if (isShowingNegativeTime() && run.getState() == State.READY)
+					splitTimer.setForeground(Color.GRAY);
+				else
+					splitTimer.setForeground(color);
 				segmentTimer.setForeground(color);
 			}
 		}
@@ -627,5 +634,32 @@ class Core extends JPanel implements ActionListener {
 			splitTimer.setFont(Settings.coreTimerFont.get());
 			segmentTimer.setFont(Settings.coreSegmentTimerFont.get());
 		}
+	}
+
+	private boolean isShowingNegativeTime() {
+		if (run != null) {
+			Time time = run.getTime(Segment.LIVE);
+			if (time == null)
+				time = new Time(0 - run.getDelayedStart());
+
+			return time.getMilliseconds() < 0;
+		}
+
+		return false;
+	}
+
+	private String getLiveTimeString() {
+		if (run != null) {
+			Time time = run.getTime(Segment.LIVE);
+			if (time == null)
+				time = new Time(0 - run.getDelayedStart());
+
+			if (time.getMilliseconds() < 0)
+				return "-" + time.toString();
+			else
+				return time.toString();
+		}
+
+		return null;
 	}
 }
