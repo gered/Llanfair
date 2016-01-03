@@ -1,25 +1,17 @@
 package org.fenix.llanfair.gui;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagLayout;
+import org.fenix.llanfair.Run;
+import org.fenix.llanfair.Run.State;
+import org.fenix.llanfair.config.Settings;
+import org.fenix.utils.gui.GBC;
+import org.fenix.utils.locale.LocaleEvent;
+
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.event.TableModelEvent;
-
-import org.fenix.llanfair.Language;
-import org.fenix.llanfair.Run;
-import org.fenix.llanfair.Segment;
-import org.fenix.llanfair.config.Settings;
-import org.fenix.llanfair.Run.State;
-import org.fenix.llanfair.Time;
-import org.fenix.utils.gui.GBC;
-import org.fenix.utils.locale.LocaleEvent;
 
 /**
  * A panel representing informations on a given run. This panel uses numerous
@@ -153,6 +145,9 @@ public class RunPane extends JPanel {
 		history         = new History(run);
 		footer    = new Footer(run);
 		separators      = new ArrayList<JLabel>();
+
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		subTitle.setHorizontalAlignment(SwingConstants.CENTER);
 
 		placeComponents();
 		setRun(run);
@@ -291,7 +286,7 @@ public class RunPane extends JPanel {
 	 * Places the sub-components within this component.
 	 */
 	private void placeComponents() {
-		add(title, GBC.grid(0, 0).insets(3, 0, 1, 0));
+		add(title, GBC.grid(0, 0).insets(3, 0, 1, 0).fill(GBC.B));
 		add(subTitle, GBC.grid(0, 1).insets(3, 0, 0, 0));
 		add(attemptCounter, GBC.grid(0, 2).insets(1, 0, 1, 3).anchor(GBC.LE));
 		add(createSeparator(), GBC.grid(0, 3).insets(3, 0).fill(GBC.H));
@@ -310,7 +305,7 @@ public class RunPane extends JPanel {
 	 */
 	private void updateValues(int identifier) {
 		if ((identifier & TITLE) == TITLE) {
-			title.setText("" + run.getName());
+			title.setText("<html><div style='text-align: center;'>" + sanitizeTitleString(run.getName()) + "</div></html>");
 			subTitle.setText(run.getSubTitle());
 		}
 		if ((identifier & ATTEMPTS) == ATTEMPTS) {
@@ -421,6 +416,13 @@ public class RunPane extends JPanel {
 		}
 		revalidate();
 		repaint();
+	}
+
+	private String sanitizeTitleString(String title) {
+		return title
+			.replace("<", "&lt;")
+			.replace(">", "&gt;")
+			.replace("\n", "<br/>");
 	}
 
 }

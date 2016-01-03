@@ -49,7 +49,7 @@ implements ActionListener, ListSelectionListener {
 	/**
 	 * Zone d’édition du titre de la course.
 	 */
-	private JTextField runTitle;
+	private JTextArea runTitle;
 
 	/**
 	 * Étiquette du {@link runTitle}.
@@ -126,7 +126,7 @@ implements ActionListener, ListSelectionListener {
 
 		String delayedStartString = new Time(run.getDelayedStart()).toString(Accuracy.HUNDREDTH);
 
-		runTitle       = new JTextField(run.getName(), 61);
+		runTitle       = new JTextArea(run.getName(), 2, 61);
 		runTitleLabel  = new JLabel(Language.RUN_TITLE.get());
 		runSubTitle     = new JTextField(run.getSubTitle(), 61);
 		runDelayedStart = new JTextField(delayedStartString, 5);
