@@ -255,8 +255,8 @@ public class History extends JPanel {
 		} else if (Settings.historyRowCount.equals(property)
 				|| Settings.historyBlankRows.equals(property)) {
 			populateRows();
-		} else if (Settings.colorTimeGained.equals(property)
-				|| Settings.colorTimeLost.equals(property)
+		} else if (Settings.colorTimeGainedWhileAhead.equals(property)
+				|| Settings.colorTimeGainedWhileBehind.equals(property)
 				|| Settings.colorNewRecord.equals(property)) {
 			updateColors(LIVE);
 		} else if (Settings.colorHighlight.equals(property)) {
@@ -611,17 +611,11 @@ public class History extends JPanel {
 				}
 			}
 			if ((identifier & LIVE) == LIVE && (index > -1)) {
-				Color lost  = Settings.colorTimeLost.get();
-				Color gain  = Settings.colorTimeGained.get();
+				Color lost  = Settings.colorTimeGainedWhileBehind.get();
+				Color gain  = Settings.colorTimeGainedWhileAhead.get();
 				Color neut  = Settings.colorTime.get();
 				Color recd  = Settings.colorNewRecord.get();
 				int   prev  = run.getPrevious();
-
-				// TODO: replace with color settings the user can set themselves
-				Color lostWhileAhead = gain.brighter();
-				Color gainWhileAhead = gain; //.darker();
-				Color lostWhileBehind = lost.brighter();
-				Color gainWhileBehind = lost; //.darker();
 
 				Merge  merge     = Settings.historyMerge.get();
 				JLabel realDelta = (merge == Merge.DELTA) ? time : delta;
@@ -643,16 +637,16 @@ public class History extends JPanel {
 								boolean isGainingTime = run.isBetterSegment(run.getPrevious());
 								if (compare > 0) {
 									if (isGainingTime)
-										realDelta.setForeground(gainWhileBehind);
+										realDelta.setForeground(Settings.colorTimeGainedWhileBehind.get());
 									else
-										realDelta.setForeground(lostWhileBehind);
+										realDelta.setForeground(Settings.colorTimeLostWhileBehind.get());
 
 									realLive.setForeground(lost);
 								} else {
 									if (isGainingTime)
-										realDelta.setForeground(gainWhileAhead);
+										realDelta.setForeground(Settings.colorTimeGainedWhileAhead.get());
 									else
-										realDelta.setForeground(lostWhileAhead);
+										realDelta.setForeground(Settings.colorTimeLostWhileAhead.get());
 
 									realLive.setForeground(gain);
 								}

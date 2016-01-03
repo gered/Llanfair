@@ -179,8 +179,8 @@ class Footer extends JPanel {
 			updateValues(ALL & ~TEXT);
 			updateColors(TIME | DELTA);
 			updateVisibility(ALL);
-		} else if (Settings.colorTimeLost.equals(property)
-				|| Settings.colorTimeGained.equals(property)) {
+		} else if (Settings.colorTimeGainedWhileBehind.equals(property)
+				|| Settings.colorTimeGainedWhileAhead.equals(property)) {
 			updateColors(DELTA);
 
 		} else if (Settings.colorTime.equals(property)
@@ -363,9 +363,9 @@ class Footer extends JPanel {
 				} else {
 					int compare = tmDlta.compareTo(Time.ZERO);
 					if (compare > 0) {
-						delta.setForeground(Settings.colorTimeLost.get());
+						delta.setForeground(Settings.colorTimeGainedWhileBehind.get());
 					} else {
-						delta.setForeground(Settings.colorTimeGained.get());
+						delta.setForeground(Settings.colorTimeGainedWhileAhead.get());
 					}
 				}
 			}

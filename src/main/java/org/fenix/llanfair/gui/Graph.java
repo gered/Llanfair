@@ -148,8 +148,8 @@ class Graph extends JPanel {
 		// Settings.COLOR_BACKGROUND, COLOR_TIME_LOST, COLOR_TIME_GAINED
 		// or Run.CURRENT_SEGMENT_PROPERTY
 		} else if (Settings.colorBackground.equals(property)
-				|| Settings.colorTimeLost.equals(property)
-				|| Settings.colorTimeGained.equals(property)
+				|| Settings.colorTimeGainedWhileBehind.equals(property)
+				|| Settings.colorTimeGainedWhileAhead.equals(property)
 				|| Settings.colorNewRecord.equals(property)
 				|| Run.CURRENT_SEGMENT_PROPERTY.equals(property)) {
 			canvas.repaint();
@@ -310,8 +310,8 @@ class Graph extends JPanel {
 			g2.fillRect(0, 0, clipW, clipH);
   
 			Color colorFG = Settings.colorForeground.get();
-			Color colorTG = Settings.colorTimeGained.get();
-			Color colorTL = Settings.colorTimeLost.get();
+			Color colorTG = Settings.colorTimeGainedWhileAhead.get();
+			Color colorTL = Settings.colorTimeGainedWhileBehind.get();
 			Color colorRC = Settings.colorNewRecord.get();
 
 			// Draw the axis.

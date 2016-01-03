@@ -308,7 +308,7 @@ class Core extends JPanel implements ActionListener {
 		Time segmentElapsed = new Time(now - current.getStartTime());
 
 		if (splitElapsed.getMilliseconds() < 0)
-			splitTimer.setForeground(Color.GRAY);
+			splitTimer.setForeground(Settings.colorNegativeTime.get());
 		else
 			splitTimer.setForeground(Settings.colorTimer.get());
 
@@ -318,7 +318,7 @@ class Core extends JPanel implements ActionListener {
 				Color bg = Settings.colorBackground.get();
 				if (splitTimer.getForeground().equals(bg)) {
 					if (pauseTime.compareTo(splitTime) > 0) {
-						splitTimer.setForeground(Settings.colorTimeLost.get());
+						splitTimer.setForeground(Settings.colorTimeGainedWhileBehind.get());
 					} else {
 						splitTimer.setForeground(Settings.colorTimer.get());
 					}
@@ -338,11 +338,11 @@ class Core extends JPanel implements ActionListener {
 
 			if (!splitLoss && splitElapsed.compareTo(splitTime) > 0) {
 				splitLoss = true;
-				splitTimer.setForeground(Settings.colorTimeLost.get());
+				splitTimer.setForeground(Settings.colorTimeGainedWhileBehind.get());
 			}
 			if (!segmentLoss && segmentElapsed.compareTo(segmentTime) > 0) {
 				segmentLoss = true;
-				segmentTimer.setForeground(Settings.colorTimeLost.get());
+				segmentTimer.setForeground(Settings.colorTimeGainedWhileBehind.get());
 			}
 		}
 	}
@@ -605,7 +605,7 @@ class Core extends JPanel implements ActionListener {
 			synchronized (this) {
 				Color color = Settings.colorTimer.get();
 				if (isShowingNegativeTime() && run.getState() == State.READY)
-					splitTimer.setForeground(Color.GRAY);
+					splitTimer.setForeground(Settings.colorNegativeTime.get());
 				else
 					splitTimer.setForeground(color);
 				segmentTimer.setForeground(color);

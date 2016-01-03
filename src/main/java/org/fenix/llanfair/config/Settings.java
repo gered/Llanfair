@@ -44,8 +44,11 @@ public class Settings {
 	public static final Property<Color> colorForeground = new Property<>( "color.foreground" );
 	public static final Property<Color> colorTime = new Property<>( "color.time" );
 	public static final Property<Color> colorTimer = new Property<>( "color.timer" );
-	public static final Property<Color> colorTimeGained = new Property<>( "color.timeGained" );
-	public static final Property<Color> colorTimeLost = new Property<>( "color.timeLost" );
+	public static final Property<Color> colorNegativeTime = new Property<>( "color.negativeTime" );
+	public static final Property<Color> colorTimeGainedWhileAhead = new Property<>( "color.timeGainedWhileAhead" );
+	public static final Property<Color> colorTimeLostWhileAhead = new Property<>( "color.timeLostWhileAhead" );
+	public static final Property<Color> colorTimeGainedWhileBehind = new Property<>( "color.timeGainedWhileBehind" );
+	public static final Property<Color> colorTimeLostWhileBehind = new Property<>( "color.timeLostWhileBehind" );
 	public static final Property<Color> colorNewRecord = new Property<>( "color.newRecord" );
 	public static final Property<Color> colorTitle = new Property<>( "color.title" );
 	public static final Property<Color> colorSubTitle = new Property<>( "color.subTitle" );
@@ -213,8 +216,11 @@ public class Settings {
 		global.put( colorForeground.key, Color.decode( "0xc0c0c0" ) );
 		global.put( colorTime.key, Color.decode( "0xffffff" ) );
 		global.put( colorTimer.key, Color.decode( "0x22cc22" ) );
-		global.put( colorTimeGained.key, Color.decode( "0x6295fc" ) );
-		global.put( colorTimeLost.key, Color.decode( "0xe82323" ) );
+		global.put( colorNegativeTime.key, Color.decode ("0x808080" ) );
+		global.put( colorTimeGainedWhileAhead.key, Color.decode( "0x6295fc" ) );
+		global.put( colorTimeLostWhileAhead.key, Color.decode( "0x99ccff" ) );
+		global.put( colorTimeGainedWhileBehind.key, Color.decode( "0xff8e8e" ) );
+		global.put( colorTimeLostWhileBehind.key, Color.decode( "0xe82323" ) );
 		global.put( colorNewRecord.key, Color.decode( "0xf0b012" ) );
 		global.put( colorTitle.key, Color.decode( "0xf0b012" ) );
 		global.put( colorSubTitle.key, Color.decode( "0xffffff" ) );
