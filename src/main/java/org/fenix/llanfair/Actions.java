@@ -132,10 +132,9 @@ final class Actions {
 		} else if ( source == MenuItem.SAVE ) {
 			run.saveLiveTimes( !run.isPersonalBest() );
 			run.reset();
-			save();
+			save(this.file);
 		} else if ( source == MenuItem.SAVE_AS ) {
-			file = null;
-			save();
+			save(null);
 		} else if ( source == MenuItem.RESET ) {
 			reset();
 			} else if ( source == MenuItem.LOCK ) {
@@ -247,6 +246,8 @@ final class Actions {
 	private File selectFile(FILE_CHOOSER_TYPE dialogType) {
 		int action = -1;
 
+		fileChooser.setCurrentDirectory(this.file);
+
 		if (dialogType == FILE_CHOOSER_TYPE.OPEN)
 			action = fileChooser.showOpenDialog(master);
 		else if (dialogType == FILE_CHOOSER_TYPE.SAVE)
@@ -295,7 +296,7 @@ final class Actions {
 			else if ( option == JOptionPane.YES_OPTION ) {
 				run.saveLiveTimes( !betterRun );
 				run.reset();
-				save();
+				save(this.file);
 				confirmed = true;
 			}
 		}
@@ -391,13 +392,16 @@ final class Actions {
 	/**
 	 * Saves the currently opened run to the currently selected file. If no
 	 * file has been selected, the user is asked for one.
+	 *
+	 * @param file the file to save to, or if null, the user is prompted to select one
 	 */
-	private void save() {
+	private void save(File file) {
 		if ( file == null ) {
 			if ( ( file = selectFile(FILE_CHOOSER_TYPE.SAVE) ) == null ) {
 				return;
 			}
 		}
+		this.file = file;
 		Settings.coordinates.set( master.getLocationOnScreen(), true );
 		Settings.dimension.set( master.getSize(), true );
 
