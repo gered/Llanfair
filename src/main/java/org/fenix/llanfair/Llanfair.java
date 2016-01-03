@@ -82,7 +82,11 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		actions = new Actions( this );
 
 		setMenu();
-		setBehavior();
+
+		boolean behaviourSucceed = setBehavior();
+		if (!behaviourSucceed)
+			return;
+
 		setRun( run );
 
 		setVisible( true );
@@ -450,13 +454,27 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 *
 	 * @throws  IllegalStateException if JNativeHook cannot be registered.
 	 */
-	private void setBehavior() {
-		registerNativeKeyHook();
+	private boolean setBehavior() {
+		boolean registered = registerNativeKeyHook();
+
+		if (!registered) {
+			// NOTE: in the event of a failure, JNativeHook now has some ability (on some OS's at least)
+			//       to pop up an OS-specific dialog or other action that allows the user to rectify the
+			//       problem. e.g. on OS X, if an exception is thrown a dialog telling the user that the
+			//       application has requested some accessibility-related access shows up.
+
+			JOptionPane.showMessageDialog(this, Language.GLOBAL_HOTKEYS_STARTUP_ERROR, Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
+			this.dispose();
+			return false;
+		}
+
 		setAlwaysOnTop(Settings.alwaysOnTop.get());
 		addWindowListener(this);
 		addMouseWheelListener(this);
 		Settings.addPropertyChangeListener(this);
 		GlobalScreen.addNativeKeyListener(this);
+
+		return true;
 	}
 
 	/**
@@ -477,12 +495,6 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 			GlobalScreen.registerNativeHook();
 			return true;
 		} catch (NativeHookException e) {
-			// NOTE: in the event of a failure, JNativeHook now has some ability (on some OS's at least)
-			//       to pop up an OS-specific dialog or other action that allows the user to rectify the
-			//       problem. e.g. on OS X, if an exception is thrown a dialog telling the user that the
-			//       application has requested some accessibility-related access shows up.
-
-			JOptionPane.showMessageDialog(this, Language.GLOBAL_HOTKEYS_WARNING, Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}

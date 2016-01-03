@@ -23,8 +23,6 @@ class TabHotkeys extends SettingsTab {
 
 	private JCheckBox globalHotKeys;
 
-	private JLabel globalHotKeysHookWarning;
-
 	/**
 	 * List of all key fields customizable by the user.
 	 */
@@ -49,9 +47,6 @@ class TabHotkeys extends SettingsTab {
 			@Override
 			public void actionPerformed(ActionEvent e) { Settings.useGlobalHotkeys.set(globalHotKeys.isSelected()); }
 		});
-
-		globalHotKeysHookWarning = new JLabel("" + Language.GLOBAL_HOTKEYS_WARNING);
-		globalHotKeysHookWarning.setForeground(Color.RED);
 
 		keyFields = new ArrayList<KeyField>();
 		keyLabels = new ArrayList<JLabel>();
@@ -97,9 +92,6 @@ class TabHotkeys extends SettingsTab {
 		}
 
 		add(globalHotKeys, GBC.grid(2, 3).insets(0, 50, 0, 0).anchor(GBC.LS));
-
-		if (GlobalScreen.isNativeHookRegistered())
-			add(globalHotKeysHookWarning, GBC.grid(0, row + 1, 3, 1).insets(10, 0, 10, 0));
 	}
 
 	// --------------------------------------------------------- INTERNAL TYPES

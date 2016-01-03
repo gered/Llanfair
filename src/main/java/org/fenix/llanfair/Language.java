@@ -50,8 +50,7 @@ public enum Language {
 	setting_hotkey_stop,
 	setting_hotkey_pause,
 	setting_hotkey_lock,
-	GLOBAL_HOTKEYS_WARNING,
-	GLOBAL_HOTKEYS_STARTUP_WARNING,
+	GLOBAL_HOTKEYS_STARTUP_ERROR,
 
 	// Settings > Header
 	setting_header_goal,
