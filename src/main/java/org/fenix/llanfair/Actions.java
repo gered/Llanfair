@@ -246,7 +246,10 @@ final class Actions {
 	private File selectFile(FILE_CHOOSER_TYPE dialogType) {
 		int action = -1;
 
-		fileChooser.setCurrentDirectory(this.file);
+		if (this.file == null)
+			fileChooser.setCurrentDirectory(new File(UserSettings.getSplitsPath()));
+		else
+			fileChooser.setCurrentDirectory(this.file);
 
 		if (dialogType == FILE_CHOOSER_TYPE.OPEN)
 			action = fileChooser.showOpenDialog(master);
