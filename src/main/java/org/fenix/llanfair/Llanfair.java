@@ -289,7 +289,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 * main thread.
 	 */
 	@Override public void nativeKeyPressed( final NativeKeyEvent event ) {
-		if (Settings.useGlobalHotkeys.get() || this.hasFocus()) {
+		if (Settings.useGlobalHotkeys.get() || this.isFocused()) {
 			int keyCode = event.getKeyCode();
 			boolean hotkeysEnabler = ( keyCode == Settings.hotkeyLock.get() );
 
