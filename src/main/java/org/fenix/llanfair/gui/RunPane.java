@@ -287,7 +287,7 @@ public class RunPane extends JPanel {
 	 */
 	private void placeComponents() {
 		add(title, GBC.grid(0, 0).insets(3, 0, 1, 0).fill(GBC.B));
-		add(subTitle, GBC.grid(0, 1).insets(3, 0, 0, 0));
+		add(subTitle, GBC.grid(0, 1).insets(3, 0, 0, 0).fill(GBC.B));
 		add(attemptCounter, GBC.grid(0, 2).insets(1, 0, 1, 3).anchor(GBC.LE));
 		add(createSeparator(), GBC.grid(0, 3).insets(3, 0).fill(GBC.H));
 		add(history, GBC.grid(0, 4).fill(GBC.H).insets(0, 5));

@@ -97,40 +97,42 @@ class Footer extends JPanel {
 	@Override public Dimension getPreferredSize() {
 		Graphics graphics = getGraphics();
 		if (resize && (graphics != null)) {
-			FontMetrics metrics = graphics.getFontMetrics();
+			FontMetrics coreFontMetrics = graphics.getFontMetrics(Settings.coreFont.get());
+			FontMetrics coreOtherTimeFontMetrics = graphics.getFontMetrics(Settings.coreOtherTimeFont.get());
 
 			int timeW;
-			int timeH = metrics.getHeight();
+			int timeH = coreOtherTimeFontMetrics.getHeight();
 			int smtmW;
 			if (run.getRowCount() > 0) {
 				Time segmentTime = run.getSegment(0).getTime(Segment.RUN);
 				Time tenthTime = new Time(segmentTime.getMilliseconds() / 10L);
-				timeW = metrics.stringWidth("" + segmentTime);
-				smtmW = metrics.stringWidth("" + tenthTime);
+				timeW = coreOtherTimeFontMetrics.stringWidth("" + segmentTime);
+				smtmW = coreOtherTimeFontMetrics.stringWidth("" + tenthTime);
 			} else {
-				timeW = metrics.stringWidth("" + Time.ZERO);
+				timeW = coreOtherTimeFontMetrics.stringWidth("" + Time.ZERO);
 				smtmW = timeW;
 			}
- 
-			int liveW = metrics.stringWidth("" + Language.LB_FT_LIVE);
-			int prevW = metrics.stringWidth("" + Language.LB_FT_SEGMENT);
-			int bestW = metrics.stringWidth("" + Language.LB_FT_BEST);
-			int dltaW = metrics.stringWidth("" + Language.LB_FT_DELTA);
-			int dltbW = metrics.stringWidth("" + Language.LB_FT_DELTA_BEST);
+
+			int labelH = coreFontMetrics.getHeight();
+			int liveW = coreFontMetrics.stringWidth("" + Language.LB_FT_LIVE);
+			int prevW = coreFontMetrics.stringWidth("" + Language.LB_FT_SEGMENT);
+			int bestW = coreFontMetrics.stringWidth("" + Language.LB_FT_BEST);
+			int dltaW = coreFontMetrics.stringWidth("" + Language.LB_FT_DELTA);
+			int dltbW = coreFontMetrics.stringWidth("" + Language.LB_FT_DELTA_BEST);
 
 			boolean ftBest = Settings.footerShowBestTime.get();
 			boolean ftLabels = Settings.footerShowDeltaLabels.get();
 			boolean ftVerbose = Settings.footerVerbose.get();
 			boolean ftTwoLines = Settings.footerMultiline.get();
 
-			int height = timeH;
+			int height = Math.max(timeH, labelH);
 			int width  = prevW + timeW + smtmW + INSET * 2;
 			if (ftLabels) {
 				width += dltaW;
 			}
 			if (ftVerbose) {
 				width += timeW + liveW - (ftLabels ? 0 : dltaW)
-						+ metrics.stringWidth(" []");
+						+ coreOtherTimeFontMetrics.stringWidth(" []");
 			}
 			if (ftBest) {
 				if (ftTwoLines) {
@@ -138,7 +140,7 @@ class Footer extends JPanel {
 					int breakW = bestW + timeW + smtmW + (ftLabels ? dltbW : 0);
 					width = Math.max(width, breakW);
 				} else {
-					width += timeW + smtmW + metrics.stringWidth("| ");
+					width += timeW + smtmW + coreOtherTimeFontMetrics.stringWidth("| ");
 				}
 				if (ftVerbose) {
 					width += 5;

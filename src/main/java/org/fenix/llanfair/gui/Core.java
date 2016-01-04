@@ -221,25 +221,30 @@ class Core extends JPanel implements ActionListener {
 			if (graphics != null) {
 				Time tmFake = new Time(600000L);
 				Time tmRun  = run.getTime(Segment.SET);
+
+				FontMetrics coreFontMetric = graphics.getFontMetrics(Settings.coreFont.get());
+				FontMetrics coreOtherTimeFontMetric = graphics.getFontMetrics(Settings.coreOtherTimeFont.get());
+				FontMetrics coreTimerFontMetric = graphics.getFontMetrics(Settings.coreTimerFont.get());
+				FontMetrics coreSegmentTimerFontMetric = graphics.getFontMetrics(Settings.coreSegmentTimerFont.get());
+
 				// Segment Name
-				FontMetrics metric = graphics.getFontMetrics();
 				int         wName  = 0;
 				int         hName  = 0;
 				if (Settings.coreShowSegmentName.get()) {
 					for (int i = 0; i < run.getRowCount(); i++) {
 						String sName = run.getSegment(i).getName();
-						wName = Math.max(wName, metric.stringWidth(sName));
+						wName = Math.max(wName, coreFontMetric.stringWidth(sName));
 					}
-					hName = metric.getHeight();
+					hName = coreFontMetric.getHeight();
 				}
 				// Segment Times
 				int wTime = 0;
 				int hTime = 0;
-				int hBuff = metric.getHeight();
-				int wBuff = metric.stringWidth(
+				int hBuff = coreOtherTimeFontMetric.getHeight();
+				int wBuff = coreOtherTimeFontMetric.stringWidth(
 						"" + (tmRun == null ? tmFake : tmRun)
 				);
-				wBuff += metric.stringWidth("XX:");
+				wBuff += coreOtherTimeFontMetric.stringWidth("XX:");
 
 				if (Settings.coreShowBestTime.get()) {
 					hTime = hTime + hBuff;
@@ -262,22 +267,19 @@ class Core extends JPanel implements ActionListener {
 					wIcon = hIcon;
 				}
 				// Run Timer
-				metric = graphics.getFontMetrics(Settings.coreTimerFont.get());
-				int wSpTimer = metric.stringWidth(
+				int wSpTimer = coreTimerFontMetric.stringWidth(
 						"" + (tmRun == null ? tmFake : tmRun)
 				);
-				int hSpTimer = metric.getHeight();
+				int hSpTimer = coreTimerFontMetric.getHeight();
+
 				// Segment Timer
 				int wSeTimer = 0;
 				int hSeTimer = 0;
 				if (Settings.coreShowSegmentTimer.get()) {
-					metric = graphics.getFontMetrics(
-							Settings.coreSegmentTimerFont.get()
-					);
-					wSeTimer = metric.stringWidth(
+					wSeTimer = coreSegmentTimerFontMetric.stringWidth(
 							"" + (tmRun == null ? tmFake : tmRun)
 					);
-					hSeTimer = metric.getHeight();
+					hSeTimer = coreSegmentTimerFontMetric.getHeight();
 				}
 
 				int maxHeight      = Math.max(hIcon, hSpTimer + hSeTimer);
