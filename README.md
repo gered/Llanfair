@@ -12,6 +12,12 @@ seems he uses LiveSplit now (?).
 Regardless, here I will be extending the original application as best I can by adding some missing features here and 
 there and fixing bugs as needed.
 
+## !! Beta Status Warning !!
+
+Right now I consider the code and releases on this repository to be in a beta state. It is very, very possible that I
+will make changes in the near future which will break compatibility with old config files / splits causing them not to
+load in Llanfair. If this is a problem for you, I suggest that you hold off on using these releases for now!
+
 ## Download
 
 Check the [releases page](https://github.com/gered/Llanfair/releases) for downloadable JARs.
@@ -22,31 +28,38 @@ JARs can be run from the command line via something similar to:
 $ java -jar Llanfair.jar
 ```
 
-## Changes
+## Major Changes / Fixes
 
-### 1.5
-Changes from v1.4.3 (the last official release). Note that a couple of these changes were actually by
-Xunkar himself as he did some work post-1.4.3 that he just never released.
+The main changes from v1.4.3 (the last official release from Xunkar) are as follows:
 
-* If the JNativeHook event hook registration fails the app will display an error prompt instead of failing
-  silently. Additionally on some OS's you may see your OS prompt you with some kind of accessibility permissions
-  request (note that in either case, you will have to restart Llanfair for the permissions change to take effect).
-* XML formats for both app config and saved runs. Some backwards compatibility for opening the old binary versions.
-* Config and runs are now saved by default under `$user_home/.llanfair/`.
-* Runs are now saved with a default `.lfs` file extension.
+* Enhancements to JNativeHook support for global key events. Llanfair will prompt with an error
+  if the hook could not be registered instead of failing silently. Additionally on some OS's you 
+  may see your OS prompt you with some kind of accessibility permissions request.
+* Choice between global or non-global hotkeys.
+* Human-readable config and splits file formats (XML). This change is almost entirely based on work
+  Xunkar had started after release of v1.4.3.
 * Support for a delayed/negative run start time. Useful if you want to start the run at a time more convenient for you
-  but before any of the segments should start (e.g. to skip initial loading, fadeouts, etc)
-* Attempt counter (both number of total attempts and number of completed attempts).
-* Additional font customization settings.
+  but before any of the segments should start (e.g. to skip initial loading, fadeouts, etc).
+* Attempt counter (both the number of total attempts and number of completed runs).
+* Additional font and colour customization settings.
 * Coloring of split time deltas using slightly different color shades based on if you're gaining/losing time while 
   already ahead/behind.
-* Other very minor bug fixes.
+* Run goal text setting has been changed to a more generic run sub-title setting.
+* By default the config file is saved under `$user_home/.llanfair/` and the default location
+  to save/load splits is `$user_home/.llanfair/splits/` (though you can of course also choose
+  whatever other location you like).
+* Saved splits are now saved with a default `.lfs` file extension.
+* Other minor bug fixes.
 
-**NOTE**: I've temporarily disabled localization support. Some of the strings used were out of sync between English
-and the other languages and I ended up adding new English strings too. I only speak English and so have no way to
-update the other language translations. It seemed wrong to include an option in the app to switch languages when the
-other language text was "bad", so it will remain disabled until these translations are brought up to date again.
+### Important Note About Localization
 
+I've temporarily disabled localization support. Some of the strings used in Llanfair were out of sync between English
+and the other languages and I ended up adding new English strings too as I've been working on feature enhancements and
+bug fixing. I only speak English and so have no way to update the other language translations. It seemed wrong to me to 
+include an option in the app to switch languages when the other language text was incomplete, so it will remain 
+disabled until these translations are brought up to date again (which will have to be done by someone else -- pull
+requests are more then welcome!).
+  
 ## Building and Running
 
 You will need Gradle. Obviously any IDE with Gradle support will simply mean you can just open this project
@@ -75,7 +88,7 @@ $ gradle shadowJar
 ```
 
 Which will spit out an "uber JAR" under `build/libs` under the naming convention `llanfair-[VERSION]-all.jar`. This
-JAR will of course work on any OS.
+JAR will of course work on any OS and includes all required dependencies inside it.
 
 To build a redistributable Mac app bundle (.app):
 
