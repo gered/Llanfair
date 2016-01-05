@@ -256,8 +256,10 @@ public class History extends JPanel {
 				|| Settings.historyBlankRows.equals(property)) {
 			populateRows();
 		} else if (Settings.colorTimeGainedWhileAhead.equals(property)
-				|| Settings.colorTimeGainedWhileBehind.equals(property)
-				|| Settings.colorNewRecord.equals(property)) {
+		           || Settings.colorTimeLostWhileAhead.equals(property)
+		           || Settings.colorTimeGainedWhileBehind.equals(property)
+		           || Settings.colorTimeLostWhileBehind.equals(property)
+		           || Settings.colorNewRecord.equals(property)) {
 			updateColors(LIVE);
 		} else if (Settings.colorHighlight.equals(property)) {
 			updateColors(MARKER);
@@ -611,8 +613,6 @@ public class History extends JPanel {
 				}
 			}
 			if ((identifier & LIVE) == LIVE && (index > -1)) {
-				Color lost  = Settings.colorTimeGainedWhileBehind.get();
-				Color gain  = Settings.colorTimeGainedWhileAhead.get();
 				Color neut  = Settings.colorTime.get();
 				Color recd  = Settings.colorNewRecord.get();
 				int   prev  = run.getPrevious();
@@ -636,19 +636,23 @@ public class History extends JPanel {
 							} else {
 								boolean isGainingTime = run.isBetterSegment(run.getPrevious());
 								if (compare > 0) {
+									Color color;
 									if (isGainingTime)
-										realDelta.setForeground(Settings.colorTimeGainedWhileBehind.get());
+										color = Settings.colorTimeGainedWhileBehind.get();
 									else
-										realDelta.setForeground(Settings.colorTimeLostWhileBehind.get());
+										color = Settings.colorTimeLostWhileBehind.get();
 
-									realLive.setForeground(lost);
+									realDelta.setForeground(color);
+									realLive.setForeground(color);
 								} else {
+									Color color;
 									if (isGainingTime)
-										realDelta.setForeground(Settings.colorTimeGainedWhileAhead.get());
+										color = Settings.colorTimeGainedWhileAhead.get();
 									else
-										realDelta.setForeground(Settings.colorTimeLostWhileAhead.get());
+										color = Settings.colorTimeLostWhileAhead.get();
 
-									realLive.setForeground(gain);
+									realDelta.setForeground(color);
+									realLive.setForeground(color);
 								}
 							}
 						} else {

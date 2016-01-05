@@ -320,7 +320,7 @@ class Core extends JPanel implements ActionListener {
 				Color bg = Settings.colorBackground.get();
 				if (splitTimer.getForeground().equals(bg)) {
 					if (pauseTime.compareTo(splitTime) > 0) {
-						splitTimer.setForeground(Settings.colorTimeGainedWhileBehind.get());
+						splitTimer.setForeground(Settings.colorTimeLostWhileBehind.get());
 					} else {
 						splitTimer.setForeground(Settings.colorTimer.get());
 					}
@@ -340,11 +340,11 @@ class Core extends JPanel implements ActionListener {
 
 			if (!splitLoss && splitElapsed.compareTo(splitTime) > 0) {
 				splitLoss = true;
-				splitTimer.setForeground(Settings.colorTimeGainedWhileBehind.get());
+				splitTimer.setForeground(Settings.colorTimeLostWhileBehind.get());
 			}
 			if (!segmentLoss && segmentElapsed.compareTo(segmentTime) > 0) {
 				segmentLoss = true;
-				segmentTimer.setForeground(Settings.colorTimeGainedWhileBehind.get());
+				segmentTimer.setForeground(Settings.colorTimeLostWhileBehind.get());
 			}
 		}
 	}
