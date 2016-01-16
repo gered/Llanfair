@@ -73,6 +73,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 
 		RESOURCES = new Resources();
 		registerFonts();
+		setResizable(Settings.windowAutoSize.get());
 		setLookAndFeel();
 		addComponentListener(this);
 
@@ -353,6 +354,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 				|| Settings.windowAutoSize.equals(property)
 				|| Settings.windowWidth.equals(property)
 				|| Run.NAME_PROPERTY.equals(property)) {
+			setResizable(Settings.windowAutoSize.get());
 			forceResize();
 		}
 	}
