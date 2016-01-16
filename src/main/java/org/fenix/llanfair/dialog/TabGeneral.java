@@ -42,7 +42,7 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 
 	private JLabel windowSizeLabel;
 
-	private JCheckBox windowAutoSize;
+	private JCheckBox windowUserResizable;
 
 	private JTextField windowSize;
 
@@ -83,20 +83,20 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		warnOnReset.setSelected(Settings.warnOnReset.get());
 		warnOnReset.addActionListener(this);
 
-		windowSizeLabel = new JLabel("Window Width");
+		windowSizeLabel = new JLabel("" + Language.WINDOW_SIZE);
 
-		windowAutoSize = new JCheckBox("Autosize");
-		windowAutoSize.setSelected(Settings.windowAutoSize.get());
-		windowAutoSize.addActionListener(this);
+		windowUserResizable = new JCheckBox("" + Language.setting_windowUserResizable);
+		windowUserResizable.setSelected(Settings.windowUserResizable.get());
+		windowUserResizable.addActionListener(this);
 
 		String windowWidthText = "";
 		if (Settings.windowWidth.get() != null)
 			windowWidthText = "" + Settings.windowWidth.get();
 		windowSize = new JTextField(windowWidthText, 4);
-		windowSize.setEnabled(!windowAutoSize.isSelected());
+		windowSize.setEnabled(!windowUserResizable.isSelected());
 		windowSize.addActionListener(this);
 
-		windowSizeUnitsText = new JLabel("pixels");
+		windowSizeUnitsText = new JLabel("" + Language.setting_windowWidth);
 
 		languageText    = new JLabel("" + Language.setting_language);
 		alwaysOnTopText = new JLabel("" + Language.APPLICATION);
@@ -123,8 +123,8 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 			}
 		} else if (source.equals(warnOnReset)) {
 			Settings.warnOnReset.set(warnOnReset.isSelected());
-		} else if (source.equals(windowAutoSize)) {
-			windowSize.setEnabled(!windowAutoSize.isSelected());
+		} else if (source.equals(windowUserResizable)) {
+			windowSize.setEnabled(!windowUserResizable.isSelected());
 		}
 	}
 
@@ -133,15 +133,15 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 	void doDelayedSettingChange() throws InvalidSettingException {
 		Settings.alwaysOnTop.set(alwaysOnTop.isSelected());
 
-		Settings.windowAutoSize.set(windowAutoSize.isSelected());
+		Settings.windowUserResizable.set(windowUserResizable.isSelected());
 
-		if (!windowAutoSize.isSelected()) {
+		if (!windowUserResizable.isSelected()) {
 			int windowWidth;
 			try {
 				windowWidth = Integer.parseInt(windowSize.getText().trim());
 			}
 			catch (Exception ex) {
-				throw new InvalidSettingException(this, windowSize, "Window Width must be a positive integer.");
+				throw new InvalidSettingException(this, windowSize, "" + Language.error_window_width);
 			}
 
 			Settings.windowWidth.set(windowWidth);
@@ -191,7 +191,7 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		add(accuracyPanel, GBC.grid(1, 4).fill(GBC.H).insets(10, 0));
 
 		add(windowSizeLabel, GBC.grid(0, 5).anchor(GBC.LE).insets(5, 10));
-		add(windowAutoSize, GBC.grid(1, 5).anchor(GBC.LS));
+		add(windowUserResizable, GBC.grid(1, 5).anchor(GBC.LS));
 		JPanel windowSizeContainer = new JPanel();
 		windowSizeContainer.add(windowSize);
 		windowSizeContainer.add(windowSizeUnitsText);

@@ -37,7 +37,7 @@ public class Settings {
 	public static final Property<Compare> compareMethod = new Property<>( "compareMethod" );
 	public static final Property<Accuracy> accuracy = new Property<>( "accuracy" );
 	public static final Property<Boolean> warnOnReset = new Property<>( "warnOnReset" );
-	public static final Property<Boolean> windowAutoSize = new Property<>( "windowAutoSize" );
+	public static final Property<Boolean> windowUserResizable = new Property<>( "windowUserResizable" );
 	public static final Property<Integer> windowWidth = new Property<>( "windowWidth" );
 
 	/* COLOR properties */
@@ -213,7 +213,7 @@ public class Settings {
 		global.put( compareMethod.key, Compare.BEST_OVERALL_RUN );
 		global.put( accuracy.key, Accuracy.TENTH );
 		global.put( warnOnReset.key, true );
-		global.put( windowAutoSize.key, true );
+		global.put( windowUserResizable.key, true );
 		global.put( windowWidth.key, null );
 
 		global.put( colorBackground.key, Color.decode("0x000000") );

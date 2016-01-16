@@ -224,7 +224,7 @@ class Footer extends JPanel {
 		} else if (Settings.coreOtherTimeFont.equals(property)) {
 			updateFonts(TIME | DELTA);
 			forceResize();
-		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+		} else if (Settings.windowUserResizable.equals(property) || Settings.windowWidth.equals(property)) {
 			updateSize();
 			forceResize();
 		}

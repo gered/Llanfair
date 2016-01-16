@@ -28,6 +28,8 @@ public enum Language {
 	setting_accuracy,
 	setting_locked,
 	setting_warnOnReset,
+	setting_windowUserResizable,
+	setting_windowWidth,
 
 	// Settings > Color
 	setting_color_background,
@@ -139,6 +141,7 @@ public enum Language {
 	error_read_file,
 	error_write_file,
 	error_import_run,
+	error_window_width,
 
 	// Actions
 	action_accept,
@@ -248,6 +251,7 @@ public enum Language {
 	TIME,
 	UNTITLED,
 	WARNING,
+	WINDOW_SIZE,
 
 	/*
 	 * 1.4

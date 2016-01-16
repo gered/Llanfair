@@ -410,7 +410,7 @@ class Core extends JPanel implements ActionListener {
 		} else if (Settings.coreOtherTimeFont.equals(property)) {
 			updateFonts(TIME);
 			forceResize();
-		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+		} else if (Settings.windowUserResizable.equals(property) || Settings.windowWidth.equals(property)) {
 			updateSize();
 			forceResize();
 		}

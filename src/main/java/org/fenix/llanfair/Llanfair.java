@@ -73,7 +73,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 
 		RESOURCES = new Resources();
 		registerFonts();
-		setResizable(Settings.windowAutoSize.get());
+		setResizable(Settings.windowUserResizable.get());
 		setLookAndFeel();
 		addComponentListener(this);
 
@@ -351,11 +351,11 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 				|| Settings.footerShowDeltaLabels.equals(property)
 				|| Settings.footerVerbose.equals(property)
 				|| Settings.footerMultiline.equals(property)
-				|| Settings.windowAutoSize.equals(property)
+				|| Settings.windowUserResizable.equals(property)
 				|| Settings.windowWidth.equals(property)
 				|| Run.NAME_PROPERTY.equals(property)) {
-			setResizable(Settings.windowAutoSize.get());
-			MenuItem.enableResizeOptions(Settings.windowAutoSize.get());
+			setResizable(Settings.windowUserResizable.get());
+			MenuItem.enableResizeOptions(Settings.windowUserResizable.get());
 			forceResize();
 		}
 	}
@@ -434,7 +434,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	public void componentResized(ComponentEvent e) {
 		// we may have to override the width, but allow the height to grow as needed
 		// don't have to change anything if autosizing
-		if (!Settings.windowAutoSize.get())
+		if (!Settings.windowUserResizable.get())
 			setSize(new Dimension(Settings.windowWidth.get(), getHeight()));
 	}
 
@@ -522,7 +522,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	private void forceResize() {
 		Dimension newSize = new Dimension();
 		newSize.height = getHeight();
-		if (Settings.windowAutoSize.get())
+		if (Settings.windowUserResizable.get())
 			newSize.width = getWidth();
 		else
 			newSize.width = Settings.windowWidth.get();

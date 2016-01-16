@@ -281,7 +281,7 @@ public class History extends JPanel {
 			updateValues(TIME | LIVE);
 			updateColors(TIME);
 			forceResize();
-		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+		} else if (Settings.windowUserResizable.equals(property) || Settings.windowWidth.equals(property)) {
 			updateSize();
 			forceResize();
 		}

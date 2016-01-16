@@ -172,7 +172,7 @@ class Graph extends JPanel {
 			}
 		} else if (Settings.coreFont.equals(property)) {
 			updateFonts(ALL);
-		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+		} else if (Settings.windowUserResizable.equals(property) || Settings.windowWidth.equals(property)) {
 			updateSize();
 			forceResize();
 		}
