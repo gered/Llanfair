@@ -32,8 +32,8 @@ enum MenuItem implements ActionListener {
 	RESET( true, State.ONGOING, State.STOPPED, State.PAUSED ),
 	LOCK( false, State.NULL, State.READY, State.STOPPED, State.ONGOING ),
 	UNLOCK( false, State.NULL, State.READY, State.STOPPED, State.ONGOING ),
-	//RESIZE_DEFAULT( false, State.NULL, State.READY ),
-	//RESIZE_PREFERRED( true, State.NULL, State.READY ),
+	RESIZE_DEFAULT( false, State.NULL, State.READY ),
+	RESIZE_PREFERRED( true, State.NULL, State.READY ),
 	SETTINGS( true, State.NULL, State.READY, State.STOPPED ),
 	ABOUT( true, State.NULL, State.READY, State.STOPPED, State.ONGOING ),
 	EXIT( false, State.NULL, State.READY, State.STOPPED, State.ONGOING );
@@ -222,6 +222,13 @@ enum MenuItem implements ActionListener {
 	public static void localeChanged( LocaleEvent event ) {
 		for ( MenuItem item : values() ) {
 			item.menuItem.setText( "" + item );
+		}
+	}
+
+	public static void enableResizeOptions(boolean enable) {
+		for (MenuItem item : values()) {
+			if (item == RESIZE_DEFAULT || item == RESIZE_PREFERRED)
+				item.menuItem.setEnabled(enable);
 		}
 	}
 
