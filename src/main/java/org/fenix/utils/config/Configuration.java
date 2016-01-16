@@ -99,7 +99,12 @@ public class Configuration implements Serializable {
 
 			Object old = subMap.get(key);
 			subMap.put(key, value);
-			this.pcSupport.firePropertyChange(section + "." + key, old, value);
+			String propertyName;
+			if (section.length() == 0)
+				propertyName = key;
+			else
+				propertyName = section + "." + key;
+			this.pcSupport.firePropertyChange(propertyName, old, value);
 		} else {
 			throw new NullPointerException("Null key");
 		}
