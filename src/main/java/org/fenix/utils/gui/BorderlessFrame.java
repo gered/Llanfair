@@ -49,7 +49,7 @@ public class BorderlessFrame extends JFrame implements MouseListener, MouseMotio
 	}
 
 	public void mousePressed(MouseEvent event) {
-		if(this.getCursor().getType() != 0) {
+		if(this.getCursor().getType() != Cursor.DEFAULT_CURSOR && this.isResizable()) {
 			this.doResize = true;
 			this.startFrameX = this.getX();
 			this.startFrameY = this.getY();
@@ -79,31 +79,31 @@ public class BorderlessFrame extends JFrame implements MouseListener, MouseMotio
 				int height = this.getHeight();
 				int frameX = this.startFrameX;
 				int frameY = this.startFrameY;
-				if(type == 5) {
+				if(type == Cursor.SE_RESIZE_CURSOR) {
 					width = event.getXOnScreen() - this.startFrameX;
 					height = event.getYOnScreen() - this.startFrameY;
-				} else if(type == 11) {
+				} else if(type == Cursor.E_RESIZE_CURSOR) {
 					width = event.getXOnScreen() - this.startFrameX;
-				} else if(type == 7) {
+				} else if(type == Cursor.NE_RESIZE_CURSOR) {
 					width = event.getXOnScreen() - this.startFrameX;
 					height = this.startFrameY + this.startHeight - event.getYOnScreen();
 					frameY = event.getYOnScreen();
-				} else if(type == 8) {
+				} else if(type == Cursor.N_RESIZE_CURSOR) {
 					height = this.startFrameY + this.startHeight - event.getYOnScreen();
 					frameY = event.getYOnScreen();
-				} else if(type == 6) {
+				} else if(type == Cursor.NW_RESIZE_CURSOR) {
 					width = this.startFrameX + this.startWidth - event.getXOnScreen();
 					height = this.startFrameY + this.startHeight - event.getYOnScreen();
 					frameY = event.getYOnScreen();
 					frameX = event.getXOnScreen();
-				} else if(type == 10) {
+				} else if(type == Cursor.W_RESIZE_CURSOR) {
 					width = this.startFrameX + this.startWidth - event.getXOnScreen();
 					frameX = event.getXOnScreen();
-				} else if(type == 4) {
+				} else if(type == Cursor.SW_RESIZE_CURSOR) {
 					width = this.startFrameX + this.startWidth - event.getXOnScreen();
 					height = event.getYOnScreen() - this.startFrameY;
 					frameX = event.getXOnScreen();
-				} else if(type == 9) {
+				} else if(type == Cursor.S_RESIZE_CURSOR) {
 					height = event.getYOnScreen() - this.startFrameY;
 				}
 
@@ -130,28 +130,32 @@ public class BorderlessFrame extends JFrame implements MouseListener, MouseMotio
 		int lowSnapY = this.getY() + this.snapSize;
 		int mouseX = event.getXOnScreen();
 		int mouseY = event.getYOnScreen();
-		if(mouseX > farSnapX) {
-			if(mouseY > farSnapY) {
-				this.changeCursor(5);
-			} else if(mouseY < lowSnapY) {
-				this.changeCursor(7);
+		if (this.isResizable()) {
+			if (mouseX > farSnapX) {
+				if (mouseY > farSnapY) {
+					this.changeCursor(Cursor.SE_RESIZE_CURSOR);
+				} else if (mouseY < lowSnapY) {
+					this.changeCursor(Cursor.NE_RESIZE_CURSOR);
+				} else {
+					this.changeCursor(Cursor.E_RESIZE_CURSOR);
+				}
+			} else if (mouseX < lowSnapX) {
+				if (mouseY < lowSnapY) {
+					this.changeCursor(Cursor.NW_RESIZE_CURSOR);
+				} else if (mouseY > farSnapY) {
+					this.changeCursor(Cursor.SW_RESIZE_CURSOR);
+				} else {
+					this.changeCursor(Cursor.W_RESIZE_CURSOR);
+				}
+			} else if (mouseY > farSnapY) {
+				this.changeCursor(Cursor.S_RESIZE_CURSOR);
+			} else if (mouseY < lowSnapY) {
+				this.changeCursor(Cursor.N_RESIZE_CURSOR);
 			} else {
-				this.changeCursor(11);
+				this.changeCursor(Cursor.DEFAULT_CURSOR);
 			}
-		} else if(mouseX < lowSnapX) {
-			if(mouseY < lowSnapY) {
-				this.changeCursor(6);
-			} else if(mouseY > farSnapY) {
-				this.changeCursor(4);
-			} else {
-				this.changeCursor(10);
-			}
-		} else if(mouseY > farSnapY) {
-			this.changeCursor(9);
-		} else if(mouseY < lowSnapY) {
-			this.changeCursor(8);
 		} else {
-			this.changeCursor(0);
+			this.changeCursor(Cursor.DEFAULT_CURSOR);
 		}
 
 	}
