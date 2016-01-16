@@ -32,8 +32,8 @@ enum MenuItem implements ActionListener {
 	RESET( true, State.ONGOING, State.STOPPED, State.PAUSED ),
 	LOCK( false, State.NULL, State.READY, State.STOPPED, State.ONGOING ),
 	UNLOCK( false, State.NULL, State.READY, State.STOPPED, State.ONGOING ),
-	RESIZE_DEFAULT( false, State.NULL, State.READY ),
-	RESIZE_PREFERRED( true, State.NULL, State.READY ),
+	//RESIZE_DEFAULT( false, State.NULL, State.READY ),
+	//RESIZE_PREFERRED( true, State.NULL, State.READY ),
 	SETTINGS( true, State.NULL, State.READY, State.STOPPED ),
 	ABOUT( true, State.NULL, State.READY, State.STOPPED, State.ONGOING ),
 	EXIT( false, State.NULL, State.READY, State.STOPPED, State.ONGOING );

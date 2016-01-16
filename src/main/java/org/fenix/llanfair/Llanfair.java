@@ -454,7 +454,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		} );
 
 		if (source.equals(MenuItem.EDIT)) {
-
+		/*
 		} else if (source.equals(MenuItem.RESIZE_DEFAULT)) {
 			setPreferredSize(null);
 			pack();
@@ -462,6 +462,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		} else if (source.equals(MenuItem.RESIZE_PREFERRED)) {
 			setPreferredSize(preferredSize);
 			pack();
+		*/
 		}
 	}
 
