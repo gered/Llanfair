@@ -328,13 +328,24 @@ public class History extends JPanel {
 		segmentRows.clear();
 		// At most, we need as much segments as the run has or as much as
 		// is demanded by the user.
-		int count = Settings.historyRowCount.get();
-			count = Math.max(count, run.getRowCount());
+		int count = Math.max(Settings.historyRowCount.get(), run.getRowCount());
 		// Create and place the rows.
 		for (int i = 0; i < count; i++) {
 			SegmentRow row = new SegmentRow();
-			add(row, GBC.grid(0, i).fill(GBC.HORIZONTAL).weight(1.0, 0.0));
+			add(row, GBC.grid(0, i).fill(GBC.HORIZONTAL).anchor(GBC.NORTH).weight(1.0, 0.0));
 			segmentRows.add(i, row);
+		}
+
+		// HACK: if we're to display a set number of rows (even if blank, if the run has less then this number)
+		// we place an additional filler row that has vertical weight which pushes up the actual run rows so
+		// that all the rows appear top-aligned.
+		// jesus christ, why is layouting so shit that this is even required!?
+		if (Settings.historyBlankRows.get()) {
+			if (run.getRowCount() < count) {
+				JPanel filler = new JPanel();
+				filler.setOpaque(false);
+				add(filler, GBC.grid(0, count).fill(GBC.BOTH).anchor(GBC.NORTH).weight(1.0, 1.0));
+			}
 		}
 		// Fill the rows with the segment data and colorize.
 		updateValues(ALL);
@@ -380,9 +391,8 @@ public class History extends JPanel {
 		}
 		// Set the visibility of every segments accordingly.
 		for (int i = 0; i < segmentRows.size(); i++) {
-			segmentRows.get(i).setVisible(
-					(i > lastSeg - realCount) && (i <= lastSeg)
-			);
+			boolean visible = (i > lastSeg - realCount) && (i <= lastSeg);
+			segmentRows.get(i).setVisible(visible);
 		}
 		// Display the last segment if the setting is enabled.
 		if (Settings.historyAlwaysShowLast.get() && run.getRowCount() > 0) {
@@ -687,19 +697,13 @@ public class History extends JPanel {
 		private void placeComponents(boolean multiline) {
 			if (!multiline) {
 				add(icon , GBC.grid(0, 0).anchor(GBC.CENTER));
-				add(
-						name, GBC.grid(1, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_START)
-						.fill(GBC.HORIZONTAL).weight(1.0, 0.0)
-				);
+				add(name, GBC.grid(1, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_START).fill(GBC.HORIZONTAL).weight(1.0, 0.0));
 				add(time , GBC.grid(2, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_END));
 				add(live , GBC.grid(3, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_END));
 				add(delta, GBC.grid(4, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_END));
 			} else {
 				add(icon, GBC.grid(0, 0, 1, 2).anchor(GBC.CENTER));
-				add(
-						name, GBC.grid(1, 0, 3, 1).anchor(GBC.LINE_START).fill(GBC.HORIZONTAL)
-							.weight(1.0, 0.0).insets(0, INSET, 0, 0)
-				);
+				add(name, GBC.grid(1, 0, 3, 1).anchor(GBC.LINE_START).fill(GBC.HORIZONTAL).weight(1.0, 0.0).insets(0, INSET, 0, 0));
 				add(time, GBC.grid(1, 1).anchor(GBC.LINE_END).insets(0, INSET, 0, 0));
 				add(live, GBC.grid(2, 1).anchor(GBC.LINE_END).insets(0, INSET, 0, 0));
 				add(delta, GBC.grid(3, 1).anchor(GBC.LINE_END));

@@ -292,7 +292,7 @@ public class RunPane extends JPanel {
 		add(subTitle, GBC.grid(0, 1).insets(3, 0, 0, 0).fill(GBC.BOTH));
 		add(attemptCounter, GBC.grid(0, 2).insets(1, 0, 1, 3).anchor(GBC.LINE_END));
 		add(createSeparator(), GBC.grid(0, 3).insets(3, 0).fill(GBC.HORIZONTAL));
-		add(history, GBC.grid(0, 4).fill(GBC.HORIZONTAL).insets(0, 5));
+		add(history, GBC.grid(0, 4).fill(GBC.HORIZONTAL).anchor(GBC.NORTH).insets(0, 5));
 		add(createSeparator(), GBC.grid(0, 5).insets(3, 0).fill(GBC.HORIZONTAL));
 		add(createSeparator(), GBC.grid(0, 7).insets(3, 0, 0, 0).fill(GBC.HORIZONTAL));
 
