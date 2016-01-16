@@ -224,6 +224,9 @@ class Footer extends JPanel {
 		} else if (Settings.coreOtherTimeFont.equals(property)) {
 			updateFonts(TIME | DELTA);
 			forceResize();
+		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+			updateSize();
+			forceResize();
 		}
 	}
 
@@ -520,5 +523,8 @@ class Footer extends JPanel {
 			labelDelta.setText("" + Language.LB_FT_DELTA);
 			labelDeltaBest.setText("" + Language.LB_FT_DELTA_BEST);
 		}
+	}
+
+	private void updateSize() {
 	}
 }

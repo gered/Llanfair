@@ -198,8 +198,7 @@ class Core extends JPanel implements ActionListener {
 		updateValues(ALL);
 		updateVisibility(ALL);
 		updateColors(ALL);
-		resize = true;
-		revalidate();
+		forceResize();
 	}
 
 	/**
@@ -381,49 +380,46 @@ class Core extends JPanel implements ActionListener {
 		} else if (Settings.compareMethod.equals(property)) {
 			updateValues(TIME);
 			updateColors(TIMER);
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.accuracy.equals(property)) {
 			updateValues(TIME | TIMER);
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.coreShowBestTime.equals(property)
 				|| Settings.coreShowSegmentTime.equals(property)
 				|| Settings.coreShowSplitTime.equals(property)) {
 			updateVisibility(TIME);
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.coreShowSegmentName.equals(property)) {
 			updateVisibility(NAME);
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.coreIconSize.equals(property)) {
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.coreTimerFont.equals(property)
 				|| Settings.coreSegmentTimerFont.equals(property)) {
 			updateFonts(TIMER);
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.coreShowSegmentTimer.equals(property)) {
 			updateVisibility(TIMER);
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.coreShowIcons.equals(property)) {
 			updateVisibility(ICON);
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.coreFont.equals(property)) {
 			updateFonts(NAME);
-			resize = true;
-			revalidate();
+			forceResize();
 		} else if (Settings.coreOtherTimeFont.equals(property)) {
 			updateFonts(TIME);
-			resize = true;
-			revalidate();
+			forceResize();
+		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+			updateSize();
+			forceResize();
 		}
 	}
 
+	private void forceResize() {
+		resize = true;
+		revalidate();
+	}
 	/**
 	 * Callback invoked by the parent when the run table of segments is
 	 * updated.
@@ -636,6 +632,9 @@ class Core extends JPanel implements ActionListener {
 			splitTimer.setFont(Settings.coreTimerFont.get());
 			segmentTimer.setFont(Settings.coreSegmentTimerFont.get());
 		}
+	}
+
+	private void updateSize() {
 	}
 
 	private boolean isShowingNegativeTime() {

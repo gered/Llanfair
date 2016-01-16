@@ -281,6 +281,9 @@ public class History extends JPanel {
 			updateValues(TIME | LIVE);
 			updateColors(TIME);
 			forceResize();
+		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+			updateSize();
+			forceResize();
 		}
 	}
 
@@ -444,6 +447,9 @@ public class History extends JPanel {
 
 	private void updateFonts(int identifier) {
 		updateFonts(identifier, 0, run.getRowCount() - 1);
+	}
+
+	private void updateSize() {
 	}
 
 	// --------------------------------------------------------- INTERNAL TYPES

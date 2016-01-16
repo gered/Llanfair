@@ -40,6 +40,14 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 
 	private JCheckBox warnOnReset;
 
+	private JLabel windowSizeLabel;
+
+	private JCheckBox windowAutoSize;
+
+	private JTextField windowSize;
+
+	private JLabel windowSizeUnitsText;
+
 	// ----------------------------------------------------------- CONSTRUCTORS
 
 	TabGeneral() {
@@ -75,6 +83,21 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		warnOnReset.setSelected(Settings.warnOnReset.get());
 		warnOnReset.addActionListener(this);
 
+		windowSizeLabel = new JLabel("Window Width");
+
+		windowAutoSize = new JCheckBox("Autosize");
+		windowAutoSize.setSelected(Settings.windowAutoSize.get());
+		windowAutoSize.addActionListener(this);
+
+		String windowWidthText = "";
+		if (Settings.windowWidth.get() != null)
+			windowWidthText = "" + Settings.windowWidth.get();
+		windowSize = new JTextField(windowWidthText, 4);
+		windowSize.setEnabled(!windowAutoSize.isSelected());
+		windowSize.addActionListener(this);
+
+		windowSizeUnitsText = new JLabel("pixels");
+
 		languageText    = new JLabel("" + Language.setting_language);
 		alwaysOnTopText = new JLabel("" + Language.APPLICATION);
 		compareText     = new JLabel("" + Language.COMPARE_METHOD);
@@ -100,13 +123,29 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 			}
 		} else if (source.equals(warnOnReset)) {
 			Settings.warnOnReset.set(warnOnReset.isSelected());
+		} else if (source.equals(windowAutoSize)) {
+			windowSize.setEnabled(!windowAutoSize.isSelected());
 		}
 	}
 
 	// -------------------------------------------------------------- INHERITED
 
-	void doDelayedSettingChange() {
+	void doDelayedSettingChange() throws InvalidSettingException {
 		Settings.alwaysOnTop.set(alwaysOnTop.isSelected());
+
+		Settings.windowAutoSize.set(windowAutoSize.isSelected());
+
+		if (!windowAutoSize.isSelected()) {
+			int windowWidth;
+			try {
+				windowWidth = Integer.parseInt(windowSize.getText().trim());
+			}
+			catch (Exception ex) {
+				throw new InvalidSettingException(this, windowSize, "Window Width must be a positive integer.");
+			}
+
+			Settings.windowWidth.set(windowWidth);
+		}
 	}
 
 	/**
@@ -150,6 +189,17 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		}
 		add(accuracyText, GBC.grid(0, 4).anchor(GBC.FLE).insets(14, 10));
 		add(accuracyPanel, GBC.grid(1, 4).fill(GBC.H).insets(10, 0));
+
+		add(windowSizeLabel, GBC.grid(0, 5).anchor(GBC.LE).insets(5, 10));
+		add(windowAutoSize, GBC.grid(1, 5).anchor(GBC.LS));
+		JPanel windowSizeContainer = new JPanel();
+		windowSizeContainer.add(windowSize);
+		windowSizeContainer.add(windowSizeUnitsText);
+		add(windowSizeContainer, GBC.grid(1, 6).anchor(GBC.LS));
+	}
+
+	private void validateWindowWidthText() {
+		System.out.println("windowWidth: " + windowSize.getText());
 	}
 
 	// --------------------------------------------------------- INTERNAL TYPES

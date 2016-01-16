@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  */
 public class Llanfair extends BorderlessFrame implements TableModelListener, 
 		LocaleListener, MouseWheelListener, ActionListener, NativeKeyListener,
-		PropertyChangeListener, WindowListener {
+		PropertyChangeListener, WindowListener, ComponentListener {
 
 	private static Resources RESOURCES = null;
 
@@ -74,6 +74,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		RESOURCES = new Resources();
 		registerFonts();
 		setLookAndFeel();
+		addComponentListener(this);
 
 		run = new Run();
 		runPane = null;
@@ -349,9 +350,10 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 				|| Settings.footerShowDeltaLabels.equals(property)
 				|| Settings.footerVerbose.equals(property)
 				|| Settings.footerMultiline.equals(property)
+				|| Settings.windowAutoSize.equals(property)
+				|| Settings.windowWidth.equals(property)
 				|| Run.NAME_PROPERTY.equals(property)) {
-			setPreferredSize(null);
-			pack();
+			forceResize();
 		}
 	}
 
@@ -425,6 +427,20 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 
 	@Override public void windowDeiconified(WindowEvent event) {}
 
+	@Override
+	public void componentResized(ComponentEvent e) {
+		// we may have to override the width, but allow the height to grow as needed
+		// don't have to change anything if autosizing
+		if (!Settings.windowAutoSize.get())
+			setSize(new Dimension(Settings.windowWidth.get(), getHeight()));
+	}
+
+	@Override public void componentMoved(ComponentEvent e) {}
+
+	@Override public void componentShown(ComponentEvent e) {}
+
+	@Override public void componentHidden(ComponentEvent e) {}
+
 	/**
 	 * Action events are fired by clicking on the entries of the context menu.
 	 */
@@ -497,6 +513,17 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		} catch (NativeHookException e) {
 			return false;
 		}
+	}
+
+	private void forceResize() {
+		Dimension newSize = new Dimension();
+		newSize.height = getHeight();
+		if (Settings.windowAutoSize.get())
+			newSize.width = getWidth();
+		else
+			newSize.width = Settings.windowWidth.get();
+		setSize(newSize);
+		pack();
 	}
 
 }

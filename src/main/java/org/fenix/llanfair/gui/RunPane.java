@@ -248,6 +248,8 @@ public class RunPane extends JPanel {
 			updateFonts(TITLE);
 		} else if (Settings.coreFont.equals(property)) {
 			updateFonts(ALL & ~TITLE);
+		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+			updateSize();
 		}
 	}
 
@@ -416,6 +418,9 @@ public class RunPane extends JPanel {
 		}
 		revalidate();
 		repaint();
+	}
+
+	private void updateSize() {
 	}
 
 	private String sanitizeTitleString(String title) {

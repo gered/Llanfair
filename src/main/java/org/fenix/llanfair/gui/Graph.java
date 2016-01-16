@@ -172,7 +172,14 @@ class Graph extends JPanel {
 			}
 		} else if (Settings.coreFont.equals(property)) {
 			updateFonts(ALL);
+		} else if (Settings.windowAutoSize.equals(property) || Settings.windowWidth.equals(property)) {
+			updateSize();
+			forceResize();
 		}
+	}
+
+	private void forceResize() {
+		revalidate();
 	}
 
 	/**
@@ -283,6 +290,9 @@ class Graph extends JPanel {
 		if ((identifier & TEXT) == TEXT) {
 			scaleText.setFont(Settings.coreFont.get());
 		}
+	}
+
+	private void updateSize() {
 	}
 
 	// ---------------------------------------------------------- INTERNAL TYPE
