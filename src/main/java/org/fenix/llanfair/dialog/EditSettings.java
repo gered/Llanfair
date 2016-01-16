@@ -8,10 +8,7 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
 import org.fenix.llanfair.Language;
 import org.fenix.llanfair.config.Settings;
@@ -53,6 +50,7 @@ public class EditSettings extends LlanfairDialog
 		settingsTabs.add(new TabHistory());
 		settingsTabs.add(new TabComponents());
 
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		createResources();
 		placeComponents();
 		setPersistentBehavior();
@@ -121,10 +119,16 @@ public class EditSettings extends LlanfairDialog
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if (source.equals(actionOK)) {
-			for (SettingsTab tab : settingsTabs) {
-				tab.doDelayedSettingChange();
+			try {
+				for (SettingsTab tab : settingsTabs) {
+					tab.doDelayedSettingChange();
+				}
+				dispose();
+			} catch (InvalidSettingException ex) {
+				ex.tab.requestFocusInWindow();
+				ex.field.requestFocusInWindow();
+				JOptionPane.showMessageDialog(this, ex.getMessage(), Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
 			}
-			dispose();
 		} else if (source.equals(reset)) {
 			int option = JOptionPane.showConfirmDialog(this,
 					"" + Language.WARN_RESET_SETTINGS);
@@ -144,10 +148,15 @@ public class EditSettings extends LlanfairDialog
 	@Override public void windowOpened(WindowEvent e) {}
 
 	@Override public void windowClosing(WindowEvent e) {
-		for (SettingsTab tab : settingsTabs) {
-			tab.doDelayedSettingChange();
+		try {
+			for (SettingsTab tab : settingsTabs) {
+				tab.doDelayedSettingChange();
+			}
+			dispose();
+		} catch (InvalidSettingException ex) {
+			ex.tab.grabFocus();
+			JOptionPane.showMessageDialog(this, ex.getMessage(), Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
 		}
-		dispose();
 	}
 
 }

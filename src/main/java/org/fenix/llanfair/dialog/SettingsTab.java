@@ -20,7 +20,7 @@ abstract class SettingsTab extends JPanel {
 		checkBoxes = new HashMap<String, SCheckBox>();
 	}
 
-	abstract void doDelayedSettingChange();
+	abstract void doDelayedSettingChange() throws InvalidSettingException;
 
 	protected class SCheckBox extends LinkedCheckBox {
 
