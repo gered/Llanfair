@@ -171,20 +171,20 @@ implements ActionListener, ListSelectionListener {
 	 */
 	private void placeComponents() {
 		setLayout(new GridBagLayout());
-		add(runTitleLabel, GBC.grid(0, 0).insets(4, 4, 0, 4).anchor(GBC.LE));
-		add(runTitle, GBC.grid(1, 0, 3, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
-		add(new JLabel("" + Language.LB_SUBTITLE), GBC.grid(0, 1).insets(4, 4, 0, 4).anchor(GBC.LE));
-		add(runSubTitle, GBC.grid(1, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
-		add(new JLabel("" + Language.ED_DELAYED_START), GBC.grid(0, 2).insets(4, 4, 0, 4).anchor(GBC.LE));
-		add(runDelayedStart, GBC.grid(1, 2).insets(4, 0, 0, 4).anchor(GBC.LS));
-		add(segmented, GBC.grid(2, 2, 2, 1).insets(4, 0, 0, 4).anchor(GBC.LS));
+		add(runTitleLabel, GBC.grid(0, 0).insets(4, 4, 0, 4).anchor(GBC.LINE_END));
+		add(runTitle, GBC.grid(1, 0, 3, 1).insets(4, 0, 0, 4).anchor(GBC.LINE_START));
+		add(new JLabel("" + Language.LB_SUBTITLE), GBC.grid(0, 1).insets(4, 4, 0, 4).anchor(GBC.LINE_END));
+		add(runSubTitle, GBC.grid(1, 1).insets(4, 0, 0, 4).anchor(GBC.LINE_START));
+		add(new JLabel("" + Language.ED_DELAYED_START), GBC.grid(0, 2).insets(4, 4, 0, 4).anchor(GBC.LINE_END));
+		add(runDelayedStart, GBC.grid(1, 2).insets(4, 0, 0, 4).anchor(GBC.LINE_START));
+		add(segmented, GBC.grid(2, 2, 2, 1).insets(4, 0, 0, 4).anchor(GBC.LINE_START));
 		add(segmentsLabel, GBC.grid(0, 3).insets(5, 4, 4, 0)
-				.anchor(GBC.LE));
-		add(scrollPane, GBC.grid(1, 3, 3, 4).insets(4, 4, 0, 0).anchor(GBC.LS));
-		add(addSegment, GBC.grid(3, 3).insets(0, 4).anchor(GBC.FLS));
-		add(remSegment, GBC.grid(3, 4).insets(4, 4).anchor(GBC.FLS));
-		add(moveUp, GBC.grid(3, 5).insets(0, 4).anchor(GBC.FLS));
-		add(moveDown, GBC.grid(3, 6).insets(4, 4).anchor(GBC.FLS));
+				.anchor(GBC.LINE_END));
+		add(scrollPane, GBC.grid(1, 3, 3, 4).insets(4, 4, 0, 0).anchor(GBC.LINE_START));
+		add(addSegment, GBC.grid(3, 3).insets(0, 4).anchor(GBC.FIRST_LINE_START));
+		add(remSegment, GBC.grid(3, 4).insets(4, 4).anchor(GBC.FIRST_LINE_START));
+		add(moveUp, GBC.grid(3, 5).insets(0, 4).anchor(GBC.FIRST_LINE_START));
+		add(moveDown, GBC.grid(3, 6).insets(4, 4).anchor(GBC.FIRST_LINE_START));
 
 		JPanel controls = new JPanel();
 		controls.add(save);

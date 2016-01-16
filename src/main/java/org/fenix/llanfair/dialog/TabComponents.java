@@ -299,46 +299,46 @@ public class TabComponents extends SettingsTab
 
 			fontPanel.add(
 					new JLabel("" + Language.setting_core_timerFont),
-					GBC.grid(0, 0).anchor(GBC.LS).insets(0, 5)
+					GBC.grid(0, 0).anchor(GBC.LINE_START).insets(0, 5)
 			);
 			fontPanel.add(timerFont, GBC.grid(1, 0));
 			fontPanel.add(timerSize, GBC.grid(2, 0).insets(0, 5));
 
 			fontPanel.add(
 					new JLabel("" + Language.setting_core_segmentTimerFont),
-					GBC.grid(0, 1).anchor(GBC.LS).insets(3, 5)
+					GBC.grid(0, 1).anchor(GBC.LINE_START).insets(3, 5)
 			);
 			fontPanel.add(
 					timerSameFont,
-					GBC.grid(1, 1, 2, 1).anchor(GBC.LS).insets(3, 0)
+					GBC.grid(1, 1, 2, 1).anchor(GBC.LINE_START).insets(3, 0)
 			);
 			fontPanel.add(timerSegFont, GBC.grid(1, 2));
 			fontPanel.add(timerSegSize, GBC.grid(2, 2).insets(0, 5));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_header_titleFont),
-				GBC.grid(0, 3).anchor(GBC.LS).insets(0, 5)
+				GBC.grid(0, 3).anchor(GBC.LINE_START).insets(0, 5)
 			);
 			fontPanel.add(headerTitleFont, GBC.grid(1, 3));
 			fontPanel.add(headerTitleSize, GBC.grid(2, 3).insets(0, 5));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_header_subTitleFont),
-				GBC.grid(0, 4).anchor(GBC.LS).insets(0, 5)
+				GBC.grid(0, 4).anchor(GBC.LINE_START).insets(0, 5)
 			);
 			fontPanel.add(headerSubTitleFont, GBC.grid(1, 4));
 			fontPanel.add(headerSubTitleSize, GBC.grid(2, 4).insets(0, 5));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_core_font),
-				GBC.grid(0, 5).anchor(GBC.LS).insets(0, 5)
+				GBC.grid(0, 5).anchor(GBC.LINE_START).insets(0, 5)
 			);
 			fontPanel.add(coreFont, GBC.grid(1, 5));
 			fontPanel.add(coreFontSize, GBC.grid(2, 5).insets(0, 5));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_core_otherTimeFont),
-				GBC.grid(0, 6).anchor(GBC.LS).insets(0, 5)
+				GBC.grid(0, 6).anchor(GBC.LINE_START).insets(0, 5)
 			);
 			fontPanel.add(otherTimeFont, GBC.grid(1, 6));
 			fontPanel.add(otherTimeSize, GBC.grid(2, 6).insets(0, 5));
@@ -346,43 +346,43 @@ public class TabComponents extends SettingsTab
 		JPanel timerPanel = new JPanel(new GridBagLayout()); {
 			timerPanel.add(
 					new JLabel("" + Language.setting_core_iconSize),
-					GBC.grid(0, 1).anchor(GBC.LE).insets(5, 5)
+					GBC.grid(0, 1).anchor(GBC.LINE_END).insets(5, 5)
 			);
 			timerPanel.add(iconSizes, GBC.grid(1, 1).insets(5, 5));
-			timerPanel.add(checkBoxes.get(Settings.coreShowIcons.getKey()), GBC.grid(0, 2, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentName.getKey()), GBC.grid(0, 3, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.coreShowSplitTime.getKey()), GBC.grid(0, 4, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentTime.getKey()), GBC.grid(0, 5, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.coreShowBestTime.getKey()), GBC.grid(0, 6, 2, 1).anchor(GBC.LS));
-			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentTimer.getKey()), GBC.grid(0, 7, 2, 1).anchor(GBC.LS));
+			timerPanel.add(checkBoxes.get(Settings.coreShowIcons.getKey()), GBC.grid(0, 2, 2, 1).anchor(GBC.LINE_START));
+			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentName.getKey()), GBC.grid(0, 3, 2, 1).anchor(GBC.LINE_START));
+			timerPanel.add(checkBoxes.get(Settings.coreShowSplitTime.getKey()), GBC.grid(0, 4, 2, 1).anchor(GBC.LINE_START));
+			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentTime.getKey()), GBC.grid(0, 5, 2, 1).anchor(GBC.LINE_START));
+			timerPanel.add(checkBoxes.get(Settings.coreShowBestTime.getKey()), GBC.grid(0, 6, 2, 1).anchor(GBC.LINE_START));
+			timerPanel.add(checkBoxes.get(Settings.coreShowSegmentTimer.getKey()), GBC.grid(0, 7, 2, 1).anchor(GBC.LINE_START));
 			timerPanel.setBorder(
 					BorderFactory.createTitledBorder("" + Language.TIMER)
 			);
 		}
 		JPanel footerPanel = new JPanel(new GridBagLayout()); {
-			footerPanel.add(checkBoxes.get(Settings.footerDisplay.getKey()), GBC.grid(0, 0).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.footerUseSplitData.getKey()), GBC.grid(0, 1).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.footerVerbose.getKey()), GBC.grid(0, 2).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.footerShowDeltaLabels.getKey()), GBC.grid(1, 0).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.footerShowBestTime.getKey()), GBC.grid(1, 1).anchor(GBC.LS));
-			footerPanel.add(checkBoxes.get(Settings.footerMultiline.getKey()), GBC.grid(1, 2).anchor(GBC.LS));
+			footerPanel.add(checkBoxes.get(Settings.footerDisplay.getKey()), GBC.grid(0, 0).anchor(GBC.LINE_START));
+			footerPanel.add(checkBoxes.get(Settings.footerUseSplitData.getKey()), GBC.grid(0, 1).anchor(GBC.LINE_START));
+			footerPanel.add(checkBoxes.get(Settings.footerVerbose.getKey()), GBC.grid(0, 2).anchor(GBC.LINE_START));
+			footerPanel.add(checkBoxes.get(Settings.footerShowDeltaLabels.getKey()), GBC.grid(1, 0).anchor(GBC.LINE_START));
+			footerPanel.add(checkBoxes.get(Settings.footerShowBestTime.getKey()), GBC.grid(1, 1).anchor(GBC.LINE_START));
+			footerPanel.add(checkBoxes.get(Settings.footerMultiline.getKey()), GBC.grid(1, 2).anchor(GBC.LINE_START));
 			footerPanel.setBorder(
 					BorderFactory.createTitledBorder("" + Language.FOOTER)
 			);
 		}
 		JPanel miscPanel = new JPanel(new GridBagLayout()); {
-			miscPanel.add(checkBoxes.get(Settings.headerShowSubtitle.getKey()), GBC.grid(0, 0).anchor(GBC.LS));
-			miscPanel.add(checkBoxes.get(Settings.headerShowTitle.getKey()), GBC.grid(0, 1).anchor(GBC.LS));
-			miscPanel.add(checkBoxes.get(Settings.graphDisplay.getKey()), GBC.grid(0, 2).anchor(GBC.LS));
-			miscPanel.add(checkBoxes.get(Settings.headerShowAttempts.getKey()), GBC.grid(0, 3).anchor(GBC.LS));
+			miscPanel.add(checkBoxes.get(Settings.headerShowSubtitle.getKey()), GBC.grid(0, 0).anchor(GBC.LINE_START));
+			miscPanel.add(checkBoxes.get(Settings.headerShowTitle.getKey()), GBC.grid(0, 1).anchor(GBC.LINE_START));
+			miscPanel.add(checkBoxes.get(Settings.graphDisplay.getKey()), GBC.grid(0, 2).anchor(GBC.LINE_START));
+			miscPanel.add(checkBoxes.get(Settings.headerShowAttempts.getKey()), GBC.grid(0, 3).anchor(GBC.LINE_START));
 			miscPanel.setBorder(
 					BorderFactory.createTitledBorder("" + Language.MISC)
 			);
 		}
-		add(fontPanel, GBC.grid(0, 0, 2, 1).fill(GBC.B).anchor(GBC.FLS));
-		add(timerPanel, GBC.grid(2, 0, 1, 2).fill(GBC.B).anchor(GBC.FLS));
-		add(footerPanel, GBC.grid(0, 1).fill(GBC.B).anchor(GBC.FLS));
-		add(miscPanel, GBC.grid(1, 1).fill(GBC.B).anchor(GBC.FLS));
+		add(fontPanel, GBC.grid(0, 0, 2, 1).fill(GBC.BOTH).anchor(GBC.FIRST_LINE_START));
+		add(timerPanel, GBC.grid(2, 0, 1, 2).fill(GBC.BOTH).anchor(GBC.FIRST_LINE_START));
+		add(footerPanel, GBC.grid(0, 1).fill(GBC.BOTH).anchor(GBC.FIRST_LINE_START));
+		add(miscPanel, GBC.grid(1, 1).fill(GBC.BOTH).anchor(GBC.FIRST_LINE_START));
 	}
 
 }

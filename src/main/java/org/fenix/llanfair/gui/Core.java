@@ -449,35 +449,35 @@ class Core extends JPanel implements ActionListener {
 		setLayout(new GridBagLayout());
 		JPanel infoPanel = new JPanel(new GridBagLayout()); {
 			infoPanel.add(
-					name, GBC.grid(0, 0, 2, 1).anchor(GBC.LS).weight(1.0, 0.0)
+					name, GBC.grid(0, 0, 2, 1).anchor(GBC.LINE_START).weight(1.0, 0.0)
 			);
 			infoPanel.add(
-					labelSplit, GBC.grid(0, 1).anchor(GBC.LS).insets(0, 0, 0, 3)
+					labelSplit, GBC.grid(0, 1).anchor(GBC.LINE_START).insets(0, 0, 0, 3)
 			);
 			infoPanel.add(
-					split, GBC.grid(1, 1).anchor(GBC.LS).weight(1.0, 0.0)
+					split, GBC.grid(1, 1).anchor(GBC.LINE_START).weight(1.0, 0.0)
 			);
 			infoPanel.add(
 					labelSegment,
-					GBC.grid(0, 2).anchor(GBC.LS).insets(0, 0, 0, 3)
+					GBC.grid(0, 2).anchor(GBC.LINE_START).insets(0, 0, 0, 3)
 			);
 			infoPanel.add(
-					segment, GBC.grid(1, 2).anchor(GBC.LS).weight(1.0, 0.0)
+					segment, GBC.grid(1, 2).anchor(GBC.LINE_START).weight(1.0, 0.0)
 			);
 			infoPanel.add(
-					labelBest, GBC.grid(0, 3).anchor(GBC.LS).insets(0, 0, 0, 3)
+					labelBest, GBC.grid(0, 3).anchor(GBC.LINE_START).insets(0, 0, 0, 3)
 			);
-			infoPanel.add(best, GBC.grid(1, 3).anchor(GBC.LS).weight(1.0, 0.0));
+			infoPanel.add(best, GBC.grid(1, 3).anchor(GBC.LINE_START).weight(1.0, 0.0));
 			infoPanel.setOpaque(false);
 		}
 		JPanel timePanel = new JPanel(new GridBagLayout()); {
-			timePanel.add(splitTimer, GBC.grid(0, 0).anchor(GBC.LE));
-			timePanel.add(segmentTimer, GBC.grid(0, 1).anchor(GBC.LE));
+			timePanel.add(splitTimer, GBC.grid(0, 0).anchor(GBC.LINE_END));
+			timePanel.add(segmentTimer, GBC.grid(0, 1).anchor(GBC.LINE_END));
 			timePanel.setOpaque(false);
 		}
 		add(icon, GBC.grid(0, 0).insets(0, 0, 0, 8));
-		add(infoPanel, GBC.grid(1, 0).fill(GBC.B).weight(1.0, 1.0));
-		add(timePanel, GBC.grid(2, 0).fill(GBC.H));
+		add(infoPanel, GBC.grid(1, 0).fill(GBC.BOTH).weight(1.0, 1.0));
+		add(timePanel, GBC.grid(2, 0).fill(GBC.HORIZONTAL));
 	}
 
 	private void updateVisibility(int identifier) {

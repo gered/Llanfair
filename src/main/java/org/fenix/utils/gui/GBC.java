@@ -9,21 +9,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 public class GBC extends GridBagConstraints {
-	public static final int LS = 21;
-	public static final int LE = 22;
-	public static final int PS = 19;
-	public static final int PE = 20;
-	public static final int BL = 512;
-	public static final int BT = 768;
-	public static final int FLS = 23;
-	public static final int FLE = 24;
-	public static final int LLS = 25;
-	public static final int LLE = 26;
-	public static final int H = 2;
-	public static final int V = 3;
-	public static final int C = 10;
-	public static final int B = 1;
-
 	public GBC() {
 	}
 

@@ -180,7 +180,7 @@ class TabLook extends SettingsTab implements ActionListener, ChangeListener  {
 			for (int row = 0; row < colorButtons.size(); row++) {
 				colorPanel.add(
 						colorTexts.get(row),
-						GBC.grid(0, row).anchor(GBC.LE).insets(1, 4)
+						GBC.grid(0, row).anchor(GBC.LINE_END).insets(1, 4)
 				);
 				colorPanel.add(
 						colorButtons.get(row), GBC.grid(1, row).insets(2, 0)
@@ -192,8 +192,8 @@ class TabLook extends SettingsTab implements ActionListener, ChangeListener  {
 			swatchPanel.add(colorChooser, GBC.grid(0, 0));
 			swatchPanel.add(helperText, GBC.grid(0, 1));
 		}
-		add(colorPanel, GBC.grid(0, 0).fill(GBC.B));
-		add(swatchPanel, GBC.grid(1, 0).fill(GBC.B));
+		add(colorPanel, GBC.grid(0, 0).fill(GBC.BOTH));
+		add(swatchPanel, GBC.grid(1, 0).fill(GBC.BOTH));
 	}
 
 	// --------------------------------------------------------- INTERNAL TYPES

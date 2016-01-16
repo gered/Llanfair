@@ -86,12 +86,12 @@ class TabHotkeys extends SettingsTab {
 		for (row = 0; row < keyFields.size(); row++) {
 			add(
 					keyLabels.get(row),
-					GBC.grid(0, row).insets(10, 0, 10, 10).anchor(GBC.LE)
+					GBC.grid(0, row).insets(10, 0, 10, 10).anchor(GBC.LINE_END)
 			);
 			add(keyFields.get(row), GBC.grid(1, row));
 		}
 
-		add(globalHotKeys, GBC.grid(2, 3).insets(0, 50, 0, 0).anchor(GBC.LS));
+		add(globalHotKeys, GBC.grid(2, 3).insets(0, 50, 0, 0).anchor(GBC.LINE_START));
 	}
 
 	// --------------------------------------------------------- INTERNAL TYPES

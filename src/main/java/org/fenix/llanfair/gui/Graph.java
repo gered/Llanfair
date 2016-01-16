@@ -239,8 +239,8 @@ class Graph extends JPanel {
 			scalePanel.add(scale);
 			scalePanel.setOpaque(false);
 		}
-		add(scalePanel, GBC.grid(0, 0).anchor(GBC.LS));
-		add(canvas, GBC.grid(0, 1).fill(GBC.B).weight(1.0, 1.0));
+		add(scalePanel, GBC.grid(0, 0).anchor(GBC.LINE_START));
+		add(canvas, GBC.grid(0, 1).fill(GBC.BOTH).weight(1.0, 1.0));
 	}
 
 	/**

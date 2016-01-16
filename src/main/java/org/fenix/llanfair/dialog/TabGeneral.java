@@ -164,13 +164,13 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		setLayout(new GridBagLayout());
 
 		add(
-				alwaysOnTopText, GBC.grid(0, 0).anchor(GBC.LE).insets(5, 10)
+				alwaysOnTopText, GBC.grid(0, 0).anchor(GBC.LINE_END).insets(5, 10)
 		);
-		add(alwaysOnTop, GBC.grid(1, 0).anchor(GBC.LS));
-		add(warnOnReset, GBC.grid(1, 1).anchor(GBC.LS));
+		add(alwaysOnTop, GBC.grid(1, 0).anchor(GBC.LINE_START));
+		add(warnOnReset, GBC.grid(1, 1).anchor(GBC.LINE_START));
 
-		//add(languageText, GBC.grid(0, 2).anchor(GBC.LE).insets(10, 10));
-		//add(language, GBC.grid(1, 2).fill(GBC.H));
+		//add(languageText, GBC.grid(0, 2).anchor(GBC.LINE_END).insets(10, 10));
+		//add(language, GBC.grid(1, 2).fill(GBC.HORIZONTAL));
 
 		JPanel comparePanel = new JPanel(new GridLayout(0, 1)); {
 			Enumeration<AbstractButton> buttons = compare.getElements();
@@ -178,8 +178,8 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 				comparePanel.add(buttons.nextElement());
 			}
 		}
-		add(compareText, GBC.grid(0, 3).anchor(GBC.FLE).insets(14, 10));
-		add(comparePanel, GBC.grid(1, 3).fill(GBC.H).insets(10, 0, 0, 0));
+		add(compareText, GBC.grid(0, 3).anchor(GBC.FIRST_LINE_END).insets(14, 10));
+		add(comparePanel, GBC.grid(1, 3).fill(GBC.HORIZONTAL).insets(10, 0, 0, 0));
 
 		JPanel accuracyPanel = new JPanel(new GridLayout(0, 1)); {
 			Enumeration<AbstractButton> buttons = accuracy.getElements();
@@ -187,15 +187,15 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 				accuracyPanel.add(buttons.nextElement());
 			}
 		}
-		add(accuracyText, GBC.grid(0, 4).anchor(GBC.FLE).insets(14, 10));
-		add(accuracyPanel, GBC.grid(1, 4).fill(GBC.H).insets(10, 0));
+		add(accuracyText, GBC.grid(0, 4).anchor(GBC.FIRST_LINE_END).insets(14, 10));
+		add(accuracyPanel, GBC.grid(1, 4).fill(GBC.HORIZONTAL).insets(10, 0));
 
-		add(windowSizeLabel, GBC.grid(0, 5).anchor(GBC.LE).insets(5, 10));
-		add(windowUserResizable, GBC.grid(1, 5).anchor(GBC.LS));
+		add(windowSizeLabel, GBC.grid(0, 5).anchor(GBC.LINE_END).insets(5, 10));
+		add(windowUserResizable, GBC.grid(1, 5).anchor(GBC.LINE_START));
 		JPanel windowSizeContainer = new JPanel();
 		windowSizeContainer.add(windowSize);
 		windowSizeContainer.add(windowSizeUnitsText);
-		add(windowSizeContainer, GBC.grid(1, 6).anchor(GBC.LS));
+		add(windowSizeContainer, GBC.grid(1, 6).anchor(GBC.LINE_START));
 	}
 
 	// --------------------------------------------------------- INTERNAL TYPES

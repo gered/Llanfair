@@ -288,13 +288,13 @@ public class RunPane extends JPanel {
 	 * Places the sub-components within this component.
 	 */
 	private void placeComponents() {
-		add(title, GBC.grid(0, 0).insets(3, 0, 1, 0).fill(GBC.B));
-		add(subTitle, GBC.grid(0, 1).insets(3, 0, 0, 0).fill(GBC.B));
-		add(attemptCounter, GBC.grid(0, 2).insets(1, 0, 1, 3).anchor(GBC.LE));
-		add(createSeparator(), GBC.grid(0, 3).insets(3, 0).fill(GBC.H));
-		add(history, GBC.grid(0, 4).fill(GBC.H).insets(0, 5));
-		add(createSeparator(), GBC.grid(0, 5).insets(3, 0).fill(GBC.H));
-		add(createSeparator(), GBC.grid(0, 7).insets(3, 0, 0, 0).fill(GBC.H));
+		add(title, GBC.grid(0, 0).insets(3, 0, 1, 0).fill(GBC.BOTH));
+		add(subTitle, GBC.grid(0, 1).insets(3, 0, 0, 0).fill(GBC.BOTH));
+		add(attemptCounter, GBC.grid(0, 2).insets(1, 0, 1, 3).anchor(GBC.LINE_END));
+		add(createSeparator(), GBC.grid(0, 3).insets(3, 0).fill(GBC.HORIZONTAL));
+		add(history, GBC.grid(0, 4).fill(GBC.HORIZONTAL).insets(0, 5));
+		add(createSeparator(), GBC.grid(0, 5).insets(3, 0).fill(GBC.HORIZONTAL));
+		add(createSeparator(), GBC.grid(0, 7).insets(3, 0, 0, 0).fill(GBC.HORIZONTAL));
 
 		updateVisibility(ALL);
 	}
@@ -382,19 +382,19 @@ public class RunPane extends JPanel {
 		if ((identifier & GRAPH) == GRAPH) {
 			if (Settings.graphDisplay.get()) {
 				remove(core);
-				add(core, GBC.grid(0, 6).insets(0, 5).fill(GBC.H));
-				add(graph, GBC.grid(0, 8).fill(GBC.B).insets(0, 0, 3, 0)
+				add(core, GBC.grid(0, 6).insets(0, 5).fill(GBC.HORIZONTAL));
+				add(graph, GBC.grid(0, 8).fill(GBC.BOTH).insets(0, 0, 3, 0)
 														.weight(1.0, 1.0));
 			} else {
 				remove(graph);
 				remove(core);
-				add(core, GBC.grid(0, 6).insets(0, 5).fill(GBC.H)
+				add(core, GBC.grid(0, 6).insets(0, 5).fill(GBC.HORIZONTAL)
 														.weight(1.0, 1.0));
 			}
 		}
 		if ((identifier & FOOTER) == FOOTER) {
 			if (Settings.footerDisplay.get()) {
-				add(footer, GBC.grid(0, 9).insets(0, 3).fill(GBC.H));
+				add(footer, GBC.grid(0, 9).insets(0, 3).fill(GBC.HORIZONTAL));
 			} else {
 				remove(footer);
 			}

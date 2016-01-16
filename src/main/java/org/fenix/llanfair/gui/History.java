@@ -333,7 +333,7 @@ public class History extends JPanel {
 		// Create and place the rows.
 		for (int i = 0; i < count; i++) {
 			SegmentRow row = new SegmentRow();
-			add(row, GBC.grid(0, i).fill(GBC.H).weight(1.0, 0.0));
+			add(row, GBC.grid(0, i).fill(GBC.HORIZONTAL).weight(1.0, 0.0));
 			segmentRows.add(i, row);
 		}
 		// Fill the rows with the segment data and colorize.
@@ -686,23 +686,23 @@ public class History extends JPanel {
 
 		private void placeComponents(boolean multiline) {
 			if (!multiline) {
-				add(icon , GBC.grid(0, 0).anchor(GBC.C));
+				add(icon , GBC.grid(0, 0).anchor(GBC.CENTER));
 				add(
-						name, GBC.grid(1, 0).insets(0, INSET, 0, 0).anchor(GBC.LS)
-						.fill(GBC.H).weight(1.0, 0.0)
+						name, GBC.grid(1, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_START)
+						.fill(GBC.HORIZONTAL).weight(1.0, 0.0)
 				);
-				add(time , GBC.grid(2, 0).insets(0, INSET, 0, 0).anchor(GBC.LE));
-				add(live , GBC.grid(3, 0).insets(0, INSET, 0, 0).anchor(GBC.LE));
-				add(delta, GBC.grid(4, 0).insets(0, INSET, 0, 0).anchor(GBC.LE));
+				add(time , GBC.grid(2, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_END));
+				add(live , GBC.grid(3, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_END));
+				add(delta, GBC.grid(4, 0).insets(0, INSET, 0, 0).anchor(GBC.LINE_END));
 			} else {
-				add(icon, GBC.grid(0, 0, 1, 2).anchor(GBC.C));
+				add(icon, GBC.grid(0, 0, 1, 2).anchor(GBC.CENTER));
 				add(
-						name, GBC.grid(1, 0, 3, 1).anchor(GBC.LS).fill(GBC.H)
+						name, GBC.grid(1, 0, 3, 1).anchor(GBC.LINE_START).fill(GBC.HORIZONTAL)
 							.weight(1.0, 0.0).insets(0, INSET, 0, 0)
 				);
-				add(time, GBC.grid(1, 1).anchor(GBC.LE).insets(0, INSET, 0, 0));
-				add(live, GBC.grid(2, 1).anchor(GBC.LE).insets(0, INSET, 0, 0));
-				add(delta, GBC.grid(3, 1).anchor(GBC.LE));
+				add(time, GBC.grid(1, 1).anchor(GBC.LINE_END).insets(0, INSET, 0, 0));
+				add(live, GBC.grid(2, 1).anchor(GBC.LINE_END).insets(0, INSET, 0, 0));
+				add(delta, GBC.grid(3, 1).anchor(GBC.LINE_END));
 			}
 		}
 	}

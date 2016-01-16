@@ -256,55 +256,55 @@ class Footer extends JPanel {
 		JPanel timePanel = new JPanel(new GridBagLayout()); {
 			timePanel.add(
 					labelPrev,
-					GBC.grid(0, 0).anchor(GBC.LS).insets(0, 0, 0, INSET)
+					GBC.grid(0, 0).anchor(GBC.LINE_START).insets(0, 0, 0, INSET)
 			);
-			timePanel.add(liveL, GBC.grid(1, 0).anchor(GBC.LS));
-			timePanel.add(time, GBC.grid(2, 0).anchor(GBC.LS));
+			timePanel.add(liveL, GBC.grid(1, 0).anchor(GBC.LINE_START));
+			timePanel.add(time, GBC.grid(2, 0).anchor(GBC.LINE_START));
 			timePanel.add(
 					inlineBest,
-					GBC.grid(3, 0).anchor(GBC.LS).insets(0, INSET, 0, 0)
+					GBC.grid(3, 0).anchor(GBC.LINE_START).insets(0, INSET, 0, 0)
 			);
 			timePanel.setOpaque(false);
 		}
 		JPanel deltaPanel = new JPanel(new GridBagLayout()); {
 			deltaPanel.add(
 					labelDelta,
-					GBC.grid(0, 0).anchor(GBC.LE).insets(0, 0, 0, INSET)
+					GBC.grid(0, 0).anchor(GBC.LINE_END).insets(0, 0, 0, INSET)
 			);
 			deltaPanel.add(
 					labelLive,
-					GBC.grid(1, 0).anchor(GBC.LE).insets(0, 0, 0, INSET)
+					GBC.grid(1, 0).anchor(GBC.LINE_END).insets(0, 0, 0, INSET)
 			);
 			deltaPanel.add(
-					liveR, GBC.grid(2, 0).anchor(GBC.LE).insets(0, 0, 0, INSET)
+					liveR, GBC.grid(2, 0).anchor(GBC.LINE_END).insets(0, 0, 0, INSET)
 			);
-			deltaPanel.add(delta, GBC.grid(3, 0).anchor(GBC.LE));
+			deltaPanel.add(delta, GBC.grid(3, 0).anchor(GBC.LINE_END));
 			deltaPanel.add(
 					inlineDeltaBest,
-					GBC.grid(4, 0).anchor(GBC.LE).insets(0, INSET, 0, 0)
+					GBC.grid(4, 0).anchor(GBC.LINE_END).insets(0, INSET, 0, 0)
 			);
 			deltaPanel.setOpaque(false);
 		}
 		panelBest = new JPanel(new GridBagLayout()); {
 			panelBest.add(
 					labelBest,
-					GBC.grid(0, 0).anchor(GBC.LS).insets(0, 0, 0, INSET)
+					GBC.grid(0, 0).anchor(GBC.LINE_START).insets(0, 0, 0, INSET)
 			);
-			panelBest.add(best, GBC.grid(1, 0).anchor(GBC.LS));
+			panelBest.add(best, GBC.grid(1, 0).anchor(GBC.LINE_START));
 			panelBest.setOpaque(false);
 		}
 		panelDeltaBest = new JPanel(new GridBagLayout()); {
 			panelDeltaBest.add(
 					labelDeltaBest,
-					GBC.grid(0, 0).anchor(GBC.LE).insets(0, 0, 0, INSET)
+					GBC.grid(0, 0).anchor(GBC.LINE_END).insets(0, 0, 0, INSET)
 			);
-			panelDeltaBest.add(deltaBest, GBC.grid(1, 0).anchor(GBC.LE));
+			panelDeltaBest.add(deltaBest, GBC.grid(1, 0).anchor(GBC.LINE_END));
 			panelDeltaBest.setOpaque(false);
 		}
-		add(timePanel, GBC.grid(0, 0).anchor(GBC.LS).weight(0.5, 0.0));
-		add(deltaPanel, GBC.grid(1, 0).anchor(GBC.LE).weight(0.5, 0.0));
-		add(panelBest, GBC.grid(0, 1).anchor(GBC.LS).weight(0.5, 0.0));
-		add(panelDeltaBest, GBC.grid(1, 1).anchor(GBC.LE).weight(0.5, 0.0));
+		add(timePanel, GBC.grid(0, 0).anchor(GBC.LINE_START).weight(0.5, 0.0));
+		add(deltaPanel, GBC.grid(1, 0).anchor(GBC.LINE_END).weight(0.5, 0.0));
+		add(panelBest, GBC.grid(0, 1).anchor(GBC.LINE_START).weight(0.5, 0.0));
+		add(panelDeltaBest, GBC.grid(1, 1).anchor(GBC.LINE_END).weight(0.5, 0.0));
 	}
 
 	private void updateVisibility(int identifier) {

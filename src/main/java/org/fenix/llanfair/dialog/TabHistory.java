@@ -264,11 +264,11 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 		showLast.setHorizontalTextPosition(JLabel.LEADING);
 		// Display
 		JPanel display = new JPanel(new GridBagLayout()); {
-			display.add(icons , GBC.grid(0, 0).anchor(GBC.LS));
-			display.add(lives , GBC.grid(0, 1).anchor(GBC.LS));
-			display.add(deltas, GBC.grid(0, 2).anchor(GBC.LS));
-//            display.add(tabular, GBC.grid(0, 3).anchor(GBC.LS));
-			display.add(merge , GBC.grid(0, 4).anchor(GBC.LS));
+			display.add(icons , GBC.grid(0, 0).anchor(GBC.LINE_START));
+			display.add(lives , GBC.grid(0, 1).anchor(GBC.LINE_START));
+			display.add(deltas, GBC.grid(0, 2).anchor(GBC.LINE_START));
+//            display.add(tabular, GBC.grid(0, 3).anchor(GBC.LINE_START));
+			display.add(merge , GBC.grid(0, 4).anchor(GBC.LINE_START));
 			display.setBorder(
 					BorderFactory.createTitledBorder("" + Language.PN_DISPLAY)
 			);
@@ -277,19 +277,19 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 		JPanel dimension = new JPanel(new GridBagLayout()); {
 			dimension.add(
 					new JLabel("" + Language.setting_history_iconSize),
-					GBC.grid(0, 0).anchor(GBC.LE)
+					GBC.grid(0, 0).anchor(GBC.LINE_END)
 			);
-			dimension.add(iconSize, GBC.grid(1, 0).anchor(GBC.LE).insets(2, 3));
+			dimension.add(iconSize, GBC.grid(1, 0).anchor(GBC.LINE_END).insets(2, 3));
 			dimension.add(
 					new JLabel("" + Language.setting_history_rowCount),
-					GBC.grid(0, 1).anchor(GBC.LE)
+					GBC.grid(0, 1).anchor(GBC.LINE_END)
 			);
 			dimension.add(
-					rows, GBC.grid(1, 1).anchor(GBC.LE).fill(GBC.H).insets(2, 3)
+					rows, GBC.grid(1, 1).anchor(GBC.LINE_END).fill(GBC.HORIZONTAL).insets(2, 3)
 			);
-			dimension.add(blankRows, GBC.grid(0, 2, 2, 1).anchor(GBC.LE));
+			dimension.add(blankRows, GBC.grid(0, 2, 2, 1).anchor(GBC.LINE_END));
 			dimension.add(
-					twoLines , GBC.grid(0, 3, 2, 1).anchor(GBC.LE).insets(0, 1)
+					twoLines , GBC.grid(0, 3, 2, 1).anchor(GBC.LINE_END).insets(0, 1)
 			);
 			dimension.setBorder(
 					BorderFactory.createTitledBorder("" + Language.PN_DIMENSION)
@@ -299,16 +299,16 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 		JPanel fonts = new JPanel(new GridBagLayout()); {
 			fonts.add(
 					new JLabel("" + Language.setting_history_segmentFont),
-					GBC.grid(0, 0).anchor(GBC.LE)
+					GBC.grid(0, 0).anchor(GBC.LINE_END)
 			);
-			fonts.add(nameFont, GBC.grid(1, 0).anchor(GBC.LS).insets(5, 5));
-			fonts.add(nameSize, GBC.grid(2, 0).anchor(GBC.LS));
+			fonts.add(nameFont, GBC.grid(1, 0).anchor(GBC.LINE_START).insets(5, 5));
+			fonts.add(nameSize, GBC.grid(2, 0).anchor(GBC.LINE_START));
 			fonts.add(
 					new JLabel("" + Language.setting_history_timeFont),
-					GBC.grid(0, 1).anchor(GBC.LE)
+					GBC.grid(0, 1).anchor(GBC.LINE_END)
 			);
-			fonts.add(timeFont, GBC.grid(1, 1).anchor(GBC.LS).insets(5, 5));
-			fonts.add(timeSize, GBC.grid(2, 1).anchor(GBC.LS));
+			fonts.add(timeFont, GBC.grid(1, 1).anchor(GBC.LINE_START).insets(5, 5));
+			fonts.add(timeSize, GBC.grid(2, 1).anchor(GBC.LINE_START));
 			fonts.setBorder(
 					BorderFactory.createTitledBorder("" + Language.PN_FONTS)
 			);
@@ -316,22 +316,22 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 		// Scrolling
 		JPanel scrolling = new JPanel(new GridBagLayout()); {
 			scrolling.add(
-					offsetHelper, GBC.grid(0, 0).anchor(GBC.LE).insets(0, 8)
+					offsetHelper, GBC.grid(0, 0).anchor(GBC.LINE_END).insets(0, 8)
 			);
 			scrolling.add(
 					new JLabel("" + Language.setting_history_offset),
-					GBC.grid(1, 0).anchor(GBC.LE)
+					GBC.grid(1, 0).anchor(GBC.LINE_END)
 			);
-			scrolling.add(offset  , GBC.grid(2, 0).anchor(GBC.LE));
-			scrolling.add(showLast, GBC.grid(0, 1, 3, 1).anchor(GBC.LE));
+			scrolling.add(offset  , GBC.grid(2, 0).anchor(GBC.LINE_END));
+			scrolling.add(showLast, GBC.grid(0, 1, 3, 1).anchor(GBC.LINE_END));
 			scrolling.setBorder(
 					BorderFactory.createTitledBorder("" + Language.PN_SCROLLING)
 			);
 		}
-		add(fonts    , GBC.grid(0, 0).fill(GBC.B).padding(10, 10));
-		add(dimension, GBC.grid(1, 0).fill(GBC.B).padding(10, 10));
-		add(display  , GBC.grid(0, 1).fill(GBC.B).padding(10, 10));
-		add(scrolling, GBC.grid(1, 1).fill(GBC.B).padding(10, 10));
+		add(fonts    , GBC.grid(0, 0).fill(GBC.BOTH).padding(10, 10));
+		add(dimension, GBC.grid(1, 0).fill(GBC.BOTH).padding(10, 10));
+		add(display  , GBC.grid(0, 1).fill(GBC.BOTH).padding(10, 10));
+		add(scrolling, GBC.grid(1, 1).fill(GBC.BOTH).padding(10, 10));
 	}
 
 }
