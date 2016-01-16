@@ -198,10 +198,6 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		add(windowSizeContainer, GBC.grid(1, 6).anchor(GBC.LS));
 	}
 
-	private void validateWindowWidthText() {
-		System.out.println("windowWidth: " + windowSize.getText());
-	}
-
 	// --------------------------------------------------------- INTERNAL TYPES
 
 	class LocaleListRenderer extends DefaultListCellRenderer {
