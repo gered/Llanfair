@@ -212,7 +212,7 @@ public class Settings {
 		global.put( accuracy.key, Accuracy.TENTH );
 		global.put( warnOnReset.key, true );
 
-		global.put( colorBackground.key, Color.decode( "0x000000" ) );
+		global.put( colorBackground.key, Color.decode("0x000000") );
 		global.put( colorForeground.key, Color.decode( "0xc0c0c0" ) );
 		global.put( colorTime.key, Color.decode( "0xffffff" ) );
 		global.put( colorTimer.key, Color.decode( "0x22cc22" ) );
