@@ -233,6 +233,7 @@ public enum Language {
 	ACCEPT,
 	APPLICATION,
 	BEST,
+	BOLD,
 	CANCEL,
 	COMPARE_METHOD,
 	COMPONENTS,

@@ -69,9 +69,13 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 
 	private JComboBox nameFont;
 
+	private JCheckBox nameFontBold;
+
 	private JSpinner nameSize;
 
 	private JComboBox timeFont;
+
+	private JCheckBox timeFontBold;
 
 	private JSpinner timeSize;
 
@@ -144,6 +148,14 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 		timeFont.setSelectedItem(font);
 		timeFont.setPreferredSize(new Dimension(130, 22));
 		timeFont.addActionListener(this);
+
+		nameFontBold = new JCheckBox("" + Language.BOLD);
+		nameFontBold.setSelected(Settings.historySegmentFont.get().isBold());
+		nameFontBold.addChangeListener(this);
+
+		timeFontBold = new JCheckBox("" + Language.BOLD);
+		timeFontBold.setSelected(Settings.historyTimeFont.get().isBold());
+		timeFontBold.addChangeListener(this);
 
 		nameSize = new JSpinner(new SpinnerNumberModel(
 				Settings.historySegmentFont.get().getSize(), 8, 240, 1)
@@ -223,6 +235,12 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 			Settings.historyTimeFont.set(
 					Settings.historyTimeFont.get().deriveFont((float) size)
 			);
+		} else if (source.equals(nameFontBold)) {
+			int style = nameFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
+			Settings.historySegmentFont.set(Settings.historySegmentFont.get().deriveFont(style));
+		} else if (source.equals(timeFontBold)) {
+			int style = timeFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
+			Settings.historyTimeFont.set(Settings.historyTimeFont.get().deriveFont(style));
 		}
 	}
 
@@ -303,12 +321,14 @@ class TabHistory extends SettingsTab implements ActionListener, ChangeListener {
 			);
 			fonts.add(nameFont, GBC.grid(1, 0).anchor(GBC.LINE_START).insets(5, 5));
 			fonts.add(nameSize, GBC.grid(2, 0).anchor(GBC.LINE_START));
+			fonts.add(nameFontBold, GBC.grid(3, 0).anchor(GBC.LINE_START));
 			fonts.add(
 					new JLabel("" + Language.setting_history_timeFont),
 					GBC.grid(0, 1).anchor(GBC.LINE_END)
 			);
 			fonts.add(timeFont, GBC.grid(1, 1).anchor(GBC.LINE_START).insets(5, 5));
 			fonts.add(timeSize, GBC.grid(2, 1).anchor(GBC.LINE_START));
+			fonts.add(timeFontBold, GBC.grid(3, 1).anchor(GBC.LINE_START));
 			fonts.setBorder(
 					BorderFactory.createTitledBorder("" + Language.PN_FONTS)
 			);
