@@ -95,6 +95,9 @@ public class SerializationUtils {
 			writer.startNode("size");
 			writer.setValue("" + font.getSize());
 			writer.endNode();
+			writer.startNode("style");
+			writer.setValue("" + font.getStyle());
+			writer.endNode();
 			writer.endNode();
 		}
 
@@ -102,6 +105,7 @@ public class SerializationUtils {
 		public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 			String family = null;
 			int size = 0;
+			int style = 0;
 			reader.moveDown();
 			while (reader.hasMoreChildren()) {
 				reader.moveDown();
@@ -109,11 +113,13 @@ public class SerializationUtils {
 					family = reader.getValue();
 				else if (reader.getNodeName().equals("size"))
 					size = Integer.parseInt(reader.getValue());
+				else if (reader.getNodeName().equals("style"))
+					style = Integer.parseInt(reader.getValue());
 				reader.moveUp();
 			}
 			reader.moveUp();
 
-			return new Font(family, Font.PLAIN, size);
+			return new Font(family, style, size);
 		}
 
 		@Override
