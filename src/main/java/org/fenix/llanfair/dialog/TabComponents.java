@@ -46,9 +46,13 @@ public class TabComponents extends SettingsTab
 
 	private JComboBox timerFont;
 
+	private JCheckBox timerFontBold;
+
 	private JSpinner timerSize;
 
 	private JComboBox timerSegFont;
+
+	private JCheckBox timerSegFontBold;
 
 	private JSpinner timerSegSize;
 
@@ -56,17 +60,25 @@ public class TabComponents extends SettingsTab
 
 	private JComboBox headerTitleFont;
 
+	private JCheckBox headerTitleFontBold;
+
 	private JSpinner headerTitleSize;
 
 	private JComboBox headerSubTitleFont;
+
+	private JCheckBox headerSubTitleFontBold;
 
 	private JSpinner headerSubTitleSize;
 
 	private JComboBox coreFont;
 
+	private JCheckBox coreFontBold;
+
 	private JSpinner coreFontSize;
 
 	private JComboBox otherTimeFont;
+
+	private JCheckBox otherTimeFontBold;
 
 	private JSpinner otherTimeSize;
 
@@ -102,6 +114,10 @@ public class TabComponents extends SettingsTab
 		timerFont.setPreferredSize(new Dimension(130, 22));
 		timerFont.addActionListener(this);
 
+		timerFontBold = new JCheckBox("" + Language.BOLD);
+		timerFontBold.setSelected(Settings.coreTimerFont.get().isBold());
+		timerFontBold.addChangeListener(this);
+
 		timerSize = new JSpinner(new SpinnerNumberModel(
 			Settings.coreTimerFont.get().getSize(), 8, 240, 1)
 		);
@@ -113,6 +129,10 @@ public class TabComponents extends SettingsTab
 		timerSegFont.setSelectedItem(timerSegFontName);
 		timerSegFont.setPreferredSize(new Dimension(130, 22));
 		timerSegFont.addActionListener(this);
+
+		timerSegFontBold = new JCheckBox("" + Language.BOLD);
+		timerSegFontBold.setSelected(Settings.coreSegmentTimerFont.get().isBold());
+		timerSegFontBold.addChangeListener(this);
 
 		timerSegSize = new JSpinner(new SpinnerNumberModel(
 				Settings.coreSegmentTimerFont.get().getSize(), 8, 240, 1)
@@ -126,6 +146,10 @@ public class TabComponents extends SettingsTab
 		headerTitleFont.setPreferredSize(new Dimension(130, 22));
 		headerTitleFont.addActionListener(this);
 
+		headerTitleFontBold = new JCheckBox("" + Language.BOLD);
+		headerTitleFontBold.setSelected(Settings.headerTitleFont.get().isBold());
+		headerTitleFontBold.addChangeListener(this);
+
 		headerTitleSize = new JSpinner(new SpinnerNumberModel(
 			Settings.headerTitleFont.get().getSize(), 8, 240, 1)
 		);
@@ -137,6 +161,10 @@ public class TabComponents extends SettingsTab
 		headerSubTitleFont.setSelectedItem(headerSubTitleFontName);
 		headerSubTitleFont.setPreferredSize(new Dimension(130, 22));
 		headerSubTitleFont.addActionListener(this);
+
+		headerSubTitleFontBold = new JCheckBox("" + Language.BOLD);
+		headerSubTitleFontBold.setSelected(Settings.headerSubTitleFont.get().isBold());
+		headerSubTitleFontBold.addChangeListener(this);
 
 		headerSubTitleSize = new JSpinner(new SpinnerNumberModel(
 			Settings.headerSubTitleFont.get().getSize(), 8, 240, 1)
@@ -150,6 +178,10 @@ public class TabComponents extends SettingsTab
 		coreFont.setPreferredSize(new Dimension(130, 22));
 		coreFont.addActionListener(this);
 
+		coreFontBold = new JCheckBox("" + Language.BOLD);
+		coreFontBold.setSelected(Settings.coreFont.get().isBold());
+		coreFontBold.addChangeListener(this);
+
 		coreFontSize = new JSpinner(new SpinnerNumberModel(
 			Settings.coreFont.get().getSize(), 8, 240, 1)
 		);
@@ -161,6 +193,10 @@ public class TabComponents extends SettingsTab
 		otherTimeFont.setSelectedItem(otherTimeFontName);
 		otherTimeFont.setPreferredSize(new Dimension(130, 22));
 		otherTimeFont.addActionListener(this);
+
+		otherTimeFontBold = new JCheckBox("" + Language.BOLD);
+		otherTimeFontBold.setSelected(Settings.coreOtherTimeFont.get().isBold());
+		otherTimeFontBold.addChangeListener(this);
 
 		otherTimeSize = new JSpinner(new SpinnerNumberModel(
 			Settings.coreOtherTimeFont.get().getSize(), 8, 240, 1)
@@ -233,8 +269,9 @@ public class TabComponents extends SettingsTab
 			timerSegFont.setEnabled(!timerSameFont.isSelected());
 			if (timerSameFont.isSelected()) {
 				int size = (Integer) timerSegSize.getValue();
+				int style = timerSegFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
 				Settings.coreSegmentTimerFont.set(
-						Settings.coreTimerFont.get().deriveFont((float) size)
+						Settings.coreTimerFont.get().deriveFont((float) size).deriveFont(style)
 				);
 			}
 		}
@@ -242,39 +279,60 @@ public class TabComponents extends SettingsTab
 
 	@Override public void stateChanged(ChangeEvent event) {
 		Object source = event.getSource();
+
 		if (source.equals(timerSize)) {
 			int size = (Integer) timerSize.getValue();
 			Settings.coreTimerFont.set(
 					Settings.coreTimerFont.get().deriveFont((float) size)
 			);
+		} else if (source.equals(timerFontBold)) {
+			int style = timerFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
+			Settings.coreTimerFont.set(Settings.coreTimerFont.get().deriveFont(style));
+
 		} else if (source.equals(timerSegSize)) {
 			int size = (Integer) timerSegSize.getValue();
 			Settings.coreSegmentTimerFont.set(
 					Settings.coreSegmentTimerFont.get().deriveFont((float) size)
 			);
+		} else if (source.equals(timerSegFontBold)) {
+			int style = timerSegFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
+			Settings.coreSegmentTimerFont.set(Settings.coreSegmentTimerFont.get().deriveFont(style));
+
 		} else if (source.equals(headerTitleSize)) {
 			int size = (Integer) headerTitleSize.getValue();
 			Settings.headerTitleFont.set(
 				Settings.headerTitleFont.get().deriveFont((float) size)
 			);
+		} else if (source.equals(headerTitleFontBold)) {
+			int style = headerTitleFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
+			Settings.headerTitleFont.set(Settings.headerTitleFont.get().deriveFont(style));
 
 		} else if (source.equals(headerSubTitleSize)) {
 			int size = (Integer) headerSubTitleSize.getValue();
 			Settings.headerSubTitleFont.set(
 				Settings.headerSubTitleFont.get().deriveFont((float) size)
 			);
+		} else if (source.equals(headerSubTitleFontBold)) {
+			int style = headerSubTitleFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
+			Settings.headerSubTitleFont.set(Settings.headerSubTitleFont.get().deriveFont(style));
 
 		} else if (source.equals(coreFontSize)) {
 			int size = (Integer) coreFontSize.getValue();
 			Settings.coreFont.set(
 				Settings.coreFont.get().deriveFont((float) size)
 			);
+		} else if (source.equals(coreFontBold)) {
+			int style = coreFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
+			Settings.coreFont.set(Settings.coreFont.get().deriveFont(style));
 
 		} else if (source.equals(otherTimeSize)) {
 			int size = (Integer) otherTimeSize.getValue();
 			Settings.coreOtherTimeFont.set(
 				Settings.coreOtherTimeFont.get().deriveFont((float) size)
 			);
+		} else if (source.equals(otherTimeFontBold)) {
+			int style = otherTimeFontBold.isSelected() ? Font.BOLD : Font.PLAIN;
+			Settings.coreOtherTimeFont.set(Settings.coreOtherTimeFont.get().deriveFont(style));
 
 		}
 	}
@@ -303,6 +361,7 @@ public class TabComponents extends SettingsTab
 			);
 			fontPanel.add(timerFont, GBC.grid(1, 0));
 			fontPanel.add(timerSize, GBC.grid(2, 0).insets(0, 5));
+			fontPanel.add(timerFontBold, GBC.grid(3, 0));
 
 			fontPanel.add(
 					new JLabel("" + Language.setting_core_segmentTimerFont),
@@ -314,6 +373,7 @@ public class TabComponents extends SettingsTab
 			);
 			fontPanel.add(timerSegFont, GBC.grid(1, 2));
 			fontPanel.add(timerSegSize, GBC.grid(2, 2).insets(0, 5));
+			fontPanel.add(timerSegFontBold, GBC.grid(3, 2));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_header_titleFont),
@@ -321,6 +381,7 @@ public class TabComponents extends SettingsTab
 			);
 			fontPanel.add(headerTitleFont, GBC.grid(1, 3));
 			fontPanel.add(headerTitleSize, GBC.grid(2, 3).insets(0, 5));
+			fontPanel.add(headerTitleFontBold, GBC.grid(3, 3));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_header_subTitleFont),
@@ -328,6 +389,7 @@ public class TabComponents extends SettingsTab
 			);
 			fontPanel.add(headerSubTitleFont, GBC.grid(1, 4));
 			fontPanel.add(headerSubTitleSize, GBC.grid(2, 4).insets(0, 5));
+			fontPanel.add(headerSubTitleFontBold, GBC.grid(3, 4));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_core_font),
@@ -335,6 +397,7 @@ public class TabComponents extends SettingsTab
 			);
 			fontPanel.add(coreFont, GBC.grid(1, 5));
 			fontPanel.add(coreFontSize, GBC.grid(2, 5).insets(0, 5));
+			fontPanel.add(coreFontBold, GBC.grid(3, 5));
 
 			fontPanel.add(
 				new JLabel("" + Language.setting_core_otherTimeFont),
@@ -342,6 +405,7 @@ public class TabComponents extends SettingsTab
 			);
 			fontPanel.add(otherTimeFont, GBC.grid(1, 6));
 			fontPanel.add(otherTimeSize, GBC.grid(2, 6).insets(0, 5));
+			fontPanel.add(otherTimeFontBold, GBC.grid(3, 6));
 		}
 		JPanel timerPanel = new JPanel(new GridBagLayout()); {
 			timerPanel.add(
