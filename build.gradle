@@ -12,7 +12,7 @@ plugins {
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-version = '1.6-SHAPSHOT'
+version = '1.5.3-SHAPSHOT'
 mainClassName = 'org.fenix.llanfair.Llanfair'
 
 repositories {
