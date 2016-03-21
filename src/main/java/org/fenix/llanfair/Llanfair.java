@@ -53,6 +53,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 
 	private JPopupMenu popupMenu;
 
+	private volatile boolean lockedHotkeys;
 	private volatile boolean ignoreNativeInputs;
 
 	private Dimension preferredSize;
@@ -80,6 +81,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 
 		run = new Run();
 		runPane = null;
+		lockedHotkeys = false;
 		ignoreNativeInputs = false;
 		preferredSize = null;
 		actions = new Actions( this );
@@ -181,6 +183,14 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		} else {
 			setLocation( location );
 		}
+	}
+
+	public synchronized boolean areHotkeysLocked() {
+		return lockedHotkeys;
+	}
+
+	public synchronized  void setLockedHotkeys(boolean lockedHotkeys) {
+		this.lockedHotkeys = lockedHotkeys;
 	}
 
 	/**
@@ -296,7 +306,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 			int keyCode = event.getKeyCode();
 			boolean hotkeysEnabler = ( keyCode == Settings.hotkeyLock.get() );
 
-			if ( !ignoresNativeInputs() || hotkeysEnabler ) {
+			if ( (!areHotkeysLocked() && !ignoresNativeInputs()) || hotkeysEnabler ) {
 				SwingUtilities.invokeLater( new Runnable() {
 					@Override public void run() {
 						actions.process( event );

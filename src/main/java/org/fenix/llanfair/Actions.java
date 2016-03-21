@@ -138,9 +138,9 @@ final class Actions {
 		} else if ( source == MenuItem.RESET ) {
 			reset();
 			} else if ( source == MenuItem.LOCK ) {
-			master.setIgnoreNativeInputs( true );
+			master.setLockedHotkeys(true);
 		} else if ( source == MenuItem.UNLOCK ) {
-			master.setIgnoreNativeInputs( false );
+			master.setLockedHotkeys(false);
 		} else if ( source == MenuItem.SETTINGS ) {
 			EditSettings dialog = new EditSettings();
 			dialog.display( true, master );
