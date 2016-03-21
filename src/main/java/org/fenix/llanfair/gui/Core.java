@@ -227,65 +227,58 @@ class Core extends JPanel implements ActionListener {
 				FontMetrics coreSegmentTimerFontMetric = graphics.getFontMetrics(Settings.coreSegmentTimerFont.get());
 
 				// Segment Name
-				int         wName  = 0;
-				int         hName  = 0;
+				int segmentNameWidth = 0;
+				int segmentNameHeight = 0;
 				if (Settings.coreShowSegmentName.get()) {
 					for (int i = 0; i < run.getRowCount(); i++) {
 						String sName = run.getSegment(i).getName();
-						wName = Math.max(wName, coreFontMetric.stringWidth(sName));
+						segmentNameWidth = Math.max(segmentNameWidth, coreFontMetric.stringWidth(sName));
 					}
-					hName = coreFontMetric.getHeight();
+					segmentNameHeight = coreFontMetric.getHeight();
 				}
 				// Segment Times
-				int wTime = 0;
-				int hTime = 0;
-				int hBuff = coreOtherTimeFontMetric.getHeight();
-				int wBuff = coreOtherTimeFontMetric.stringWidth(
-						"" + (tmRun == null ? tmFake : tmRun)
-				);
-				wBuff += coreOtherTimeFontMetric.stringWidth("XX:");
+				int timeWidth = 0;
+				int timeHeight = 0;
+				int otherTimerFontHeight = coreOtherTimeFontMetric.getHeight();
+				int otherTimerWidth = coreOtherTimeFontMetric.stringWidth("" + (tmRun == null ? tmFake : tmRun));
+				otherTimerWidth += coreOtherTimeFontMetric.stringWidth("XX:");
 
 				if (Settings.coreShowBestTime.get()) {
-					hTime = hTime + hBuff;
-					wTime = wBuff;
+					timeHeight += otherTimerFontHeight;
+					timeWidth = otherTimerWidth;
 				}
 				if (Settings.coreShowSegmentTime.get()) {
-					hTime = hTime + hBuff;
-					wTime = wBuff;
+					timeHeight += otherTimerFontHeight;
+					timeWidth = otherTimerWidth;
 				}
 				if (Settings.coreShowSplitTime.get()) {
-					hTime = hTime + hBuff;
-					wTime = wBuff;
+					timeHeight += otherTimerFontHeight;
+					timeWidth = otherTimerWidth;
 				}
 				// Segment Icon
-				int hIcon = 0;
-				int wIcon = 0;
+				int iconHeight = 0;
+				int iconWidth = 0;
 				// TODO hasIcon ?
 				if (Settings.coreShowIcons.get() || run.getMaxIconHeight() != 0) {
-					hIcon = Settings.coreIconSize.get();
-					wIcon = hIcon;
+					iconHeight = Settings.coreIconSize.get();
+					iconWidth = iconHeight;   // always assume square icon size (will be scaled as such)
 				}
 				// Run Timer
-				int wSpTimer = coreTimerFontMetric.stringWidth(
-						"" + (tmRun == null ? tmFake : tmRun)
-				);
-				int hSpTimer = coreTimerFontMetric.getHeight();
+				int splitTimerWidth = coreTimerFontMetric.stringWidth("" + (tmRun == null ? tmFake : tmRun));
+				int splitTimerHeight = coreTimerFontMetric.getHeight();
 
 				// Segment Timer
-				int wSeTimer = 0;
-				int hSeTimer = 0;
+				int segmentTimerWidth = 0;
+				int segmentTimerHeight = 0;
 				if (Settings.coreShowSegmentTimer.get()) {
-					wSeTimer = coreSegmentTimerFontMetric.stringWidth(
-							"" + (tmRun == null ? tmFake : tmRun)
-					);
-					hSeTimer = coreSegmentTimerFontMetric.getHeight();
+					segmentTimerWidth = coreSegmentTimerFontMetric.stringWidth("" + (tmRun == null ? tmFake : tmRun));
+					segmentTimerHeight = coreSegmentTimerFontMetric.getHeight();
 				}
 
-				int maxHeight      = Math.max(hIcon, hSpTimer + hSeTimer);
-					maxHeight      = Math.max(maxHeight, hTime + hName);
+				int maxHeight = Math.max(iconHeight, splitTimerHeight + segmentTimerHeight);
+				maxHeight = Math.max(maxHeight, timeHeight + segmentNameHeight);
 
-				int maxWidth = wIcon + Math.max(wName, wTime)
-						+ Math.max(wSpTimer, wSeTimer) + 5;
+				int maxWidth = iconWidth + Math.max(segmentNameWidth, timeWidth) + Math.max(splitTimerWidth, segmentTimerWidth) + 5;
 
 				preferredSize = new Dimension(maxWidth, maxHeight);
 				setMinimumSize(new Dimension(MIN_WIDTH, maxHeight));
