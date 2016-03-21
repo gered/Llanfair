@@ -320,7 +320,14 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		String property = event.getPropertyName();
 
 		if ( Run.STATE_PROPERTY.equals( property ) ) {
-			MenuItem.setActiveState( run.getState() );
+			MenuItem.setActiveState(run.getState());
+			//forceInternalComponentsResize();
+		} else if (Run.NAME_PROPERTY.equals(property)) {
+			forceInternalComponentsResize();
+		} else if (Run.SUBTITLE_PROPERTY.equals(property)) {
+			forceInternalComponentsResize();
+		} else if (Settings.headerShowAttempts.equals(property)) {
+			forceInternalComponentsResize();
 		} else if ( Settings.alwaysOnTop.equals( property ) ) {
 			setAlwaysOnTop( Settings.alwaysOnTop.get() );
 		} else if (Settings.historyRowCount.equals(property)
@@ -531,4 +538,9 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		pack();
 	}
 
+	private void forceInternalComponentsResize()
+	{
+		setPreferredSize( preferredSize );
+		pack();
+	}
 }
