@@ -148,6 +148,12 @@ final class Actions {
 			about();
 		} else if ( source == MenuItem.EXIT ) {
 			if ( confirmOverwrite() ) {
+				// these might not really be necessary, but at this point just trying to be sure a running timer isn't
+				// sometimes keeping the app open somehow ??
+				run.stop();
+				run.reset();
+
+				// exit the app
 				master.dispose();
 			}
 		}
