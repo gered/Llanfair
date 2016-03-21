@@ -75,6 +75,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		registerFonts();
 		setResizable(Settings.windowUserResizable.get());
 		setLookAndFeel();
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addComponentListener(this);
 
 		run = new Run();
