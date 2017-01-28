@@ -1,5 +1,6 @@
 package org.fenix.llanfair;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.fenix.llanfair.config.Settings;
 import org.fenix.utils.TableModelSupport;
 import org.fenix.utils.config.Configuration;
@@ -180,6 +181,9 @@ public class Run implements TableModel, Serializable {
 	private int numberOfAttempts;
 
 	private int numberOfCompletedAttempts;
+
+	@XStreamOmitField
+	private int sessionAttempts;
 
 	// ----------------------------------------------------------- CONSTRUCTORS
 
@@ -575,6 +579,8 @@ public class Run implements TableModel, Serializable {
 		return numberOfCompletedAttempts;
 	}
 
+	public int getSessionAttempts() { return sessionAttempts; }
+
 	// ---------------------------------------------------------------- SETTERS
 
 	public<T> T getSetting( String key ) {
@@ -709,6 +715,7 @@ public class Run implements TableModel, Serializable {
 		segments.get(current).setStartTime(startTime);
 
 		numberOfAttempts += 1;
+		sessionAttempts += 1;
 
 		pcSupport.firePropertyChange(ATTEMPT_COUNTER_PROPERTY, numberOfAttempts - 1, numberOfAttempts);
 		pcSupport.firePropertyChange(STATE_PROPERTY, State.READY, state);
@@ -1113,13 +1120,14 @@ public class Run implements TableModel, Serializable {
 	 * Initialize all transient fields.
 	 */
 	private void initializeTransients() {
-		pcSupport      = new PropertyChangeSupport(this);
-		tmSupport      = new TableModelSupport(this);
-		segmentsBackup = null;
-		stateBackup    = null;
-		state          = getRowCount() > 0 ? State.READY : State.NULL;
-		current        = -1;
-		startTime      = 0L;
+		pcSupport       = new PropertyChangeSupport(this);
+		tmSupport       = new TableModelSupport(this);
+		segmentsBackup  = null;
+		stateBackup     = null;
+		state           = getRowCount() > 0 ? State.READY : State.NULL;
+		current         = -1;
+		startTime       = 0L;
+		sessionAttempts = 0;
 
 		if (subTitle == null) {
 			subTitle = "";
