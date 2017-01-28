@@ -46,6 +46,29 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		ToolTipManager.sharedInstance().setReshowDelay( 0 );
 	}
 
+	// this class only exists so that the "on app quit" logic is somewhere that can be
+	// added to the JVM's shutdown hook for Mac OS for when the user uses Cmd+Q to quit
+	public class AppShutdown implements Runnable {
+		private boolean hasRun = false;
+
+		public void run()
+		{
+			if (hasRun)
+				return;
+
+			Settings.save();
+			try {
+				GlobalScreen.unregisterNativeHook();
+			} catch (NativeHookException e) {
+
+			}
+
+			hasRun = true;
+		}
+	}
+
+	private Runnable onAppShutdown = new AppShutdown();
+
 	private Run run;
 	private RunPane runPane;
 
@@ -78,6 +101,14 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 		setLookAndFeel();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addComponentListener(this);
+
+		// if a mac user uses Cmd+Q to exit the application that quits the program in a way that doesn't fire
+		// the window closed event for some fucked up reason. wow
+		// the only "fancy" ways to deal with this problem that i could find are only relevant on Apple's Java 1.6
+		// runtime which everyone should avoid nowadays. so we'll do this instead...
+		if (System.getProperty("os.name").startsWith("Mac OS")) {
+			Runtime.getRuntime().addShutdownHook(new Thread(onAppShutdown));
+		}
 
 		run = new Run();
 		runPane = null;
@@ -428,12 +459,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 * unregister the native hook of {@code JNativeHook}.
 	 */
 	@Override public void windowClosed( WindowEvent event ) {
-		Settings.save();
-		try {
-			GlobalScreen.unregisterNativeHook();
-		} catch (NativeHookException e) {
-
-		}
+		onAppShutdown.run();
 	}
 
 	@Override public void windowClosing(WindowEvent event) {}
