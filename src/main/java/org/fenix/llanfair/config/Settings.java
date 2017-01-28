@@ -186,9 +186,9 @@ public class Settings {
 
 	/**
 	 * Retrieves the configuration of Llanfair. The configuration is read from
-	 * {@code llanfair.xml} placed in the working directory. If such a file
-	 * cannot be found, a default configuration is loaded. No local
-	 * configuration is loaded here, a call to {@code setRun} is required to
+	 * {@code llanfair.xml} placed in the working directory. Default configuration
+	 * values are applied for any values not present in the loaded configuration file.
+	 * No local configuration is loaded here, a call to {@code setRun} is required to
 	 * do just that. This method is lenient and called by the first property
 	 * whose value is requested.
 	 */
