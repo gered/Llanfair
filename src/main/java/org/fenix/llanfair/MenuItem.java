@@ -120,6 +120,14 @@ enum MenuItem implements ActionListener {
 		listeners.add( ActionListener.class, listener );
 	}
 
+	static void trimRecentFilesList(List<String> recentFiles) {
+		int numToTrim = recentFiles.size() - Settings.maxRecentFiles.get();
+		if (numToTrim > 0) {
+			for (int i = 0; i < numToTrim; ++i)
+				recentFiles.remove(recentFiles.size() - 1);
+		}
+	}
+
 	/**
 	 * Callback to invoke whenever a file is opened. This method will sort the
 	 * recent files menu to put the recently opened file at the top.
@@ -135,23 +143,21 @@ enum MenuItem implements ActionListener {
 		}
 		recentFiles.add( 0, path );
 
-		if ( recentFiles.size() > Settings.maxRecentFiles.get() ) {
-			recentFiles.remove( (int)Settings.maxRecentFiles.get() );
-		}
+		trimRecentFilesList(recentFiles);
+
 		Settings.recentFiles.set( recentFiles );
 		populateRecentlyOpened();
 	}
 
 	/**
 	 * Fills the {@code OPEN_RECENT} item with the list of recently opened
-	 * files. If {@code MAX_FILES} is somehow lower than the recent files list
-	 * length, the overflowing files are removed.
+	 * files.
 	 */
 	static void populateRecentlyOpened() {
 		List<String> recentFiles = Settings.recentFiles.get();
-		for ( int i = Settings.maxRecentFiles.get(); i < recentFiles.size(); i++ ) {
-			recentFiles.remove( i - 1 );
-		}
+		trimRecentFilesList(recentFiles);
+		Settings.recentFiles.set(recentFiles);
+
 		OPEN_RECENT.menuItem.removeAll();
 		for ( String fileName : Settings.recentFiles.get() ) {
 			String text = fileName;
