@@ -193,95 +193,99 @@ public class Settings {
 	 */
 	private static void retrieve() {
 		global = Configuration.newInstance( new File(UserSettings.getSettingsPath() + File.separator + "llanfair.xml" ) );
-		if ( global.isEmpty() ) {
-			setDefaultValues();
-		}
+		setDefaultValues();
+	}
+
+	private static void setDefault(String key, Object value, boolean force) {
+		if (force || !global.contains(key))
+			global.put(key, value);
 	}
 
 	/**
-	 * Fills the global configuration with every property, assigning them their
-	 * default value. This method can be called even when the global
-	 * configuration is not empty, and will thus function as a reset.
+	 * Sets default values in the global configuration for each property which is
+	 * missing (key is not present). Existing values are preserved (even nulls).
 	 */
 	private static void setDefaultValues() {
-		global.put( alwaysOnTop.key, true );
-		global.put( language.key, Locale.ENGLISH );
-		global.put( viewerLanguage.key, Locale.ENGLISH );
-		global.put( recentFiles.key, new ArrayList<String>() );
-		global.put( coordinates.key, null );
-		global.put( dimension.key, null );
-		global.put( compareMethod.key, Compare.BEST_OVERALL_RUN );
-		global.put( accuracy.key, Accuracy.TENTH );
-		global.put( warnOnReset.key, true );
-		global.put( windowUserResizable.key, true );
-		global.put( windowWidth.key, null );
+		boolean force = false;
 
-		global.put( colorBackground.key, Color.decode("0x000000") );
-		global.put( colorForeground.key, Color.decode( "0xc0c0c0" ) );
-		global.put( colorTime.key, Color.decode( "0xffffff" ) );
-		global.put( colorTimer.key, Color.decode( "0x22cc22" ) );
-		global.put( colorNegativeTime.key, Color.decode ("0x808080" ) );
-		global.put( colorTimeGainedWhileAhead.key, Color.decode( "0x6295fc" ) );
-		global.put( colorTimeLostWhileAhead.key, Color.decode( "0x99ccff" ) );
-		global.put( colorTimeGainedWhileBehind.key, Color.decode( "0xff8e8e" ) );
-		global.put( colorTimeLostWhileBehind.key, Color.decode( "0xe82323" ) );
-		global.put( colorNewRecord.key, Color.decode( "0xf0b012" ) );
-		global.put( colorTitle.key, Color.decode( "0xf0b012" ) );
-		global.put( colorSubTitle.key, Color.decode( "0xffffff" ) );
-		global.put( colorHighlight.key, Color.decode( "0xffffff" ) );
-		global.put( colorSeparators.key, Color.decode( "0x666666" ) );
+		setDefault( alwaysOnTop.key, true, force );
+		setDefault( language.key, Locale.ENGLISH, force );
+		setDefault( viewerLanguage.key, Locale.ENGLISH, force );
+		setDefault( recentFiles.key, new ArrayList<String>(), force );
+		setDefault( coordinates.key, null, force );
+		setDefault( dimension.key, null, force );
+		setDefault( compareMethod.key, Compare.BEST_OVERALL_RUN, force );
+		setDefault( accuracy.key, Accuracy.TENTH, force );
+		setDefault( warnOnReset.key, true, force );
+		setDefault( windowUserResizable.key, true, force );
+		setDefault( windowWidth.key, null, force );
 
-		global.put( useGlobalHotkeys.key, false );
-		global.put( hotkeySplit.key, -1 );
-		global.put( hotkeyUnsplit.key, -1 );
-		global.put( hotkeySkip.key, -1 );
-		global.put( hotkeyReset.key, -1 );
-		global.put( hotkeyStop.key, -1 );
-		global.put( hotkeyPause.key, -1 );
-		global.put( hotkeyLock.key, -1 );
+		setDefault( colorBackground.key, Color.decode("0x000000"), force );
+		setDefault( colorForeground.key, Color.decode( "0xc0c0c0" ), force );
+		setDefault( colorTime.key, Color.decode( "0xffffff" ), force );
+		setDefault( colorTimer.key, Color.decode( "0x22cc22" ), force );
+		setDefault( colorNegativeTime.key, Color.decode ("0x808080" ), force );
+		setDefault( colorTimeGainedWhileAhead.key, Color.decode( "0x6295fc" ), force );
+		setDefault( colorTimeLostWhileAhead.key, Color.decode( "0x99ccff" ), force );
+		setDefault( colorTimeGainedWhileBehind.key, Color.decode( "0xff8e8e" ), force );
+		setDefault( colorTimeLostWhileBehind.key, Color.decode( "0xe82323" ), force );
+		setDefault( colorNewRecord.key, Color.decode( "0xf0b012" ), force );
+		setDefault( colorTitle.key, Color.decode( "0xf0b012" ), force );
+		setDefault( colorSubTitle.key, Color.decode( "0xffffff" ), force );
+		setDefault( colorHighlight.key, Color.decode( "0xffffff" ), force );
+		setDefault( colorSeparators.key, Color.decode( "0x666666" ), force );
 
-		global.put( headerShowSubtitle.key, true );
-		global.put( headerShowTitle.key, true );
-		global.put( headerShowAttempts.key, true );
-		global.put( headerTitleFont.key, Font.decode( "Arial-14" ) );
-		global.put( headerSubTitleFont.key, Font.decode( "Arial-12" ) );
+		setDefault( useGlobalHotkeys.key, false, force );
+		setDefault( hotkeySplit.key, -1, force );
+		setDefault( hotkeyUnsplit.key, -1, force );
+		setDefault( hotkeySkip.key, -1, force );
+		setDefault( hotkeyReset.key, -1, force );
+		setDefault( hotkeyStop.key, -1, force );
+		setDefault( hotkeyPause.key, -1, force );
+		setDefault( hotkeyLock.key, -1, force );
 
-		global.put( historyRowCount.key, 8 );
-		global.put( historyTabular.key, true );
-		global.put( historyBlankRows.key, false );
-		global.put( historyMultiline.key, false );
-		global.put( historyMerge.key, Merge.LIVE );
-		global.put( historyLiveTimes.key, true );
-		global.put( historyDeltas.key, true );
-		global.put( historyIcons.key, true );
-		global.put( historyIconSize.key, 16 );
-		global.put( historyOffset.key, 0 );
-		global.put( historyAlwaysShowLast.key, true );
-		global.put( historySegmentFont.key, Font.decode( "Arial-12" ) );
-		global.put( historyTimeFont.key, Font.decode( "Arial-11" ) );
+		setDefault( headerShowSubtitle.key, true, force );
+		setDefault( headerShowTitle.key, true, force );
+		setDefault( headerShowAttempts.key, true, force );
+		setDefault( headerTitleFont.key, Font.decode( "Arial-14" ), force );
+		setDefault( headerSubTitleFont.key, Font.decode( "Arial-12" ), force );
 
-		global.put( coreAccuracy.key, Accuracy.HUNDREDTH );
-		global.put( coreShowIcons.key, true );
-		global.put( coreIconSize.key, 40 );
-		global.put( coreShowSegmentName.key, true );
-		global.put( coreShowSplitTime.key, false );
-		global.put( coreShowSegmentTime.key, true );
-		global.put( coreShowBestTime.key, true );
-		global.put( coreShowSegmentTimer.key, true );
-		global.put( coreTimerFont.key, Font.decode( "Digitalism-32" ) );
-		global.put( coreSegmentTimerFont.key, Font.decode( "Digitalism-18" ) );
-		global.put( coreFont.key, Font.decode( "Arial-12" ) );
-		global.put( coreOtherTimeFont.key, Font.decode( "Arial-11" ) );
+		setDefault( historyRowCount.key, 8, force );
+		setDefault( historyTabular.key, true, force );
+		setDefault( historyBlankRows.key, false, force );
+		setDefault( historyMultiline.key, false, force );
+		setDefault( historyMerge.key, Merge.LIVE, force );
+		setDefault( historyLiveTimes.key, true, force );
+		setDefault( historyDeltas.key, true, force );
+		setDefault( historyIcons.key, true, force );
+		setDefault( historyIconSize.key, 16, force );
+		setDefault( historyOffset.key, 0, force );
+		setDefault( historyAlwaysShowLast.key, true, force );
+		setDefault( historySegmentFont.key, Font.decode( "Arial-12" ), force );
+		setDefault( historyTimeFont.key, Font.decode( "Arial-11" ), force );
 
-		global.put( graphDisplay.key, true );
-		global.put( graphScale.key, 3.0F );
+		setDefault( coreAccuracy.key, Accuracy.HUNDREDTH, force );
+		setDefault( coreShowIcons.key, true, force );
+		setDefault( coreIconSize.key, 40, force );
+		setDefault( coreShowSegmentName.key, true, force );
+		setDefault( coreShowSplitTime.key, false, force );
+		setDefault( coreShowSegmentTime.key, true, force );
+		setDefault( coreShowBestTime.key, true, force );
+		setDefault( coreShowSegmentTimer.key, true, force );
+		setDefault( coreTimerFont.key, Font.decode( "Digitalism-32" ), force );
+		setDefault( coreSegmentTimerFont.key, Font.decode( "Digitalism-18" ), force );
+		setDefault( coreFont.key, Font.decode( "Arial-12" ), force );
+		setDefault( coreOtherTimeFont.key, Font.decode( "Arial-11" ), force );
 
-		global.put( footerDisplay.key, true );
-		global.put( footerVerbose.key, true );
-		global.put( footerUseSplitData.key, false );
-		global.put( footerShowBestTime.key, true );
-		global.put( footerMultiline.key, true );
-		global.put( footerShowDeltaLabels.key, true );
+		setDefault( graphDisplay.key, true, force );
+		setDefault( graphScale.key, 3.0F, force );
+
+		setDefault( footerDisplay.key, true, force );
+		setDefault( footerVerbose.key, true, force );
+		setDefault( footerUseSplitData.key, false, force );
+		setDefault( footerShowBestTime.key, true, force );
+		setDefault( footerMultiline.key, true, force );
+		setDefault( footerShowDeltaLabels.key, true, force );
 	}
 
 	/**
