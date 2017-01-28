@@ -6,17 +6,11 @@
 
 The original author Xavier "Xunkar" Sencert was kind enough to release the sources 
 (see [here](https://twitter.com/Xunkar/status/671042537134624768) and [here](https://twitter.com/Xunkar/status/671099823563632641))
-when I asked. I'm not completely certain if Xunkar ever intends to continue development of Llanfair himself as it
-seems he uses LiveSplit now (?).
-
-Regardless, here I will be extending the original application as best I can by adding some missing features here and 
+when I asked. Here I will be extending the original application as best I can by adding some missing features here and 
 there and fixing bugs as needed.
 
-## !! Beta Status Warning !!
-
-Right now I consider the code and releases on this repository to be in a beta state. It is very, very possible that I
-will make changes in the near future which will break compatibility with old config files / splits causing them not to
-load in Llanfair. If this is a problem for you, I suggest that you hold off on using these releases for now!
+Note that Xunkar has started working on Llanfair v2.0 which is a complete rewrite. You can 
+[check it's progress here](https://github.com/xunkar/llanfair).
 
 ## Download
 
@@ -40,7 +34,8 @@ The main changes from v1.4.3 (the last official release from Xunkar) are as foll
   Xunkar had started after release of v1.4.3.
 * Support for a delayed/negative run start time. Useful if you want to start the run at a time more convenient for you
   but before any of the segments should start (e.g. to skip initial loading, fadeouts, etc).
-* Attempt counter (both the number of total attempts and number of completed runs).
+* "Sum of best" time display option.
+* Attempt counter showing: the number of total attempts, number of completed runs and a per-session attempt counter.
 * Additional font and colour customization settings.
 * Coloring of split time deltas using slightly different color shades based on if you're gaining/losing time while 
   already ahead/behind.
@@ -48,7 +43,11 @@ The main changes from v1.4.3 (the last official release from Xunkar) are as foll
 * By default the config file is saved under `$user_home/.llanfair/` and the default location
   to save/load splits is `$user_home/.llanfair/splits/` (though you can of course also choose
   whatever other location you like).
+* Ensure application settings are saved when a Mac user quits via Cmd+Q.
 * Saved splits are now saved with a default `.lfs` file extension.
+* Fix that prevents existing splits files from being accidentally overwritten when choosing "New" option from menu (after you already had a splits file open), and then choose "Save."
+* User setting to control amount of files shown in the "Open Recent" menu list.
+* Option to set a different default splits file directory (this is merely an additional convenience, most people probably won't use this).
 * Other minor bug fixes.
 
 ### Important Note About Localization
