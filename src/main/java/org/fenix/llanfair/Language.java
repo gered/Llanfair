@@ -19,6 +19,8 @@ public enum Language {
 
 	// Settings > Generic
 	setting_alwaysOnTop,
+	setting_useDefaultSplitsPath,
+	setting_customSplitsPath,
 	setting_language,
 	setting_viewerLanguage,
 	setting_recentFiles,
@@ -145,6 +147,7 @@ public enum Language {
 	error_import_run,
 	error_window_width,
 	error_max_recent_files,
+	error_splits_path,
 
 	// Actions
 	action_accept,
@@ -252,6 +255,7 @@ public enum Language {
 	RUN_FILE_FILTER,
 	SEGMENT,
 	SEGMENTS,
+	SELECT_SPLITS_DIR,
 	SPLIT,
 	TIME,
 	UNTITLED,

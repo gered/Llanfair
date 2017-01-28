@@ -5,12 +5,14 @@ import org.fenix.llanfair.Llanfair;
 import org.fenix.llanfair.config.Accuracy;
 import org.fenix.llanfair.config.Compare;
 import org.fenix.llanfair.config.Settings;
+import org.fenix.utils.UserSettings;
 import org.fenix.utils.gui.GBC;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Enumeration;
 import java.util.Locale;
 
@@ -29,6 +31,12 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 	private JCheckBox alwaysOnTop;
 
 	private JLabel alwaysOnTopText;
+
+	private JCheckBox useDefaultSplitsPath;
+
+	private JTextField customSplitsPath;
+
+	private JButton selectCustomSplitsPath;
 
 	private ButtonGroup compare;
 
@@ -62,6 +70,22 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 
 		alwaysOnTop = new JCheckBox("" + Language.setting_alwaysOnTop);
 		alwaysOnTop.setSelected(Settings.alwaysOnTop.get());
+
+		useDefaultSplitsPath = new JCheckBox("" + Language.setting_useDefaultSplitsPath);
+		useDefaultSplitsPath.setSelected(Settings.useDefaultSplitsPath.get());
+		useDefaultSplitsPath.addActionListener(this);
+
+		String path = UserSettings.getSplitsPath(null);
+		if (path == null)
+			path = "";
+
+		customSplitsPath = new JTextField(path);
+		customSplitsPath.setEnabled(!Settings.useDefaultSplitsPath.get());
+		customSplitsPath.setColumns(30);
+
+		selectCustomSplitsPath = new JButton("" + Language.SELECT_SPLITS_DIR);
+		selectCustomSplitsPath.addActionListener(this);
+		selectCustomSplitsPath.setEnabled(!Settings.useDefaultSplitsPath.get());
 
 		compare = new ButtonGroup();
 		Compare setCmp = Settings.compareMethod.get();
@@ -133,6 +157,24 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 			Settings.warnOnReset.set(warnOnReset.isSelected());
 		} else if (source.equals(windowUserResizable)) {
 			windowSize.setEnabled(!windowUserResizable.isSelected());
+		} else if (source.equals(useDefaultSplitsPath)) {
+			Settings.useDefaultSplitsPath.set(useDefaultSplitsPath.isSelected());
+			if (useDefaultSplitsPath.isEnabled())
+				Settings.customSplitsPath.set(null);
+			String path = UserSettings.getSplitsPath(null);
+			if (path == null)
+				path = "";
+			customSplitsPath.setText(path);
+			boolean enabled = !Settings.useDefaultSplitsPath.get();
+			customSplitsPath.setEnabled(enabled);
+			selectCustomSplitsPath.setEnabled(enabled);
+		} else if (source.equals(selectCustomSplitsPath)) {
+			JFileChooser chooser = new JFileChooser();
+			chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int action = chooser.showOpenDialog(this);
+			if (action == JFileChooser.APPROVE_OPTION) {
+				customSplitsPath.setText(chooser.getSelectedFile().toString());
+			}
 		}
 	}
 
@@ -164,6 +206,14 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		}
 
 		Settings.maxRecentFiles.set(numRecentFiles);
+
+		if (!Settings.useDefaultSplitsPath.get()) {
+			String path = customSplitsPath.getText().trim();
+			if (!new File(path).exists()) {
+				throw new InvalidSettingException(this, customSplitsPath, "" + Language.error_splits_path);
+			}
+			Settings.customSplitsPath.set(path);
+		}
 	}
 
 	/**
@@ -186,6 +236,22 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		);
 		add(alwaysOnTop, GBC.grid(1, 0).anchor(GBC.LINE_START));
 		add(warnOnReset, GBC.grid(1, 1).anchor(GBC.LINE_START));
+
+		JPanel panelSplitsPath = new JPanel(new GridBagLayout()); {
+			panelSplitsPath.add(
+				useDefaultSplitsPath,
+				GBC.grid(0, 0, 2, 1).anchor(GBC.LINE_START)
+			);
+			panelSplitsPath.add(
+				customSplitsPath,
+			    GBC.grid(0, 1).anchor(GBC.LINE_START).insets(0, 5)
+			);
+			panelSplitsPath.add(
+				selectCustomSplitsPath,
+			    GBC.grid(1, 1).anchor(GBC.LINE_START)
+			);
+		};
+		add(panelSplitsPath, GBC.grid(1, 2).anchor(GBC.LINE_START));
 
 		//add(languageText, GBC.grid(0, 2).anchor(GBC.LINE_END).insets(10, 10));
 		//add(language, GBC.grid(1, 2).fill(GBC.HORIZONTAL));

@@ -40,6 +40,8 @@ public class Settings {
 	public static final Property<Boolean> warnOnReset = new Property<>( "warnOnReset" );
 	public static final Property<Boolean> windowUserResizable = new Property<>( "windowUserResizable" );
 	public static final Property<Integer> windowWidth = new Property<>( "windowWidth" );
+	public static final Property<Boolean> useDefaultSplitsPath = new Property<>( "useDefaultSplitsPath" );
+	public static final Property<String> customSplitsPath = new Property<>( "customSplitsPath" );
 
 	/* COLOR properties */
 
@@ -222,6 +224,8 @@ public class Settings {
 		setDefault( warnOnReset.key, true, force );
 		setDefault( windowUserResizable.key, true, force );
 		setDefault( windowWidth.key, null, force );
+		setDefault( useDefaultSplitsPath.key, true, force );
+		setDefault( customSplitsPath.key, null, force );
 
 		setDefault( colorBackground.key, Color.decode("0x000000"), force );
 		setDefault( colorForeground.key, Color.decode( "0xc0c0c0" ), force );

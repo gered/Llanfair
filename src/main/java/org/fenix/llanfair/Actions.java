@@ -56,7 +56,7 @@ final class Actions {
 		master = owner;
 
 		file = null;
-		fileChooser = new JFileChooser(UserSettings.getSplitsPath());
+		fileChooser = new JFileChooser(UserSettings.getSplitsPath(this.file));
 		fileChooser.setFileFilter(new FileNameExtensionFilter("" + Language.RUN_FILE_FILTER, "lfs"));
 
 		lastUnsplit = 0L;
@@ -254,10 +254,7 @@ final class Actions {
 	private File selectFile(FILE_CHOOSER_TYPE dialogType) {
 		int action = -1;
 
-		if (this.file == null)
-			fileChooser.setCurrentDirectory(new File(UserSettings.getSplitsPath()));
-		else
-			fileChooser.setCurrentDirectory(this.file);
+		fileChooser.setCurrentDirectory(new File(UserSettings.getSplitsPath(this.file)));
 
 		if (dialogType == FILE_CHOOSER_TYPE.OPEN)
 			action = fileChooser.showOpenDialog(master);

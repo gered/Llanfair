@@ -1,5 +1,7 @@
 package org.fenix.utils;
 
+import org.fenix.llanfair.config.Settings;
+
 import java.io.File;
 
 public class UserSettings {
@@ -31,7 +33,19 @@ public class UserSettings {
 	 * Returns the path to the location where splits can be saved in. This is
 	 * located as a subdirectory within the user settings directory.
 	 */
-	public static String getSplitsPath() {
+	public static String getDefaultSplitsPath() {
 		return splitsPath.getPath();
 	}
+
+	public static String getSplitsPath(File selectedFile) {
+		if (selectedFile != null)
+			return selectedFile.toString();
+		else {
+			if (Settings.useDefaultSplitsPath.get())
+				return UserSettings.getDefaultSplitsPath();
+			else
+				return Settings.customSplitsPath.get();
+		}
+	}
+
 }
