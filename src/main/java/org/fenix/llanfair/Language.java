@@ -30,6 +30,7 @@ public enum Language {
 	setting_warnOnReset,
 	setting_windowUserResizable,
 	setting_windowWidth,
+	setting_maxRecentFiles,
 
 	// Settings > Color
 	setting_color_background,
@@ -142,6 +143,7 @@ public enum Language {
 	error_write_file,
 	error_import_run,
 	error_window_width,
+	error_max_recent_files,
 
 	// Actions
 	action_accept,

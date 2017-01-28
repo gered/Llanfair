@@ -48,6 +48,10 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 
 	private JLabel windowSizeUnitsText;
 
+	private JTextField maxRecentFiles;
+
+	private JLabel maxRecentFilesLabel;
+
 	// ----------------------------------------------------------- CONSTRUCTORS
 
 	TabGeneral() {
@@ -96,7 +100,11 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		windowSize.setEnabled(!windowUserResizable.isSelected());
 		windowSize.addActionListener(this);
 
+		maxRecentFiles = new JTextField("" + Settings.maxRecentFiles.get(), 4);
+		maxRecentFiles.addActionListener(this);
+
 		windowSizeUnitsText = new JLabel("" + Language.setting_windowWidth);
+		maxRecentFilesLabel = new JLabel("" + Language.setting_maxRecentFiles);
 
 		languageText    = new JLabel("" + Language.setting_language);
 		alwaysOnTopText = new JLabel("" + Language.APPLICATION);
@@ -146,6 +154,16 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 
 			Settings.windowWidth.set(windowWidth);
 		}
+
+		int numRecentFiles;
+		try {
+			numRecentFiles = Integer.parseInt(maxRecentFiles.getText().trim());
+		}
+		catch (Exception ex) {
+			throw new InvalidSettingException(this, maxRecentFiles, "" + Language.error_max_recent_files);
+		}
+
+		Settings.maxRecentFiles.set(numRecentFiles);
 	}
 
 	/**
@@ -196,6 +214,10 @@ public class TabGeneral extends SettingsTab implements ActionListener {
 		windowSizeContainer.add(windowSize);
 		windowSizeContainer.add(windowSizeUnitsText);
 		add(windowSizeContainer, GBC.grid(1, 6).anchor(GBC.LINE_START));
+
+		add(maxRecentFilesLabel, GBC.grid(0, 7).anchor(GBC.LINE_END).insets(5, 10));
+		add(maxRecentFiles, GBC.grid(1, 7).anchor(GBC.LINE_START).insets(0, 5));
+
 	}
 
 	// --------------------------------------------------------- INTERNAL TYPES
