@@ -400,6 +400,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 				|| Settings.footerShowDeltaLabels.equals(property)
 				|| Settings.footerVerbose.equals(property)
 				|| Settings.footerMultiline.equals(property)
+		        || Settings.footerShowSumOfBest.equals(property)
 				|| Settings.windowUserResizable.equals(property)
 				|| Settings.windowWidth.equals(property)
 				|| Run.NAME_PROPERTY.equals(property)) {
