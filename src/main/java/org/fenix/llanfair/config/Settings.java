@@ -32,6 +32,7 @@ public class Settings {
 	public static final Property<Locale> language = new Property<>( "language" );
 	public static final Property<Locale> viewerLanguage = new Property<>( "viewerLanguage" );
 	public static final Property<List<String>> recentFiles = new Property<>( "recentFiles" );
+	public static final Property<Integer> maxRecentFiles = new Property<>( "maxRecentFiles" );
 	public static final Property<Point> coordinates = new Property<>( "coordinates" );
 	public static final Property<Dimension> dimension = new Property<>( "dimension" );
 	public static final Property<Compare> compareMethod = new Property<>( "compareMethod" );
@@ -212,6 +213,7 @@ public class Settings {
 		setDefault( language.key, Locale.ENGLISH, force );
 		setDefault( viewerLanguage.key, Locale.ENGLISH, force );
 		setDefault( recentFiles.key, new ArrayList<String>(), force );
+		setDefault( maxRecentFiles.key, 10, force );
 		setDefault( coordinates.key, null, force );
 		setDefault( dimension.key, null, force );
 		setDefault( compareMethod.key, Compare.BEST_OVERALL_RUN, force );

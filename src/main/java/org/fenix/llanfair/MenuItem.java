@@ -46,7 +46,6 @@ enum MenuItem implements ActionListener {
 	 */
 	private static EventListenerList listeners = new EventListenerList();
 
-	private static final int MAX_FILES = 5;
 	private static final int TRUNCATE = 30;
 
 	private boolean isEndOfGroup;
@@ -136,8 +135,8 @@ enum MenuItem implements ActionListener {
 		}
 		recentFiles.add( 0, path );
 
-		if ( recentFiles.size() > MAX_FILES ) {
-			recentFiles.remove( MAX_FILES );
+		if ( recentFiles.size() > Settings.maxRecentFiles.get() ) {
+			recentFiles.remove( (int)Settings.maxRecentFiles.get() );
 		}
 		Settings.recentFiles.set( recentFiles );
 		populateRecentlyOpened();
@@ -150,7 +149,7 @@ enum MenuItem implements ActionListener {
 	 */
 	static void populateRecentlyOpened() {
 		List<String> recentFiles = Settings.recentFiles.get();
-		for ( int i = MAX_FILES; i < recentFiles.size(); i++ ) {
+		for ( int i = Settings.maxRecentFiles.get(); i < recentFiles.size(); i++ ) {
 			recentFiles.remove( i - 1 );
 		}
 		OPEN_RECENT.menuItem.removeAll();
