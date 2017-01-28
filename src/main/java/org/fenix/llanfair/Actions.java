@@ -122,6 +122,7 @@ final class Actions {
 		} else if ( source == MenuItem.NEW ) {
 			if ( confirmOverwrite() ) {
 				master.setRun( new Run() );
+				this.file = null;
 			}
 		} else if ( source == MenuItem.OPEN ) {
 			open( null );
