@@ -363,8 +363,8 @@ public class RunPane extends JPanel {
 			}
 		}
 
-		attemptCounter.setForeground(Color.WHITE);
-		sessionAttemptCounter.setForeground(Color.WHITE);
+		attemptCounter.setForeground(Settings.colorForeground.get());
+		sessionAttemptCounter.setForeground(Settings.colorForeground.get());
 	}
 
 	/**
