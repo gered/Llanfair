@@ -5,9 +5,12 @@
 target/
 out/
 build/
+classes/
 .project
 .classpath
 *.iml
 *.ipr
 *.iws
 /llanfair.xml
+/*.jar
+/*.app
