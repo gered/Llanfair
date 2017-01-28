@@ -421,6 +421,7 @@ final class Actions {
 		try {
 			XStream xml = new XStream( new DomDriver() );
 			SerializationUtils.customize(xml);
+			xml.autodetectAnnotations(true);
 			out = new BufferedOutputStream( new FileOutputStream( file ) );
 			xml.toXML( master.getRun(), out );
 		} catch ( Exception ex ) {
