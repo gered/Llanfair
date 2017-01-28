@@ -106,6 +106,7 @@ public enum Language {
 	setting_footer_bestTime,
 	setting_footer_multiline,
 	setting_footer_deltaLabels,
+	setting_footer_sumOfBest,
 
 	// Accuracy
 	accuracy_seconds,
@@ -190,6 +191,7 @@ public enum Language {
 	LB_FT_LIVE,
 	LB_FT_SEGMENT,
 	LB_FT_SPLIT,
+	LB_FT_SUM_OF_BEST,
 
 	/*
 	 * Messages.

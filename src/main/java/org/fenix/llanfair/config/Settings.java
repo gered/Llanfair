@@ -121,6 +121,7 @@ public class Settings {
 	public static final Property<Boolean> footerShowBestTime = new Property<>( "footer.bestTime" );
 	public static final Property<Boolean> footerMultiline = new Property<>( "footer.multiline" );
 	public static final Property<Boolean> footerShowDeltaLabels = new Property<>( "footer.deltaLabels" );
+	public static final Property<Boolean> footerShowSumOfBest = new Property<>( "footer.sumOfBest" );
 
 	private static Configuration global = null;
 	private static Run run = null;
@@ -288,6 +289,7 @@ public class Settings {
 		setDefault( footerShowBestTime.key, true, force );
 		setDefault( footerMultiline.key, true, force );
 		setDefault( footerShowDeltaLabels.key, true, force );
+		setDefault( footerShowSumOfBest.key, false, force );
 	}
 
 	/**

@@ -56,6 +56,9 @@ class Footer extends JPanel {
 	private JPanel panelBest;       // labelBest + best
 	private JPanel panelDeltaBest;  // labelDeltaBest + deltaBest
 
+	private JLabel labelSumOfBest;
+	private JLabel sumOfBest;
+
 	private boolean resize;
 	private Dimension preferredSize;
 
@@ -73,12 +76,14 @@ class Footer extends JPanel {
 		deltaBest = new JLabel();
 		inlineBest = new JLabel();
 		inlineDeltaBest = new JLabel();
+		sumOfBest = new JLabel();
 
 		labelLive = new JLabel();
 		labelPrev = new JLabel();
 		labelBest = new JLabel();
 		labelDelta = new JLabel();
 		labelDeltaBest = new JLabel();
+		labelSumOfBest = new JLabel();
 
 		preferredSize = null;
 		resize = false;
@@ -124,6 +129,7 @@ class Footer extends JPanel {
 			boolean ftLabels = Settings.footerShowDeltaLabels.get();
 			boolean ftVerbose = Settings.footerVerbose.get();
 			boolean ftTwoLines = Settings.footerMultiline.get();
+			boolean ftSumOfBest = Settings.footerShowSumOfBest.get();
 
 			int height = Math.max(timeH, labelH);
 			int width  = prevW + timeW + smtmW + INSET * 2;
@@ -145,6 +151,9 @@ class Footer extends JPanel {
 				if (ftVerbose) {
 					width += 5;
 				}
+			}
+			if (ftSumOfBest) {
+				height += labelH;
 			}
 			preferredSize = new Dimension(width, height);
 			setMinimumSize(new Dimension(50, height));
@@ -224,7 +233,13 @@ class Footer extends JPanel {
 		} else if (Settings.coreOtherTimeFont.equals(property)) {
 			updateFonts(TIME | DELTA);
 			forceResize();
-		} else if (Settings.windowUserResizable.equals(property) || Settings.windowWidth.equals(property)) {
+		} else if (Settings.windowUserResizable.equals(property)
+		           || Settings.windowWidth.equals(property)) {
+			updateSize();
+			forceResize();
+		} else if (Settings.footerShowSumOfBest.equals(property)) {
+			updateVisibility(BEST | TEXT);
+			updateValues(TIME | TEXT);
 			updateSize();
 			forceResize();
 		}
@@ -301,10 +316,23 @@ class Footer extends JPanel {
 			panelDeltaBest.add(deltaBest, GBC.grid(1, 0).anchor(GBC.LINE_END));
 			panelDeltaBest.setOpaque(false);
 		}
+		JPanel panelSumOfBest = new JPanel(new GridBagLayout());
+		{
+			panelSumOfBest.add(
+				labelSumOfBest,
+				GBC.grid(0, 0).anchor(GBC.LINE_START).insets(0, 0, 0, INSET)
+			);
+			panelSumOfBest.add(
+				sumOfBest,
+				GBC.grid(1, 0).anchor(GBC.LINE_END).insets(0, 0, 0, INSET)
+			);
+			panelSumOfBest.setOpaque(false);
+		}
 		add(timePanel, GBC.grid(0, 0).anchor(GBC.LINE_START).weight(0.5, 0.0));
 		add(deltaPanel, GBC.grid(1, 0).anchor(GBC.LINE_END).weight(0.5, 0.0));
 		add(panelBest, GBC.grid(0, 1).anchor(GBC.LINE_START).weight(0.5, 0.0));
 		add(panelDeltaBest, GBC.grid(1, 1).anchor(GBC.LINE_END).weight(0.5, 0.0));
+		add(panelSumOfBest, GBC.grid(0, 2).anchor(GBC.LINE_START).weight(0.5, 0.0));
 	}
 
 	private void updateVisibility(int identifier) {
@@ -315,6 +343,7 @@ class Footer extends JPanel {
 			panelDeltaBest.setVisible(ftTwoLines);
 			inlineBest.setVisible(!ftTwoLines && ftBest);
 			inlineDeltaBest.setVisible(!ftTwoLines && ftBest);
+			sumOfBest.setVisible(Settings.footerShowSumOfBest.get());
 		}
 		if ((identifier & TEXT) == TEXT) {
 			boolean ftLabels = Settings.footerShowDeltaLabels.get();
@@ -322,6 +351,7 @@ class Footer extends JPanel {
 			labelLive.setVisible(ftLabels && ftVerbose);
 			labelDelta.setVisible(ftLabels && !ftVerbose);
 			labelDeltaBest.setVisible(ftLabels);
+			labelSumOfBest.setVisible(Settings.footerShowSumOfBest.get());
 		}
 		if ((identifier & VERBOSE) == VERBOSE) {
 			boolean ftVerbose = Settings.footerVerbose.get();
@@ -354,6 +384,7 @@ class Footer extends JPanel {
 			time.setForeground(colorTM);
 			best.setForeground(colorTM);
 			inlineBest.setForeground(colorTM);
+			sumOfBest.setForeground(colorTM);
 		}
 		if ((identifier & DELTA) == DELTA) {
 			if (run.hasPreviousSegment()) {
@@ -384,6 +415,7 @@ class Footer extends JPanel {
 			labelLive.setForeground(color);
 			labelBest.setForeground(color);
 			labelDeltaBest.setForeground(color);
+			labelSumOfBest.setForeground(color);
 		}
 	}
 
@@ -399,6 +431,7 @@ class Footer extends JPanel {
 			time.setFont(Settings.coreOtherTimeFont.get());
 			best.setFont(Settings.coreOtherTimeFont.get());
 			inlineBest.setFont(Settings.coreOtherTimeFont.get());
+			sumOfBest.setFont(Settings.coreOtherTimeFont.get());
 		}
 		if ((identifier & DELTA) == DELTA) {
 			delta.setFont(Settings.coreOtherTimeFont.get());
@@ -411,6 +444,7 @@ class Footer extends JPanel {
 			labelLive.setFont(Settings.coreFont.get());
 			labelBest.setFont(Settings.coreFont.get());
 			labelDeltaBest.setFont(Settings.coreFont.get());
+			labelSumOfBest.setFont(Settings.coreFont.get());
 		}
 	}
 
@@ -453,6 +487,11 @@ class Footer extends JPanel {
 				best.setText("");
 				inlineBest.setText("");
 			}
+			Time sumOfBestTime = run.getSumOfBest();
+			if (sumOfBestTime.getMilliseconds() > 0)
+				sumOfBest.setText(sumOfBestTime.toString());
+			else
+				sumOfBest.setText("");
 		}
 		if ((identifier & DELTA) == DELTA) {
 			if (hasPrevious) {
@@ -522,6 +561,7 @@ class Footer extends JPanel {
 			labelBest.setText("" + Language.LB_FT_BEST);
 			labelDelta.setText("" + Language.LB_FT_DELTA);
 			labelDeltaBest.setText("" + Language.LB_FT_DELTA_BEST);
+			labelSumOfBest.setText("" + Language.LB_FT_SUM_OF_BEST);
 		}
 	}
 

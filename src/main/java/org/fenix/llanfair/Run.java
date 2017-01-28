@@ -503,6 +503,23 @@ public class Run implements TableModel, Serializable {
 
 	// ------------------------------------------------------ INHERITED GETTERS
 
+	public Time getSumOfBest() {
+		long sum = 0;
+		for (int i = 0; i < segments.size(); ++i) {
+			Segment segment = segments.get(i);
+			Time best = segment.getTime(Segment.BEST);
+			Time live = segment.getTime(Segment.LIVE);
+
+			if (best != null || live != null) {
+				long bestMs = (best == null ? Long.MAX_VALUE : best.getMilliseconds());
+				long liveMs = (live == null ? Long.MAX_VALUE : live.getMilliseconds());
+
+				sum += Math.min(bestMs, liveMs);
+			}
+		}
+		return new Time(sum);
+	}
+
 	/**
 	 * As specified by {@code TableModel}.
 	 */

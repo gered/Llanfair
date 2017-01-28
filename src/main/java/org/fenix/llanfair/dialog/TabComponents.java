@@ -30,6 +30,7 @@ public class TabComponents extends SettingsTab
 		SCB_SETTINGS.add(Settings.footerShowBestTime);
 		SCB_SETTINGS.add(Settings.footerMultiline);
 		SCB_SETTINGS.add(Settings.footerVerbose);
+		SCB_SETTINGS.add(Settings.footerShowSumOfBest);
 		SCB_SETTINGS.add(Settings.coreShowSegmentName);
 		SCB_SETTINGS.add(Settings.coreShowSplitTime);
 		SCB_SETTINGS.add(Settings.coreShowSegmentTime);
@@ -430,6 +431,7 @@ public class TabComponents extends SettingsTab
 			footerPanel.add(checkBoxes.get(Settings.footerShowDeltaLabels.getKey()), GBC.grid(1, 0).anchor(GBC.LINE_START));
 			footerPanel.add(checkBoxes.get(Settings.footerShowBestTime.getKey()), GBC.grid(1, 1).anchor(GBC.LINE_START));
 			footerPanel.add(checkBoxes.get(Settings.footerMultiline.getKey()), GBC.grid(1, 2).anchor(GBC.LINE_START));
+			footerPanel.add(checkBoxes.get(Settings.footerShowSumOfBest.getKey()), GBC.grid(0, 3).anchor(GBC.LINE_START));
 			footerPanel.setBorder(
 					BorderFactory.createTitledBorder("" + Language.FOOTER)
 			);
