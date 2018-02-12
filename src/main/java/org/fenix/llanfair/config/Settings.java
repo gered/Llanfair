@@ -124,6 +124,7 @@ public class Settings {
 	public static final Property<Boolean> footerMultiline = new Property<>( "footer.multiline" );
 	public static final Property<Boolean> footerShowDeltaLabels = new Property<>( "footer.deltaLabels" );
 	public static final Property<Boolean> footerShowSumOfBest = new Property<>( "footer.sumOfBest" );
+	public static final Property<Boolean> footerShowWorldRecord = new Property<>("footer.worldRecord");
 
 	private static Configuration global = null;
 	private static Run run = null;
@@ -294,6 +295,7 @@ public class Settings {
 		setDefault( footerMultiline.key, true, force );
 		setDefault( footerShowDeltaLabels.key, true, force );
 		setDefault( footerShowSumOfBest.key, false, force );
+		setDefault( footerShowWorldRecord.key, true, force);
 	}
 
 	/**

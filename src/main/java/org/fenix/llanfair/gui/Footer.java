@@ -62,6 +62,8 @@ class Footer extends JPanel {
 	private boolean resize;
 	private Dimension preferredSize;
 
+	private JLabel worldRecord;
+
 	/**
 	 * Creates a default panel displaying informations for the given run.
 	 *
@@ -87,6 +89,8 @@ class Footer extends JPanel {
 
 		preferredSize = null;
 		resize = false;
+
+		worldRecord = new JLabel("World record: 5 by xem92");
 
 		setRun(run);
 		setOpaque(false);
@@ -130,6 +134,7 @@ class Footer extends JPanel {
 			boolean ftVerbose = Settings.footerVerbose.get();
 			boolean ftTwoLines = Settings.footerMultiline.get();
 			boolean ftSumOfBest = Settings.footerShowSumOfBest.get();
+			boolean ftWorldRecord = Settings.footerShowWorldRecord.get();
 
 			int height = Math.max(timeH, labelH);
 			int width  = prevW + timeW + smtmW + INSET * 2;
@@ -155,6 +160,10 @@ class Footer extends JPanel {
 			if (ftSumOfBest) {
 				height += labelH;
 			}
+			if (ftWorldRecord) {
+				height += labelH;
+			}
+
 			preferredSize = new Dimension(width, height);
 			setMinimumSize(new Dimension(50, height));
 			resize = false;
@@ -220,7 +229,8 @@ class Footer extends JPanel {
 
 			updateVisibility(BEST);
 			forceResize();
-		} else if (Settings.footerShowDeltaLabels.equals(property)) {
+		} else if (Settings.footerShowDeltaLabels.equals(property)
+				|| Settings.footerShowWorldRecord.equals(property)) {
 			updateVisibility(TEXT);
 			forceResize();
 		} else if (Settings.footerVerbose.equals(property)) {
@@ -328,11 +338,20 @@ class Footer extends JPanel {
 			);
 			panelSumOfBest.setOpaque(false);
 		}
+		JPanel panelWorldRecord= new JPanel(new GridBagLayout());
+		{
+			panelWorldRecord.add(
+					worldRecord,
+					GBC.grid(0, 0).insets(0, 0, 0, INSET)
+			);
+			panelWorldRecord.setOpaque(false);
+		}
 		add(timePanel, GBC.grid(0, 0).anchor(GBC.LINE_START).weight(0.5, 0.0));
 		add(deltaPanel, GBC.grid(1, 0).anchor(GBC.LINE_END).weight(0.5, 0.0));
 		add(panelBest, GBC.grid(0, 1).anchor(GBC.LINE_START).weight(0.5, 0.0));
 		add(panelDeltaBest, GBC.grid(1, 1).anchor(GBC.LINE_END).weight(0.5, 0.0));
 		add(panelSumOfBest, GBC.grid(0, 2).anchor(GBC.LINE_START).weight(0.5, 0.0));
+		add(panelWorldRecord, GBC.grid(0,3, 2, 1).weight(0.5,0.0));
 	}
 
 	private void updateVisibility(int identifier) {
@@ -352,6 +371,7 @@ class Footer extends JPanel {
 			labelDelta.setVisible(ftLabels && !ftVerbose);
 			labelDeltaBest.setVisible(ftLabels);
 			labelSumOfBest.setVisible(Settings.footerShowSumOfBest.get());
+			worldRecord.setVisible(Settings.footerShowWorldRecord.get());
 		}
 		if ((identifier & VERBOSE) == VERBOSE) {
 			boolean ftVerbose = Settings.footerVerbose.get();
@@ -416,6 +436,7 @@ class Footer extends JPanel {
 			labelBest.setForeground(color);
 			labelDeltaBest.setForeground(color);
 			labelSumOfBest.setForeground(color);
+			worldRecord.setForeground(color);
 		}
 	}
 
@@ -445,6 +466,7 @@ class Footer extends JPanel {
 			labelBest.setFont(Settings.coreFont.get());
 			labelDeltaBest.setFont(Settings.coreFont.get());
 			labelSumOfBest.setFont(Settings.coreFont.get());
+			worldRecord.setFont(Settings.coreFont.get());
 		}
 	}
 

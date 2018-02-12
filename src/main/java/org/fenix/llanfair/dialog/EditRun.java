@@ -4,6 +4,8 @@ import org.fenix.llanfair.*;
 import org.fenix.llanfair.config.Accuracy;
 import org.fenix.utils.gui.GBC;
 
+import org.fenix.WorldRecord.*;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -107,6 +109,14 @@ implements ActionListener, ListSelectionListener {
 
 	private JTextField runDelayedStart;
 
+	/**
+	 * World record data from spedrun.com
+	 */
+	private JLabel recordLabel;
+	private JButton selectRecord;
+	private RecordDialog recordSelector;
+
+
 	// ----------------------------------------------------------- CONSTRUCTEURS
 
 	/**
@@ -159,6 +169,9 @@ implements ActionListener, ListSelectionListener {
 		moveUp         = new JButton(Llanfair.getResources().getIcon("ARROW_UP.png"));
 		moveDown       = new JButton(Llanfair.getResources().getIcon("ARROW_DOWN.png"));
 		segmented      = new JCheckBox("" + Language.ED_SEGMENTED, run.isSegmented());
+		recordLabel    = new JLabel("World record");
+		selectRecord   = new JButton("Select record");
+		recordSelector = new RecordDialog();
 
 		placeComponents();
 		setBehavior();
@@ -186,10 +199,13 @@ implements ActionListener, ListSelectionListener {
 		add(moveUp, GBC.grid(3, 5).insets(0, 4).anchor(GBC.FIRST_LINE_START));
 		add(moveDown, GBC.grid(3, 6).insets(4, 4).anchor(GBC.FIRST_LINE_START));
 
+		add(recordLabel, GBC.grid(0,7).insets(5,4,4,0).anchor(GBC.LINE_END));
+		add(selectRecord, GBC.grid(1,7).insets(4,0,0,4).anchor(GBC.LINE_START));
+
 		JPanel controls = new JPanel();
 		controls.add(save);
 		controls.add(cancel);
-		add(controls, GBC.grid(0, 7, 4, 1));
+		add(controls, GBC.grid(0, 8, 4, 1));
 	}
 
 	/**
@@ -227,6 +243,7 @@ implements ActionListener, ListSelectionListener {
 		moveDown.addActionListener(this);
 		cancel.addActionListener(this);
 		save.addActionListener(this);
+		selectRecord.addActionListener(this);
 
 		// Insertion des délégués de rendus et d’édition.
 		segments.setDefaultRenderer(Icon.class, new IconRenderer());
@@ -317,6 +334,8 @@ implements ActionListener, ListSelectionListener {
 			int selected = segments.getSelectedRow();
 			run.moveSegmentDown(selected);
 			segments.setRowSelectionInterval(selected + 1, selected + 1);
+		} else if (source.equals(selectRecord)) {
+			recordSelector.setVisible(true);
 		}
 	}
 
