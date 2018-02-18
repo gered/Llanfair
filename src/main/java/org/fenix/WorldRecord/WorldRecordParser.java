@@ -117,9 +117,9 @@ public class WorldRecordParser
         String time = "";
 
         if(hours != 0)
-            time += hours + ":";
+            time += String.format("%02d:", hours);
 
-        time += minutes + ":" + seconds;
+        time += String.format("%02d:%02d", minutes, seconds);
 
         if(time_seconds % 1 != 0)
         {

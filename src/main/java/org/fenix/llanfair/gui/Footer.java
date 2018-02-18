@@ -29,6 +29,7 @@ class Footer extends JPanel {
 	private static final int TEXT = 0x04;
 	private static final int BEST = 0x08;
 	private static final int VERBOSE = 0x10;
+	private static final int WORLD_RECORD = 0x20;
 
 	private static final int INSET = 3;
 
@@ -90,7 +91,7 @@ class Footer extends JPanel {
 		preferredSize = null;
 		resize = false;
 
-		worldRecord = new JLabel("World record: 5 by xem92");
+		worldRecord = new JLabel();
 
 		setRun(run);
 		setOpaque(false);
@@ -252,6 +253,8 @@ class Footer extends JPanel {
 			updateValues(TIME | TEXT);
 			updateSize();
 			forceResize();
+		} else if (Run.RECORD_CATEGORY_PROPERTY.equals(property)) {
+			updateValues(WORLD_RECORD);
 		}
 	}
 
@@ -584,6 +587,9 @@ class Footer extends JPanel {
 			labelDelta.setText("" + Language.LB_FT_DELTA);
 			labelDeltaBest.setText("" + Language.LB_FT_DELTA_BEST);
 			labelSumOfBest.setText("" + Language.LB_FT_SUM_OF_BEST);
+		}
+		if((identifier & WORLD_RECORD) == WORLD_RECORD) {
+			worldRecord.setText(run.getRecordString());
 		}
 	}
 
