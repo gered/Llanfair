@@ -175,7 +175,7 @@ implements ActionListener, ListSelectionListener {
 		selectRecord   = new JButton("Select record");
 		recordCategory = run.getRecordCategory();
 
-		if(recordCategory.getId().equals("")) {
+		if(!recordCategory.getId().equals("")) {
 			try {
 				recordString = new JLabel(WorldRecordParser.getRecord(recordCategory));
 			} catch(Exception e) {
@@ -352,7 +352,7 @@ implements ActionListener, ListSelectionListener {
 			segments.setRowSelectionInterval(selected + 1, selected + 1);
 		} else if (source.equals(selectRecord)) {
 			recordSelector = new RecordDialog(this);
-			recordSelector.display(false, null);
+			recordSelector.display();
 		}
 	}
 

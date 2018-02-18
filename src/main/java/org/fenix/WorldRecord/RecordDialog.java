@@ -8,7 +8,11 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class RecordDialog extends LlanfairDialog
+/**
+ * Dialog window to select a world record on speedrun.com
+ * @author  4ilo 2018
+ */
+public class RecordDialog extends JDialog
 {
     private JLabel searchLabel = new JLabel("Search game:");
     private JButton searchButton = new JButton("Search");
@@ -24,7 +28,7 @@ public class RecordDialog extends LlanfairDialog
 
     private JButton close = new JButton("Close");
     private JButton ok = new JButton("Ok");
-    private JLabel worldRecord = new JLabel();
+    private JLabel worldRecord = new JLabel("Unknown World Record");
 
     private ActionListener categoryListener;
     private ActionListener gameListener;
@@ -264,6 +268,16 @@ public class RecordDialog extends LlanfairDialog
                 "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Show the dialog
+     */
+    public void display()
+    {
+        setAlwaysOnTop(true);
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        pack();
+        setVisible(true);
+    }
 
     /**
      * Get the selected category object
