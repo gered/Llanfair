@@ -115,6 +115,8 @@ implements ActionListener, ListSelectionListener {
 	private JLabel recordLabel;
 	private JButton selectRecord;
 	private RecordDialog recordSelector;
+	private Category recordCategory;
+	private JLabel recordString;
 
 
 	// ----------------------------------------------------------- CONSTRUCTEURS
@@ -171,7 +173,18 @@ implements ActionListener, ListSelectionListener {
 		segmented      = new JCheckBox("" + Language.ED_SEGMENTED, run.isSegmented());
 		recordLabel    = new JLabel("World record");
 		selectRecord   = new JButton("Select record");
-		recordSelector = new RecordDialog();
+		recordCategory = run.getRecordCategory();
+
+		if(recordCategory.getId().equals("")) {
+			try {
+				recordString = new JLabel(WorldRecordParser.getRecord(recordCategory));
+			} catch(Exception e) {
+				RecordDialog.showError();
+			}
+		}
+		else {
+			recordString = new JLabel();
+		}
 
 		placeComponents();
 		setBehavior();
@@ -201,6 +214,7 @@ implements ActionListener, ListSelectionListener {
 
 		add(recordLabel, GBC.grid(0,7).insets(5,4,4,0).anchor(GBC.LINE_END));
 		add(selectRecord, GBC.grid(1,7).insets(4,0,0,4).anchor(GBC.LINE_START));
+		add(recordString, GBC.grid(1,8).insets(4,0,0,4).anchor(GBC.LINE_START));
 
 		JPanel controls = new JPanel();
 		controls.add(save);
@@ -318,6 +332,8 @@ implements ActionListener, ListSelectionListener {
 			long delayedStart = parseDelayedStartTime(runDelayedStart.getText());
 			run.setDelayedStart(delayedStart == -1 ? 0 : delayedStart);
 
+			run.setRecordCategory(recordCategory);
+
 			dispose();
 
 		} else if (source.equals(cancel)) {
@@ -335,7 +351,8 @@ implements ActionListener, ListSelectionListener {
 			run.moveSegmentDown(selected);
 			segments.setRowSelectionInterval(selected + 1, selected + 1);
 		} else if (source.equals(selectRecord)) {
-			recordSelector.setVisible(true);
+			recordSelector = new RecordDialog(this);
+			recordSelector.display(false, null);
 		}
 	}
 
@@ -356,6 +373,13 @@ implements ActionListener, ListSelectionListener {
 		remSegment.setEnabled(enabled);
 		moveUp.setEnabled(enabled && selected > 0);
 		moveDown.setEnabled(enabled && selected < run.getRowCount() - 1);
+	}
+
+	public void recordSet() {
+		this.recordCategory = recordSelector.getCategory();
+		this.recordString.setText(recordSelector.getRecordString());
+
+		this.recordSelector.dispose();
 	}
 
 	// ---------------------------------------------------------- CLASSE INTERNE
