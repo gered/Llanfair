@@ -109,6 +109,7 @@ public enum Language {
 	setting_footer_multiline,
 	setting_footer_deltaLabels,
 	setting_footer_sumOfBest,
+	setting_footer_worldRecord,
 
 	// Accuracy
 	accuracy_seconds,

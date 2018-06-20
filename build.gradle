@@ -23,6 +23,7 @@ dependencies {
 	compile fileTree(dir: 'lib', include: ['*.jar'])
 	compile 'com.1stleg:jnativehook:2.0.2'
 	compile 'com.thoughtworks.xstream:xstream:1.4.4'
+	compile group: 'org.json', name: 'json', version: '20180130'
 }
 
 macAppBundle {

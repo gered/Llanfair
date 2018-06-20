@@ -1,6 +1,8 @@
 package org.fenix.llanfair;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.fenix.WorldRecord.Category;
+import org.fenix.WorldRecord.WorldRecordParser;
 import org.fenix.llanfair.config.Settings;
 import org.fenix.utils.TableModelSupport;
 import org.fenix.utils.config.Configuration;
@@ -104,7 +106,7 @@ public class Run implements TableModel, Serializable {
 
 	public static final String COMPLETED_ATTEMPT_COUNTER_PROPERTY = "run.completedAttemptCounter";
 
-
+	public static final String RECORD_CATEGORY_PROPERTY = "run.record.category";
 
 	public static final String DELAYED_START_PROPERTY = "run.delayedStart";
 
@@ -184,6 +186,8 @@ public class Run implements TableModel, Serializable {
 
 	@XStreamOmitField
 	private int sessionAttempts;
+
+	private Category recordCategory;
 
 	// ----------------------------------------------------------- CONSTRUCTORS
 
@@ -598,6 +602,23 @@ public class Run implements TableModel, Serializable {
 
 	public int getSessionAttempts() { return sessionAttempts; }
 
+	public String getRecordString() {
+		String recordString;
+
+		try {
+			recordString = WorldRecordParser.getRecord(this.recordCategory);
+		} catch (Exception e) {
+			recordString = "Unknown World Record";
+		}
+
+		return recordString;
+	}
+
+	public Category getRecordCategory()
+	{
+		return recordCategory;
+	}
+
 	// ---------------------------------------------------------------- SETTERS
 
 	public<T> T getSetting( String key ) {
@@ -646,6 +667,15 @@ public class Run implements TableModel, Serializable {
 		long old = this.delayedStart;
 		this.delayedStart = delayedStart;
 		pcSupport.firePropertyChange(DELAYED_START_PROPERTY, old, delayedStart);
+	}
+
+	public void setRecordCategory(Category category)
+	{
+		Category old = this.recordCategory;
+
+		this.recordCategory = category;
+
+		pcSupport.firePropertyChange(RECORD_CATEGORY_PROPERTY, old, name);
 	}
 
 	/**
@@ -1154,6 +1184,9 @@ public class Run implements TableModel, Serializable {
 		}
 		if ( configuration == null ) {
 			configuration = new Configuration();
+		}
+		if(recordCategory == null) {
+			recordCategory = new Category("", "");
 		}
 	}
 
