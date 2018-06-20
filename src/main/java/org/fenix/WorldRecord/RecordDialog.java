@@ -1,10 +1,11 @@
 package org.fenix.WorldRecord;
 
-import org.fenix.llanfair.dialog.*;
+import org.fenix.llanfair.dialog.EditRun;
 
-import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -276,6 +277,7 @@ public class RecordDialog extends JDialog
         setAlwaysOnTop(true);
         setModalityType(ModalityType.APPLICATION_MODAL);
         pack();
+        setLocationRelativeTo(getOwner());
         setVisible(true);
     }
 
