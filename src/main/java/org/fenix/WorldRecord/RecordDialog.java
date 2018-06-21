@@ -44,6 +44,7 @@ public class RecordDialog extends LlanfairDialog
 
     public RecordDialog(EditRun editRun, Llanfair master)
     {
+        super(editRun);
         this.master = master;
         this.editRun = editRun;
 

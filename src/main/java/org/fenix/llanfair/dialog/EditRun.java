@@ -129,7 +129,7 @@ implements ActionListener, ListSelectionListener {
 	 * @param   run   - la course a éditer.
 	 */
 	public EditRun(Run run, Llanfair master) {
-		super();
+		super(master);
 		if (run == null) {
 			throw new NullPointerException("EditDialog.EditDialog(): null run");
 		}

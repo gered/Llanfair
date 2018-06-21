@@ -44,6 +44,7 @@ public class EditSettings extends LlanfairDialog
 	 * Construction d’une boîte de dialogue d’édition de paramètres.
 	 */
 	public EditSettings(Llanfair master) {
+		super(master);
 		this.master = master;
 
 		settingsTabs = new ArrayList<SettingsTab>();
