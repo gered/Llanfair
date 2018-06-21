@@ -14,18 +14,21 @@ Note that Xunkar has started working on Llanfair v2.0 which is a complete rewrit
 
 ## Download
 
-Check the [releases page](https://github.com/gered/Llanfair/releases) for downloadable JARs.
+Check the [releases page](https://github.com/gered/Llanfair/releases) for downloadable JARs. 
 
-JARs can be run from the command line via something similar to:
+Llanfair requires Java 7 or later (you are encouraged to use the most recent version of Java).
+
+Downloaded JARs can be run from the command line via something similar to:
 
 ```
-$ java -jar Llanfair.jar
+$ java -jar /path/to/Llanfair.jar
 ```
 
 ## Major Changes / Fixes
 
 The main changes from v1.4.3 (the last official release from Xunkar) are as follows:
 
+* Optional world record display, via run data from speedrun.com. Contributed by [4ilo](https://github.com/4ilo).
 * Enhancements to JNativeHook support for global key events. Llanfair will prompt with an error
   if the hook could not be registered instead of failing silently. Additionally on some OS's you 
   may see your OS prompt you with some kind of accessibility permissions request.
@@ -64,7 +67,7 @@ requests are more then welcome!).
 You will need Gradle. Obviously any IDE with Gradle support will simply mean you can just open this project
 right away in your IDE and get developing immediately. Easy.
 
-Llanfair currently requires Java 7.
+Llanfair currently requires Java 7 or later.
 
 #### Command Line Building / Running / Distribution
 
