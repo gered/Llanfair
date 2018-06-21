@@ -1,6 +1,8 @@
 package org.fenix.WorldRecord;
 
+import org.fenix.llanfair.Llanfair;
 import org.fenix.llanfair.dialog.EditRun;
+import org.fenix.llanfair.dialog.LlanfairDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +15,10 @@ import java.util.ArrayList;
  * Dialog window to select a world record on speedrun.com
  * @author  4ilo 2018
  */
-public class RecordDialog extends JDialog
+public class RecordDialog extends LlanfairDialog
 {
+    final private Llanfair master;
+
     private JLabel searchLabel = new JLabel("Search game:");
     private JButton searchButton = new JButton("Search");
     private JTextField searchField = new JTextField();
@@ -38,8 +42,9 @@ public class RecordDialog extends JDialog
     private EditRun editRun;
 
 
-    public RecordDialog(EditRun editRun)
+    public RecordDialog(EditRun editRun, Llanfair master)
     {
+        this.master = master;
         this.editRun = editRun;
 
         JPanel searchPanel = new JPanel(new FlowLayout());
@@ -119,7 +124,7 @@ public class RecordDialog extends JDialog
             games = WorldRecordParser.searchGames(name);
         } catch (IOException e)
         {
-            showError();
+            master.showError("Error searching for matching games from speedrun.com.", e);
         }
 
         this.setGames(games);
@@ -138,7 +143,7 @@ public class RecordDialog extends JDialog
             categories = WorldRecordParser.getCategories(game);
         } catch (IOException e)
         {
-            showError();
+            master.showError("Error fetching game categories from speedrun.com.", e);
         }
 
         this.setCategories(categories);
@@ -157,7 +162,7 @@ public class RecordDialog extends JDialog
             worldRecord = WorldRecordParser.getRecord(category);
         } catch (IOException e)
         {
-            showError();
+            master.showError("Error fetching game category world record time/owner from speedrun.com.", e);
         }
 
         this.worldRecord.setText(worldRecord);
@@ -261,24 +266,6 @@ public class RecordDialog extends JDialog
 
         gameListModel.removeAllElements();
         categoryListModel.removeAllElements();
-    }
-
-    public static void showError()
-    {
-        JOptionPane.showMessageDialog(null, "Could not connect to speedrun.com",
-                "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    /**
-     * Show the dialog
-     */
-    public void display()
-    {
-        setAlwaysOnTop(true);
-        setModalityType(ModalityType.APPLICATION_MODAL);
-        pack();
-        setLocationRelativeTo(getOwner());
-        setVisible(true);
     }
 
     /**

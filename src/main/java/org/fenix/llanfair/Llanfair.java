@@ -256,10 +256,22 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 	 *
 	 * @param message the localized error message
 	 */
-	void showError( String message ) {
-		JOptionPane.showMessageDialog(
-				this, message, Language.ERROR.get(), JOptionPane.ERROR_MESSAGE
-		);
+	public void showError( String message ) {
+		showError(message, null);
+	}
+
+	public void showError(String message, Throwable ex) {
+		String errorMessage;
+		if (ex != null)
+			errorMessage = message + "\n\n" + ex.toString();
+		else
+			errorMessage = message;
+
+		JOptionPane pane = new JOptionPane(errorMessage, JOptionPane.ERROR_MESSAGE);
+		JDialog dialog = pane.createDialog(Language.ERROR.get());
+		dialog.setAlwaysOnTop(true);
+		dialog.setVisible(true);
+		dialog.dispose();
 	}
 
 	/**
@@ -528,7 +540,7 @@ public class Llanfair extends BorderlessFrame implements TableModelListener,
 			//       problem. e.g. on OS X, if an exception is thrown a dialog telling the user that the
 			//       application has requested some accessibility-related access shows up.
 
-			JOptionPane.showMessageDialog(this, Language.GLOBAL_HOTKEYS_STARTUP_ERROR, Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
+			showError(Language.GLOBAL_HOTKEYS_STARTUP_ERROR.get());
 			this.dispose();
 			return false;
 		}

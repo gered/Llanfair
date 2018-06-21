@@ -1,21 +1,20 @@
 package org.fenix.llanfair.dialog;
 
-import java.awt.GridBagLayout;
+import org.fenix.llanfair.Language;
+import org.fenix.llanfair.Llanfair;
+import org.fenix.utils.gui.GBC;
+import org.fenix.utils.locale.LocaleDelegate;
+import org.fenix.utils.locale.LocaleEvent;
+import org.fenix.utils.locale.LocaleListener;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.*;
-
-import org.fenix.llanfair.Language;
-import org.fenix.llanfair.config.Settings;
-import org.fenix.utils.gui.GBC;
-import org.fenix.utils.locale.LocaleDelegate;
-import org.fenix.utils.locale.LocaleEvent;
-import org.fenix.utils.locale.LocaleListener;
 
 /**
  * ConfigDialog
@@ -27,6 +26,8 @@ public class EditSettings extends LlanfairDialog
 		implements ActionListener, LocaleListener, WindowListener {
 
 	// ATTRIBUTS
+
+	final private Llanfair master;
 
 	/**
 	 * Bouton permettant de valider et de fermer la boîte de dialogue.
@@ -42,7 +43,9 @@ public class EditSettings extends LlanfairDialog
 	/**
 	 * Construction d’une boîte de dialogue d’édition de paramètres.
 	 */
-	public EditSettings() {
+	public EditSettings(Llanfair master) {
+		this.master = master;
+
 		settingsTabs = new ArrayList<SettingsTab>();
 		settingsTabs.add(new TabGeneral());
 		settingsTabs.add(new TabLook());
@@ -127,7 +130,7 @@ public class EditSettings extends LlanfairDialog
 			} catch (InvalidSettingException ex) {
 				ex.tab.requestFocusInWindow();
 				ex.field.requestFocusInWindow();
-				JOptionPane.showMessageDialog(this, ex.getMessage(), Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
+				master.showError(ex.getMessage());
 			}
 		} else if (source.equals(reset)) {
 			int option = JOptionPane.showConfirmDialog(this,
@@ -155,7 +158,7 @@ public class EditSettings extends LlanfairDialog
 			dispose();
 		} catch (InvalidSettingException ex) {
 			ex.tab.grabFocus();
-			JOptionPane.showMessageDialog(this, ex.getMessage(), Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
+			master.showError(ex.getMessage());
 		}
 	}
 

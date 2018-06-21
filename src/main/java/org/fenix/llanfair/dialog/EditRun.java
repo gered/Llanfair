@@ -43,6 +43,8 @@ implements ActionListener, ListSelectionListener {
 
 	// -------------------------------------------------------------- ATTRIBUTS
 
+	final private Llanfair master;
+
 	/**
 	 * Course éditée par cette boîte de dialogue.
 	 */
@@ -126,11 +128,12 @@ implements ActionListener, ListSelectionListener {
 	 *
 	 * @param   run   - la course a éditer.
 	 */
-	public EditRun(Run run) {
+	public EditRun(Run run, Llanfair master) {
 		super();
 		if (run == null) {
 			throw new NullPointerException("EditDialog.EditDialog(): null run");
 		}
+		this.master = master;
 		this.run  = run;
 		run.saveBackup();
 
@@ -179,7 +182,7 @@ implements ActionListener, ListSelectionListener {
 			try {
 				recordString = new JLabel(WorldRecordParser.getRecord(recordCategory));
 			} catch(Exception e) {
-				RecordDialog.showError();
+				this.master.showError("Error displaying selected world record information.", e);
 			}
 		}
 		else {
@@ -297,7 +300,7 @@ implements ActionListener, ListSelectionListener {
 			Time time = new Time(text);
 			result = time.getMilliseconds();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
+			master.showError("Invalid delayed start time.", e);
 			result = -1;
 		}
 
@@ -351,8 +354,8 @@ implements ActionListener, ListSelectionListener {
 			run.moveSegmentDown(selected);
 			segments.setRowSelectionInterval(selected + 1, selected + 1);
 		} else if (source.equals(selectRecord)) {
-			recordSelector = new RecordDialog(this);
-			recordSelector.display();
+			recordSelector = new RecordDialog(this, master);
+			recordSelector.display(true, master);
 		}
 	}
 
@@ -483,8 +486,7 @@ implements ActionListener, ListSelectionListener {
 			try {
 				return super.stopCellEditing();
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(editor, e.getMessage(),
-						Language.ERROR.get(), JOptionPane.ERROR_MESSAGE);
+				master.showError(e.getMessage());
 				return false;
 			}
 		}

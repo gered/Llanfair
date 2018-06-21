@@ -117,7 +117,7 @@ final class Actions {
 		MenuItem source = ( MenuItem ) event.getSource();
 
 		if ( source == MenuItem.EDIT ) {
-			EditRun dialog = new EditRun( run );
+			EditRun dialog = new EditRun( run, master );
 			dialog.display( true, master );
 		} else if ( source == MenuItem.NEW ) {
 			if ( confirmOverwrite() ) {
@@ -143,7 +143,7 @@ final class Actions {
 		} else if ( source == MenuItem.UNLOCK ) {
 			master.setLockedHotkeys(false);
 		} else if ( source == MenuItem.SETTINGS ) {
-			EditSettings dialog = new EditSettings();
+			EditSettings dialog = new EditSettings(master);
 			dialog.display( true, master );
 		} else if ( source == MenuItem.ABOUT ) {
 			about();
